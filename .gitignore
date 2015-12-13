@@ -1,0 +1,4 @@
+
+/vendor/
+examples
+tests/imap_config.php

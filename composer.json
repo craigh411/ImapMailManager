@@ -1,0 +1,33 @@
+{
+  "name": "craig/imap-mail-manager",
+  "description": "Wrapper for PHP imap",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Craig Humphreys",
+      "email": "craig_h_411@yahoo.co.uk"
+    }
+  ],
+  "require": {
+    "nesbot/carbon": "^1.21"
+  },
+  "require-dev": {
+    "fzaninotto/faker": "^1.5",
+    "phpunit/phpunit": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Humps\\ImapMailManager\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Humps\\ImapMailManager\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php -f installer.php"
+    ]
+  }
+}
