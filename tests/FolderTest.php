@@ -1,7 +1,7 @@
 <?php
-namespace Humps\ImapMailManager\Tests;
+namespace Humps\MailManager\Tests;
 
-use Humps\ImapMailManager\Folder;
+use Humps\MailManager\Folder;
 use PHPUnit_Framework_TestCase;
 
 class FolderTest extends PHPUnit_Framework_TestCase

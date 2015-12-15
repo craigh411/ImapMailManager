@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Humps\ImapMailManager;
+namespace Humps\MailManager;
 
 
 class Folder

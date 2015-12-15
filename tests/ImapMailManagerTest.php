@@ -1,7 +1,7 @@
 <?php
-namespace Humps\ImapMailManager\Tests;
+namespace Humps\MailManager\Tests;
 
-use Humps\ImapMailManager\ImapMailManager;
+use Humps\MailManager\ImapMailManager;
 
 use Faker;
 use PHPUnit_Framework_TestCase;
@@ -20,7 +20,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->faker = Faker\Factory::create();
-        $this->mailManager = $this->createInstance();
+        $this->mailManager = new ImapMailManager();
         $this->createdEmails = [];
         $this->createEmail();
         $this->mailManager->refresh();
@@ -45,7 +45,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     public function it_should_get_the_messages_from_the_mailbox()
     {
         $this->assertTrue(count($this->mailManager->getAllMessages()) === $this->mailManager->getMessageCount());
-        $this->assertInstanceOf('Humps\ImapMailManager\Message', $this->mailManager->getAllMessages()[0]);
+        $this->assertInstanceOf('Humps\MailManager\Contracts\Message', $this->mailManager->getAllMessages()[0]);
     }
 
 
@@ -81,7 +81,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     {
         $folders = $this->mailManager->getAllFolders();
 
-        $this->assertInstanceOf('Humps\ImapMailManager\Folder', $folders[0]);
+        $this->assertInstanceOf('Humps\MailManager\Folder', $folders[0]);
     }
 
     /**
@@ -108,7 +108,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
         $messages = $this->mailManager->getMessagesBySender($email);
 
         $this->assertEquals(2, count($messages));
-        $this->assertInstanceOf('Humps\ImapMailManager\Message', $messages[0]);
+        $this->assertInstanceOf('Humps\MailManager\Contracts\Message', $messages[0]);
     }
 
     /**
@@ -132,7 +132,6 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
 
         $messageList = ImapMailManager::getMessageList($messages);
         $this->mailManager->moveToTrash($messageList, 'trash');
-
 
         $this->mailManager->openFolder('trash');
         $this->assertEquals(2, $this->mailManager->getMessageCount());
@@ -184,11 +183,4 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @return ImapMailManager
-     */
-    public function createInstance()
-    {
-        return new ImapMailManager();
-    }
 }

@@ -1,14 +1,20 @@
 <?php
 
 
-namespace Humps\ImapMailManager;
+namespace Humps\MailManager;
 
+
+use Exception;
 
 class MailboxFactory
 {
 
     public static function create($configFile = 'imap_config.php')
     {
+        if(!file_exists($configFile)){
+            throw new Exception('Unable to find config file '. $configFile);
+        }
+
         $config = include $configFile;
 
         return new Mailbox(

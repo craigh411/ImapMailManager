@@ -6,11 +6,11 @@
  * Time: 14:50
  */
 
-namespace Humps\ImapMailManager\Tests;
+namespace Humps\MailManager\Tests;
 
 
 use Carbon\Carbon;
-use Humps\ImapMailManager\ImapMailManager;
+use Humps\MailManager\ImapMailManager;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,34 +31,35 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function it_gets_email_details()
     {
-       // $this->createEmail();
+        //$this->createEmail();
         $this->mailManager->refresh();
         $m = $this->mailManager->getMessage(1);
 
         // All assertions in 1 test to prevent multiple connections
         $this->assertEquals('TEST MESSAGE', $m->getSubject());
-        $this->assertEquals('Testing Content', $m->getBody());
+        $this->assertEquals('Testing Content', $m->getTextBody());
         $this->assertInstanceOf('Carbon\Carbon', $m->getDate());
         $this->assertEquals(Carbon::now()->toDateString(), $m->getDate()->toDateString());
         $this->assertInternalType('string', $m->getRawDate());
         $this->assertInternalType('string', $m->getHeaderDate());
         $this->assertInternalType('string', $m->getSize());
         $this->assertInternalType('array', $m->getMessage());
-        $this->assertEquals('foo@test.com', $m->getTo(true));
+        $this->assertEquals('foo@test.com', $m->getTo()[0]);
 
-        $this->assertEquals('foo@test.com', $m->getTo()[0]['email']);
-        $this->assertEquals('foo', $m->getTo()[0]['mailbox']);
-        $this->assertEquals('test.com', $m->getTo()[0]['host']);
+        $this->assertEquals('foo@test.com', $m->getTo()[0]);
+        $this->assertEquals('foo', $m->getTo()[0]->getMailbox());
+        $this->assertEquals('test.com', $m->getTo()[0]->getHost());
 
         $this->assertEquals('bar@test.com', $m->getFrom());
-        $this->assertEquals('bar@test.com', $m->getFrom(false)[0]['email']);
-        $this->assertEquals('bar', $m->getFrom(false)[0]['mailbox']);
-        $this->assertEquals('test.com', $m->getFrom(false)[0]['host']);
+        $this->assertEquals('bar', $m->getFrom(false)[0]->getMailbox());
+        $this->assertEquals('test.com', $m->getFrom(false)[0]->getHost());
 
-        $m->setBody('foo bar baz');
-        $this->assertEquals('foo bar baz', $m->getBody('foo bar baz'));
+        $m->setTextBody('foo bar baz');
+        $this->assertEquals('foo bar baz', $m->getTextBody('foo bar baz'));
 
-        $this->assertNull($m->getCC());
+        $this->assertEquals('baz@test.com', $m->getCC()[0]->getEmailAddress());
+        $this->assertEquals('baz', $m->getCC(false)[0]->getMailbox());
+        $this->assertEquals('test.com', $m->getCC(false)[0]->getHost());
     }
 
     public function it_downloads_an_attachment()

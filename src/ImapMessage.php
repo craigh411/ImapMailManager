@@ -1,10 +1,11 @@
 <?php
 
-namespace Humps\ImapMailManager;
+namespace Humps\MailManager;
 
 use Carbon\Carbon;
+use Humps\MailManager\Contracts\Message;
 
-class Message
+class ImapMessage implements Message
 {
 
     private $message;
@@ -16,7 +17,6 @@ class Message
 
     public function getMessageNo()
     {
-
         return trim($this->message['Msgno']);
     }
 
@@ -29,50 +29,64 @@ class Message
     public function getFrom($asString = true)
     {
         if ($asString) {
-            return $this->decode($this->message['fromaddress']);
+            return $this->message['fromaddress'];
         }
 
-        $from = $this->decode($this->message['from']);
-        $from = $this->addEmailAttributes($from);
-
+        $from = $this->getEmails($this->message['from']);
         return $from;
     }
 
-    public function getCC($asString = false)
+    public function getCC()
     {
         $cc = null;
         if (isset($this->message['cc'])) {
-            if ($asString) {
-                return $this->decode($this->message['ccaddress']);
-            }
-
             $cc = $this->message['cc'];
-            $cc = $this->addEmailAttributes($cc);
+            $cc = $this->getEmails($cc);
         }
 
         return $cc;
     }
 
-    public function getTo($asString = false)
+    public function getTo()
     {
-        if ($asString) {
-            return $this->decode($this->message['toaddress']);
-        }
-
         $to = $this->message['to'];
-        $to = $this->addEmailAttributes($to);
+        $to = $this->getEmails($to);
 
         return $to;
     }
 
-    public function getBody()
+    public function setHtmlBody($body)
     {
-        return trim($this->message['body']);
+        // Convert any non-utf messages to utf-8
+        if (mb_detect_encoding($body) !== "UTF-8") {
+            $body = utf8_encode($body);
+        }
+        // This makes non-printable chars less obtrusive in chrome
+        $body = mb_convert_encoding($body, "UTF-8");
+
+        $this->message['html_body'] = $body;
     }
 
-    public function setBody($body)
+    public function getTextBody()
     {
-        $this->message['body'] = $body;
+        return (isset($this->message['text_body'])) ? $this->message['text_body'] : null;
+    }
+
+    public function getHtmlBody()
+    {
+
+        return (isset($this->message['html_body'])) ? $this->message['html_body'] : null;
+    }
+
+
+    public function setTextBody($body)
+    {
+        $this->message['text_body'] = $body;
+    }
+
+    public function setInlineAttachments()
+    {
+
     }
 
     public function getSize()
@@ -120,18 +134,24 @@ class Message
     }
 
     /**
-     * @param $to
-     * @param $email
+     * @param $emails
      * @return array
      */
-    private function addEmailAttributes($to)
+    protected function getEmails($emails)
     {
-        foreach ($to as $key => &$email) {
-            $to[$key] = (array)$email;
-            $to[$key]['mailbox'] = $this->decode($email['mailbox']);
-            $to[$key]['host'] = $this->decode($email['host']);
-            $to[$key]['email'] = $email['mailbox'] . '@' . $email['host'];
+        $emailAddresses = [];
+
+        foreach ($emails as $key => $email) {
+            $mailbox = $this->decode($email->mailbox);
+            $host = $this->decode($email->host);
+            $emailAddresses[] = new EmailAddress($mailbox, $host);
         }
-        return $to;
+
+        return $emailAddresses;
+    }
+
+    public function __toString()
+    {
+        return $this->getTextBody();
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 
-namespace Humps\ImapMailManager;
+namespace Humps\MailManager;
 
 use Carbon\Carbon;
 use Exception;
-use Humps\ImapMailManager\Contracts\MailManager;
+use Humps\MailManager\Contracts\MailManager;
+use Humps\MailManager\Contracts\Message;
 
 class ImapMailManager implements MailManager
 {
@@ -25,16 +26,14 @@ class ImapMailManager implements MailManager
      */
     public function __construct($config = 'imap_config.php')
     {
-        $this->mailbox = MailboxFactory::create($config);
-        $this->mailboxName = $this->createImapMailbox($this->mailbox);
-
         try {
+            $this->mailbox = MailboxFactory::create($config);
+            $this->mailboxName = $this->createImapMailbox($this->mailbox);
             $this->connection = $this->connect();
+            $this->loadConfig($config);
         } catch (Exception $e) {
-            throw new Exception('Unable to connect to mailbox ' . $this->mailboxName);
+            throw $e;
         }
-
-        $this->loadConfig($config);
     }
 
     /**
@@ -106,7 +105,7 @@ class ImapMailManager implements MailManager
     {
         $messageNos = [];
         foreach ($messages as $message) {
-            if ($message instanceof Message) {
+            if ($message instanceof ImapMessage) {
                 $messageNos[] = $message->getMessageNo();
             } else {
                 throw new Exception('array of Message objects expected. ' . get_class($message) . ' Received');
@@ -320,10 +319,10 @@ class ImapMailManager implements MailManager
      * @param bool|false $markAsRead
      * @return array
      */
-    public function getMessagesSince($date, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesSince($date, $subjectsOnly = false, $sort = SORTDATE, $reverse = true, $markAsRead = false)
     {
         $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('since', $date, $sort, $reverse, $this->markAsRead($markAsRead));
+        return $this->searchMessages('since', $date, $sort, $reverse, $this->markAsRead($markAsRead), $subjectsOnly);
     }
 
     /**
@@ -374,7 +373,7 @@ class ImapMailManager implements MailManager
      * @param null $search
      * @return array
      */
-    public function searchMessages($criteria, $searches = null, $sort = SORTDATE, $reverse = true, $messageOptions = 0)
+    public function searchMessages($criteria, $searches = null, $sort = SORTDATE, $reverse = true, $messageOptions = 0, $subjectsOnly = false)
     {
         $messages = [];
 
@@ -399,7 +398,7 @@ class ImapMailManager implements MailManager
 
 
         foreach ($messageIds as $messageId) {
-            $messages[] = $this->getMessage($messageId, $messageOptions);
+            $messages[] = $this->getMessage($messageId, $messageOptions, $subjectsOnly);
         }
 
         return $messages;
@@ -408,7 +407,7 @@ class ImapMailManager implements MailManager
     /**
      * Get message by uid
      * @param $uid
-     * @return Message
+     * @return ImapMessage
      */
     public function getMessageByUid($uid)
     {
@@ -419,15 +418,12 @@ class ImapMailManager implements MailManager
      * Get Message by message Number
      * @param $messageNo
      */
-    public function getMessage($messageNo, $options = 0, $downloadAttachments = false, $downloadPath = '/')
+    public function getMessage($messageNo, $options = 0, $subjectsOnly = false, $downloadAttachments = false, $downloadPath = '/')
     {
-        $message = new Message(imap_headerinfo($this->connection, $messageNo));
-
-        //var_dump($this->fetchStructure($messageNo));
-        $body = $this->getBody($messageNo, $options);
+        $message = new ImapMessage(imap_headerinfo($this->connection, $messageNo));
 
 
-        $message->setBody($body);
+        $this->setMessageBody($message);
 
         if ($downloadAttachments) {
             $this->downloadAttachments($messageNo);
@@ -744,19 +740,17 @@ class ImapMailManager implements MailManager
      */
     private function decode($encoding, $body)
     {
+
         switch ($encoding) {
             case ENCBASE64:
                 return imap_base64($body);
             case ENCQUOTEDPRINTABLE:
                 return imap_qprint($body);
-            case ENC8BIT:
-                return imap_qprint(imap_8bit($body));
             case ENCBINARY:
-                return $body;
-            case ENC7BIT:
-                return @imap_qprint($body);
+                return imap_binary($body);
             default:
-                return $body;
+                $decoder = new EmailDecoder($body);
+                return $decoder->decode();
         }
     }
 
@@ -781,37 +775,78 @@ class ImapMailManager implements MailManager
 
 
     /**
-     * Get the main body of the message
+     * Returns all the parts from the body
      * @param $messageNo
      * @param $options
-     * @param $plain
-     * @return string
      */
-    private function getBody($messageNo, $options, $plain = false)
+    public function fetchBodyParts($structure, $parts = [], $sections = [], $options = 0)
     {
-        if ($plain) {
-            return $this->fetchBody($messageNo, 1, $options);
-        }
+        $sections[] = 1;
 
-        $structure = $this->fetchStructure($messageNo);
         if (isset($structure->parts) && count($structure->parts)) {
             foreach ($structure->parts as $i => $part) {
-                if ($part->ifsubtype) {
-                    if ($part->subtype == "HTML") {
-                        return $this->decode($part->encoding, $this->fetchBody($messageNo, $i + 1));
+                if (isset($part->parts)) {
+                    // We have more parts, lets get them
+                    $parts = $this->fetchBodyParts($part, $parts, $sections);
+                } else {
+                    // Make the last element of array the loop number, that's the final section we are in!
+                    // e.g. 1.1.2
+                    $sections[count($sections) - 1] = $i + 1;
+                    // Break array in to the main sections
+                    $parts[$sections[0] - 1][] = [
+                        'body_type' => '',
+                        'encoding' => $part->encoding,
+                        'sub_type' => $part->subtype,
+                        'section' => implode(".", $sections)
+                    ];
+                }
+            }
+        } elseif (isset($structure) && count($structure)) {
+            $parts[0][] = [
+                'body_type' => '',
+                'encoding' => $structure->encoding,
+                'sub_type' => $structure->subtype,
+                'section' => 1
+            ];
+        }
+
+
+        return $parts;
+    }
+
+    /**
+     * Get the main body of the message
+     * @param Message $message
+     * @param $options
+     * @return string
+     */
+    private function setMessageBody(Message $message, $options = 0)
+    {
+        $messageNo = $message->getMessageNo();
+        $structure = $this->fetchStructure($messageNo);
+        $bodyParts = $this->fetchBodyParts($structure);
+
+        $hasHtmlBody = false;
+
+        if (count($bodyParts)) {
+            foreach ($bodyParts as $part) {
+                foreach ($part as $i => $section) {
+                    if ($section['sub_type'] == 'PLAIN') {
+                        $body = $this->decode($section['encoding'], $this->fetchBody($messageNo, $section['section']));
+                        $message->setTextBody($body);
+                    }
+
+                    if ($section['sub_type'] == 'HTML') {
+                        $hasHtmlBody = true;
+                        $body = $this->decode($section['encoding'], $this->fetchBody($messageNo, $section['section']));
+                        $message->setHtmlBody($body);
                     }
                 }
             }
         }
 
-
-        $body = $this->decode($structure->encoding, $this->fetchBody($messageNo, 1.2, $options));
-        if (strlen($body) <= 0) {
-            $body = $this->fetchBody($messageNo, 1, $options);
+        if (!$hasHtmlBody) {
+            $message->setHtmlBody(nl2br($message->getTextBody()));
         }
-
-        return $body;
-
     }
-
 }

@@ -17,12 +17,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Humps\\ImapMailManager\\": "src"
+      "Humps\\MailManager\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Humps\\ImapMailManager\\Tests\\": "tests"
+      "Humps\\MailManager\\Tests\\": "tests"
     }
   },
   "scripts": {

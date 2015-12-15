@@ -1,6 +1,6 @@
 <?php
 
-namespace Humps\ImapMailManager\Contracts;
+namespace Humps\MailManager\Contracts;
 
 use Exception;
 
