@@ -14,6 +14,9 @@ class ImapMailManager implements MailManager
     protected $connection;
     protected $config;
     protected $mailbox;
+    protected $encode;
+    protected $encodeFrom;
+    protected $encodeTo;
 
     /**
      * MailManager constructor.
@@ -35,6 +38,23 @@ class ImapMailManager implements MailManager
     }
 
     /**
+     * Sets the encoding for the mailbox name. If nothing is passed then imap_utf7_encode() is used
+     * @param null $encodeTo
+     * @param null $encodeFrom
+     * @throws Exception
+     */
+    public function encodeMailbox($encodeTo = null, $encodeFrom = null)
+    {
+        if (!$encodeTo && $encodeFrom) {
+            throw new Exception("Encoding cannot have a 'from' without a 'to");
+        }
+
+        $this->encode = true;
+        $this->encodeTo = $encodeTo;
+        $this->encodeFrom = ($encodeFrom) ? $encodeFrom : mb_internal_encoding();
+    }
+
+    /**
      * @param Mailbox $mb
      * @return string
      */
@@ -48,10 +68,8 @@ class ImapMailManager implements MailManager
         $mailboxName .= '}';
         $mailboxName .= ($mb->getFolder()) ? $mb->getFolder() : '';
 
-        // Check for non-printable ascii characters
-        if (!mb_check_encoding($mailboxName, 'ISO-8859-1')) {
-            $mailboxName = imap_utf7_encode($mailboxName);
-        }
+        $mailboxName = $this->encodeMailboxName($mailboxName);
+
 
         return $mailboxName;
     }
@@ -404,28 +422,33 @@ class ImapMailManager implements MailManager
     public function getMessage($messageNo, $options = 0, $downloadAttachments = false, $downloadPath = '/')
     {
         $message = new Message(imap_headerinfo($this->connection, $messageNo));
-        $body = imap_fetchbody($this->connection, $messageNo, 1.2, $options);
-        if (strlen($body) <= 0) {
-            $body = quoted_printable_decode(imap_fetchbody($this->connection, $messageNo, 1, $options));
-        }
+
+        //var_dump($this->fetchStructure($messageNo));
+        $body = $this->getBody($messageNo, $options);
+
+
         $message->setBody($body);
 
-        //if ($downloadAttachments) {
-        //$attachments = $this->downloadAttachments($messageNo, $downloadPath);
-        $attachments = $this->getAttachments($messageNo);
+        if ($downloadAttachments) {
+            $this->downloadAttachments($messageNo);
+        }
 
-        $this->downloadAttachments($messageNo);
         $message->setAttachments($this->getAttachments($messageNo));
-        //}
+
 
         return $message;
     }
 
+    public function getEncoding($messageNo)
+    {
+        return $this->fetchStructure($messageNo)->encoding;
+
+    }
 
     public function getAttachments($messageNo)
     {
         $files = [];
-        $structure = imap_fetchstructure($this->connection, $messageNo);
+        $structure = $this->fetchStructure($messageNo);
 
         // SEE: http://php.net/manual/en/function.imap-fetchstructure.php
         // FOr what all these attributes are.
@@ -436,10 +459,9 @@ class ImapMailManager implements MailManager
                         if ($param->attribute == 'FILENAME') {
                             $files[] = [
                                 'filename' => $param->value,
-                                'part' => $i + 1, // parts are not 1 based, not 0 based.
+                                'part' => $i + 1, // parts are 1 based, not 0 based.
                                 'encoding' => $part->encoding
                             ];
-
                         }
                     }
                 }
@@ -450,33 +472,33 @@ class ImapMailManager implements MailManager
     }
 
 
-    public function downloadAttachments($messageNo, $path = '')
+    public function downloadAttachments($messageNo, $filenames = [], $path = '')
     {
         $attachments = $this->getAttachments($messageNo);
-
         $files = [];
-
         if (count($attachments)) {
             foreach ($attachments as $attachment) {
-                if (count($attachments)) {
-                    $file = imap_fetchbody($this->connection, $messageNo, $attachment['part']);
-                    $encodedFile = ($attachment['encoding'] == ENCBASE64) ? base64_decode($file) : quoted_printable_decode($file);
-                    $files[] = [
-                        'encodedFile' => $encodedFile,
-                        'filename' => $attachment['filename']
-                    ];
+                $file = $this->fetchBody($messageNo, $attachment['part']);
+                $decodedAttachment = $this->decode($attachment['encoding'], $file);
+                $files[] = [
+                    'decodedFile' => $decodedAttachment,
+                    'filename' => $attachment['filename']
+                ];
+
+                if (in_array($attachment['filename'], $filenames) || empty($filenames)) {
+                    $binary = ($attachment['encoding'] == ENCBINARY) ? true : false;
+                    $this->saveFile($messageNo, $path, $files, $binary);
                 }
             }
-            $this->saveFile($messageNo, $path, $files);
         }
     }
+
 
     /**
      * Returns all message details for the given mailbox
      * @return array
      */
-    public
-    function getAllMessages($markAsRead = false)
+    public function getAllMessages($markAsRead = false)
     {
         return $this->sort(SORTDATE, true, $markAsRead);
     }
@@ -511,7 +533,7 @@ class ImapMailManager implements MailManager
     public
     function getMailboxName()
     {
-        return $this->mailboxName;
+        return $this->decodeMailboxName($this->mailboxName);
     }
 
     /**
@@ -547,13 +569,12 @@ class ImapMailManager implements MailManager
 
     /**
      * Deletes the given message from the mailbox
-     * @param $messageNo
+     * @param $messageList
      * @return bool
      */
-    public
-    function deleteMessage($messageNo)
+    public function deleteMessages($messageList)
     {
-        if (imap_delete($this->connection, $messageNo)) {
+        if (imap_delete($this->connection, $messageList)) {
             return imap_expunge($this->connection);
         }
 
@@ -578,8 +599,7 @@ class ImapMailManager implements MailManager
      * @param $folder
      * @return mixed
      */
-    protected
-    function getAliasFromConfig($folder)
+    protected function getAliasFromConfig($folder)
     {
         return (isset($this->config['alias'][$folder])) ? $this->config['alias'][$folder] : $folder;
     }
@@ -590,13 +610,10 @@ class ImapMailManager implements MailManager
      * @param string $folder
      * @throws Exception
      */
-    public
-    function deleteAllMessages($folder)
+    public function deleteAllMessages($folder)
     {
         if ($this->openFolder($folder)) {
-            if (imap_delete($this->connection, '1:*')) {
-                return imap_expunge($this->connection);
-            }
+            return $this->deleteMessages('1:*');
         }
 
         throw new Exception("Unable to delete messages. $folder folder does no exist!");
@@ -607,8 +624,7 @@ class ImapMailManager implements MailManager
      * @param $folder
      * @return bool
      */
-    public
-    function openFolder($folder)
+    public function openFolder($folder)
     {
         // Check for alias in config first or use folder as string.
         $folder = $this->getAliasFromConfig($folder);
@@ -616,7 +632,7 @@ class ImapMailManager implements MailManager
         $this->mailbox->setFolder($folder);
         $this->mailboxName = $this->createImapMailbox($this->mailbox);
 
-        return imap_reopen($this->connection, $this->mailboxName);
+        return $this->refresh();
     }
 
     /**
@@ -624,8 +640,7 @@ class ImapMailManager implements MailManager
      * @param $messageList
      * @param string $folder
      */
-    public
-    function moveToTrash($messageList, $folder = 'trash')
+    public function moveToTrash($messageList, $folder = 'trash')
     {
         $folder = $this->getAliasFromConfig($folder);
         imap_mail_move($this->connection, $messageList, $folder);
@@ -636,8 +651,7 @@ class ImapMailManager implements MailManager
      * Resets the connection to the mail server
      * @return bool
      */
-    public
-    function refresh()
+    public function refresh()
     {
         return imap_reopen($this->connection, $this->mailboxName);
     }
@@ -646,9 +660,11 @@ class ImapMailManager implements MailManager
      * Closes the connection to the mail server
      * @return bool
      */
-    public
-    function closeConnection()
+    public function closeConnection($deleteFlaggedEmails = true)
     {
+        if ($deleteFlaggedEmails) {
+            return imap_close($this->connection, CL_EXPUNGE);
+        }
         return imap_close($this->connection);
     }
 
@@ -668,13 +684,134 @@ class ImapMailManager implements MailManager
      * @param $path
      * @param $files
      */
-    protected function saveFile($messageNo, $path, $files)
+    protected function saveFile($messageNo, $path, $files, $binary)
     {
+        // use binary 'b' mode, needed for Windows.
+        $mode = ($binary) ? 'w+b' : 'w+';
         foreach ($files as $file) {
-            $fp = fopen($path . $messageNo . "_" . $file['filename'], "w+");
-            fwrite($fp, $file['encodedFile']);
+            $fp = fopen($path . $messageNo . "_" . $file['filename'], $mode);
+            fwrite($fp, $file['decodedFile']);
             fclose($fp);
         }
+    }
+
+    /**
+     * Encodes the mailbox name
+     * @param $mailboxName
+     * @return mixed|string
+     */
+    private function encodeMailboxName($mailboxName)
+    {
+        // Check for non-printable ascii characters
+        if (!mb_check_encoding($mailboxName, 'ASCII') ||
+            ($this->encode && !$this->encodeTo)
+        ) {
+            $mailboxName = imap_utf7_encode($mailboxName);
+            return $mailboxName;
+        } else if ($this->encode && $this->encodeTo) {
+            $mailboxName = mb_convert_encoding($mailboxName, $this->encodeTo, $this->encodeFrom);
+            return $mailboxName;
+        }
+
+        return $mailboxName;
+    }
+
+    /**
+     * Decodes the mailbox name
+     * @param $mailboxName
+     * @return mixed|string
+     */
+    private function decodeMailboxName($mailboxName)
+    {
+        // Check for non-printable ascii characters
+        if (!mb_check_encoding($mailboxName, 'ASCII') ||
+            ($this->encode && !$this->encodeTo)
+        ) {
+            $mailboxName = imap_utf7_decode($mailboxName);
+            return $mailboxName;
+        } else if ($this->encode && $this->encodeTo) {
+            $mailboxName = mb_convert_encoding($mailboxName, $this->encodeFrom, $this->encodeTo);
+            return $mailboxName;
+        }
+
+        return $mailboxName;
+    }
+
+    /**
+     * @param $encoding
+     * @param $body
+     * @return string
+     */
+    private function decode($encoding, $body)
+    {
+        switch ($encoding) {
+            case ENCBASE64:
+                return imap_base64($body);
+            case ENCQUOTEDPRINTABLE:
+                return imap_qprint($body);
+            case ENC8BIT:
+                return imap_qprint(imap_8bit($body));
+            case ENCBINARY:
+                return $body;
+            case ENC7BIT:
+                return @imap_qprint($body);
+            default:
+                return $body;
+        }
+    }
+
+    /**
+     * @param $messageNo
+     * @return object
+     */
+    public function fetchStructure($messageNo)
+    {
+        return imap_fetchstructure($this->connection, $messageNo);
+    }
+
+    /**
+     * @param $messageNo
+     * @param $part
+     * @return string
+     */
+    public function fetchBody($messageNo, $part, $options = 0)
+    {
+        return imap_fetchbody($this->connection, $messageNo, $part, $options);
+    }
+
+
+    /**
+     * Get the main body of the message
+     * @param $messageNo
+     * @param $options
+     * @param $plain
+     * @return string
+     */
+    private function getBody($messageNo, $options, $plain = false)
+    {
+        if ($plain) {
+            return $this->fetchBody($messageNo, 1, $options);
+        }
+
+        $structure = $this->fetchStructure($messageNo);
+        if (isset($structure->parts) && count($structure->parts)) {
+            foreach ($structure->parts as $i => $part) {
+                if ($part->ifsubtype) {
+                    if ($part->subtype == "HTML") {
+                        return $this->decode($part->encoding, $this->fetchBody($messageNo, $i + 1));
+                    }
+                }
+            }
+        }
+
+
+        $body = $this->decode($structure->encoding, $this->fetchBody($messageNo, 1.2, $options));
+        if (strlen($body) <= 0) {
+            $body = $this->fetchBody($messageNo, 1, $options);
+        }
+
+        return $body;
+
     }
 
 }

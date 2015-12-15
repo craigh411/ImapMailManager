@@ -23,16 +23,16 @@ class Message
 
     public function getSubject()
     {
-        return $this->message['subject'];
+        return $this->decode($this->message['subject']);
     }
 
     public function getFrom($asString = true)
     {
         if ($asString) {
-            return $this->message['fromaddress'];
+            return $this->decode($this->message['fromaddress']);
         }
 
-        $from = $this->message['from'];
+        $from = $this->decode($this->message['from']);
         $from = $this->addEmailAttributes($from);
 
         return $from;
@@ -43,7 +43,7 @@ class Message
         $cc = null;
         if (isset($this->message['cc'])) {
             if ($asString) {
-                return $this->message['ccaddress'];
+                return $this->decode($this->message['ccaddress']);
             }
 
             $cc = $this->message['cc'];
@@ -56,7 +56,7 @@ class Message
     public function getTo($asString = false)
     {
         if ($asString) {
-            return $this->message['toaddress'];
+            return $this->decode($this->message['toaddress']);
         }
 
         $to = $this->message['to'];
@@ -91,20 +91,16 @@ class Message
 
     public function getRawDate()
     {
-        return $this->message['MailDate'];
+        return $this->decode($this->message['MailDate']);
     }
 
     public function getHeaderDate()
     {
-        return $this->message['date'];
+        return $this->decode($this->message['date']);
     }
 
     public function setAttachments($attachments)
     {
-
-        $attachments = array();
-
-
         $this->message['attachments'] = $attachments;
     }
 
@@ -118,6 +114,11 @@ class Message
         return $this->message;
     }
 
+    private function decode($header)
+    {
+        return utf8_encode(imap_mime_header_decode($header)[0]->text);
+    }
+
     /**
      * @param $to
      * @param $email
@@ -127,9 +128,10 @@ class Message
     {
         foreach ($to as $key => &$email) {
             $to[$key] = (array)$email;
+            $to[$key]['mailbox'] = $this->decode($email['mailbox']);
+            $to[$key]['host'] = $this->decode($email['host']);
             $to[$key]['email'] = $email['mailbox'] . '@' . $email['host'];
         }
-
         return $to;
     }
 }

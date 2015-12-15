@@ -32,7 +32,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
         $messages = $this->mailManager->searchMessages('subject', $this->createdEmails);
         // Delete all created messaged
         foreach ($messages as $message) {
-            $this->mailManager->deleteMessage($message->getMessageNo());
+            $this->mailManager->deleteMessages($message->getMessageNo());
         }
 
         $this->mailManager->closeConnection();

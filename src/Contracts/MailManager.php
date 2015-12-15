@@ -65,7 +65,7 @@ interface MailManager
 
     public function getMessageCount();
 
-    public function deleteMessage($messageNo);
+    public function deleteMessages($messageList);
 
     /**
      * Deletes all messages from the given folder
