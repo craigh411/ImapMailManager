@@ -32,17 +32,20 @@ class EmailDecoder
             return $decoded;
         }
 
-        // Lets decode manually, it's 7Bit or quoted printable, but PHP's native quote_printable_decode can return errors
-        return $this->decode7Bit();
+        // Lets decode manually, but it's probably ASCII!
+        return $this->decodeQP();
 
 
     }
 
     /**
-     * Deals with 7bit encoded messages, it's essentially doing a quoted printable decode without throwing errors
-     * @return mixed
+     * A quoted printable decode without throwing the errors that PHP's native function can throw.
+     * If you've made it here, it probably ASCII, but this will sort out anything
+     * that's got through.
+     *
+     * @return string
      */
-    public function decode7Bit()
+    public function decodeQP()
     {
         // Pick up all equal signs followed by hex values
         preg_match_all("/\=[a-f0-9]{2}/i", $this->message, $encodedChars);
@@ -51,6 +54,11 @@ class EmailDecoder
 
         // Remove equals from end of line (soft-break)
         $message = preg_replace("/=\r\n/", '', $message);
+
+        /**
+         * Space and tab can also have the following encoding, so we need to check for them.
+         */
+
         // tab
         $message = preg_replace("/09=^/", "\t", $message);
         // space

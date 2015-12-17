@@ -29,7 +29,12 @@ class ImapMessage implements Message
     public function getFrom($asString = true)
     {
         if ($asString) {
-            return $this->message['fromaddress'];
+            if (isset($this->message['fromaddress'])) {
+                $from = preg_replace(['/^\"/', '/\"\s+? </'], '', $this->message['fromaddress']);
+                return $this->decode($from);
+            }
+
+            return "unknown";
         }
 
         $from = $this->getEmails($this->message['from']);
@@ -49,33 +54,28 @@ class ImapMessage implements Message
 
     public function getTo()
     {
-        $to = $this->message['to'];
-        $to = $this->getEmails($to);
+        if (isset($this->message['to'])) {
+            $to = $this->message['to'];
+            return $this->getEmails($to);
+        }
 
-        return $to;
+        return [];
     }
 
     public function setHtmlBody($body)
     {
-        // Convert any non-utf messages to utf-8
-        if (mb_detect_encoding($body) !== "UTF-8") {
-            $body = utf8_encode($body);
-        }
-        // This makes non-printable chars less obtrusive in chrome
-        $body = mb_convert_encoding($body, "UTF-8");
-
         $this->message['html_body'] = $body;
     }
 
     public function getTextBody()
     {
-        return (isset($this->message['text_body'])) ? $this->message['text_body'] : null;
+        return (isset($this->message['text_body'])) ? $this->message['text_body'] : "";
     }
 
     public function getHtmlBody()
     {
 
-        return (isset($this->message['html_body'])) ? $this->message['html_body'] : null;
+        return (isset($this->message['html_body'])) ? $this->message['html_body'] : "";
     }
 
 
@@ -130,7 +130,21 @@ class ImapMessage implements Message
 
     private function decode($header)
     {
-        return utf8_encode(imap_mime_header_decode($header)[0]->text);
+        $header = imap_mime_header_decode($header);
+        $str = '';
+
+        // A bit hacky, but imap_mime_header_decode() doesn't map the '£' symbol from ISO-1159-1,
+        // so ISO-8859-1 strings need to be run through utf8_encode() for correct display.
+        if (count($header)) {
+            foreach ($header as $h) {
+                if (strtoupper($h->charset) != "UTF-8") {
+                    $str .= utf8_encode($h->text);
+                } else {
+                    $str .= $h->text;
+                }
+            }
+        }
+        return $str;
     }
 
     /**
@@ -148,6 +162,11 @@ class ImapMessage implements Message
         }
 
         return $emailAddresses;
+    }
+
+    public function isUnread()
+    {
+        return $this->message['Unseen'];
     }
 
     public function __toString()

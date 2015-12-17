@@ -1,5 +1,6 @@
 
 /vendor/
-examples
+/examples/imap_config.php
 tests/imap_config.php
 .idea
+
