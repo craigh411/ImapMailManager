@@ -13,7 +13,8 @@
   },
   "require-dev": {
     "fzaninotto/faker": "^1.5",
-    "phpunit/phpunit": "^5.1"
+    "phpunit/phpunit": "^5.1",
+    "sami/sami": "^3.1"
   },
   "autoload": {
     "psr-4": {
@@ -28,6 +29,7 @@
   "scripts": {
     "post-install-cmd": [
       "php -f installer.php"
-    ]
+    ],
+    "docs" : "vendor\\bin\\sami.php.bat update sami.php -v"
   }
 }

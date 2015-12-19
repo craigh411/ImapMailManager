@@ -130,17 +130,30 @@ class ImapMessage implements Message
 
     private function decode($header)
     {
+
+
         $header = imap_mime_header_decode($header);
         $str = '';
 
-        // A bit hacky, but imap_mime_header_decode() doesn't map the '£' symbol from ISO-1159-1,
+        $encodings = mb_list_encodings();
+        // Add simplified Chinese (GB2312), supported but not listed and widely used.
+        $encodings[] = 'GB2312';
+
+        // Make all strings upper case for comparison, charsets are presented
+        // with different case and we are using in_array() for comparison
+        $encodings = array_map(function ($encoding) {
+            return strtoupper($encoding);
+        }, $encodings);
+
+
+        // A bit hacky, but imap_mime_header_decode() doesn't map the '£' symbol from ISO-8859-1,
         // so ISO-8859-1 strings need to be run through utf8_encode() for correct display.
         if (count($header)) {
             foreach ($header as $h) {
-                if (strtoupper($h->charset) != "UTF-8") {
+                if (strtoupper($h->charset) === "ISO-8859-1" || !in_array($h->charset, $encodings)) {
                     $str .= utf8_encode($h->text);
                 } else {
-                    $str .= $h->text;
+                    $str .= mb_convert_encoding($h->text, 'utf-8', $h->charset);
                 }
             }
         }

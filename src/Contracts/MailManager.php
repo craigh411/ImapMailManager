@@ -16,7 +16,7 @@ interface MailManager
      * Returns all the folder names for the given mailbox
      * @return array
      */
-    public function getAllFolders($excludeMailbox);
+    public function getAllFolders($currentFolder);
 
     /**
      * @param $folder
@@ -98,10 +98,5 @@ interface MailManager
      */
     public static function getMessageNumbers(array $messages);
 
-    /**
-     * Loads the config array
-     * @param $config
-     */
-    public function loadConfig($config);
 
 }

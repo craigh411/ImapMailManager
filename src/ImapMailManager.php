@@ -20,28 +20,33 @@ class ImapMailManager implements MailManager
 
     /**
      * MailManager constructor.
-     * @param string $config
+     * @param string $folder The name of the mailbox folder to open (defaults to 'INBOX')
+     * @param string $configFile The path to the config file (defaults to 'imap_config.php' in current dir)
      * @throws Exception
      */
-    public function __construct($folder = 'INBOX', $config = 'imap_config.php')
+    public function __construct($folder = 'INBOX', $configFile = 'imap_config.php')
     {
         try {
-            $this->mailbox = MailboxFactory::create($config);
+            $this->mailbox = MailboxFactory::create($configFile);
             $this->mailbox->setFolder($folder);
             $this->mailboxName = $this->createImapMailbox($this->mailbox);
-            $this->connection = $this->connect();
-            $this->loadConfig($config);
-
-            $this->encoded = false;
-            $this->outputEncoding = 'UTF-8';
+            if ($this->connection = $this->connect()) {
+                $this->loadConfig($configFile);
+                $this->encoded = false;
+                $this->outputEncoding = 'UTF-8';
+            } else {
+                throw new Exception('Unable to connect to to mailbox: ' . $this->mailboxName);
+            }
         } catch (Exception $e) {
             throw $e;
         }
     }
 
     /**
-     * How the body should be encoded, by default this is utf-8
-     * @param $encoding
+     * Sets the output encoding to the given encoding. By default the output encoding is
+     * UTF-8, so this is only required when you want your output to use a different encoding.
+     * @param string $encoding The encoding (see: http://php.net/manual/en/mbstring.supported-encodings.php)
+     * @return void
      */
     public function setOutputEncoding($encoding)
     {
@@ -69,9 +74,9 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Encodes the mailbox name
+     * Encodes the mailbox name when non ASCII
      * @param $mailboxName
-     * @return mixed|string
+     * @return string
      */
     private function encodeMailboxName($mailboxName)
     {
@@ -85,7 +90,7 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Open the connection to the mailbox
+     * Opens the connection to the mailbox
      * @return resource
      */
     protected function connect()
@@ -97,7 +102,7 @@ class ImapMailManager implements MailManager
      * Loads the config file in to an array
      * @param $config
      */
-    public function loadConfig($config)
+    protected function loadConfig($config)
     {
         if (file_exists($config)) {
             $this->config = include $config;
@@ -107,9 +112,9 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Returning a comma delimited message list
-     * @param array $messages
-     * @return string
+     * Returns a comma delimited message list from the given array.
+     * @param array $messages An array of Message objects.
+     * @return string The message list.
      * @throws Exception
      */
     public static function getMessageList(array $messages)
@@ -118,8 +123,8 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Returns the message numbers for the given messages
-     * @param array $messages - Expects an array of Message objects
+     * Returns an array of message numbers for the given messages.
+     * @param array $messages An array of Message objects
      * @return array
      * @throws Exception
      */
@@ -141,7 +146,7 @@ class ImapMailManager implements MailManager
 
     /**
      * Flags the given messages as read
-     * @param $messageList
+     * @param string $messageList A comma delimited list of message numbers (see: getMessageList())
      * @return bool
      */
     public function flagAsRead($messageList)
@@ -151,8 +156,8 @@ class ImapMailManager implements MailManager
 
     /**
      * Sets the given flag on the given messages
-     * @param $messageList
-     * @param $flag - \Seen, \Answered, \Flagged, \Deleted, and \Draft
+     * @param string $messageList A comma delimited list of message numbers (see: getMessageList())
+     * @param string $flag Either \Seen, \Answered, \Flagged, \Deleted, or \Draft
      * @return bool
      */
     public function setFlag($messageList, $flag)
@@ -162,22 +167,27 @@ class ImapMailManager implements MailManager
 
     /**
      * Returns all unread messages
-     * @param bool|false $markAsRead
+     * @param bool $markAsRead Marks the fetched messages as read when set to true
      * @return array
      */
     public function getUnreadMessages($markAsRead = false)
     {
-        return $this->searchMessages('UNSEEN', null, SORTDATE, true, $this->markAsRead($markAsRead));
+        return $this->searchMessages('UNSEEN', null, SORTDATE, true, $this->isMarkAsRead($markAsRead));
     }
 
     /**
      * Search for a message by the given criteria
-     * @param $criteria
-     *      What is being searched. see imap_search criteria (http://php.net/manual/en/function.imap-search.php)
-     * @param null $searches string | array
-     * @return array
+     *
+     * @param string $criteria The search criteria (e.g. 'FROM' for 'from' email address). see imap_search criteria (http://php.net/manual/en/function.imap-search.php)
+     * @param string|array $searches The search strings, can be passed as a single string, an array of search strings or null if no search string is required. (defaults to null )
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param int $messageOptions Any options to pass through the imap_fetch_body (see: <a href="http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     *
+     * @return array An array of Message objects
      */
-    public function searchMessages($criteria, $searches = null, $sort = SORTDATE, $reverse = true, $messageOptions = 0, $headersOnly = false)
+    public function searchMessages($criteria, $searches = null, $sortBy = SORTDATE, $reverse = true, $messageOptions = 0, $headersOnly = false)
     {
         $messages = [];
 
@@ -192,13 +202,13 @@ class ImapMailManager implements MailManager
         if ($searches) {
             $messageIds = [];
             foreach ($searches as $search) {
-                if ($found = imap_sort($this->connection, $sort, $reverse, 0, $criteria . ' "' . $search . '"')) {
+                if ($found = imap_sort($this->connection, $sortBy, $reverse, 0, $criteria . ' "' . $search . '"')) {
                     $messageIds = array_merge($found, $messageIds);
                 }
             }
         } else {
             // There are no search terms, so just use the criteria (some criteria such as ALL, do not have searches)
-            $messageIds = imap_sort($this->connection, $sort, $reverse, 0, $criteria);
+            $messageIds = imap_sort($this->connection, $sortBy, $reverse, 0, $criteria);
         }
 
         // Get the details for each message and store in an array
@@ -210,19 +220,18 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Get Message by message Number
-     * @param $messageNo
-     * @param $options
-     * @params $headersOnly
-     * @params $downloadPath
-     * @return Message $message
+     * Gets the message by the given message number.
+     * @param int $messageNo The message number
+     * @param int $options Any options for fetchBody (see: http://php.net/manual/en/function.imap-fetchbody.php)
+     * @param bool $headersOnly Only retrieve header information (essentially excludes fetching the body when set to true)
+     * @return Message The Message object
      */
     public function getMessage($messageNo, $options = 0, $headersOnly = false)
     {
         $message = new ImapMessage(imap_headerinfo($this->connection, $messageNo));
 
         if (!$headersOnly) {
-            $this->setMessageBody($message);
+            $this->setMessageBody($message, $options);
         }
 
         $message->setAttachments($this->getAttachments($messageNo));
@@ -231,10 +240,11 @@ class ImapMailManager implements MailManager
         return $message;
     }
 
+
     /**
-     * Get the main body of the message
+     * Sets the main body of the message
      * @param Message $message
-     * @param $options
+     * @param int $options Any options for fetchbody (see: http://php.net/manual/en/function.imap-fetchbody.php)
      * @return string
      */
     private function setMessageBody(Message $message, $options = 0)
@@ -252,14 +262,14 @@ class ImapMailManager implements MailManager
                 foreach ($part as $i => $section) {
                     if ($section->getSubType() == 'PLAIN') {
                         $hasTextBody = true;
-                        $body = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection()));
+                        $body = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection(), $options));
                         $body = $this->encode($section, $body);
                         $message->setTextBody($body);
                     }
 
                     if ($section->getSubType() == 'HTML') {
                         $hasHtmlBody = true;
-                        $body = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection()));
+                        $body = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection(), $options));
                         $body = $this->encode($section, $body);
                     }
                     $message->setHtmlBody($body);
@@ -273,36 +283,38 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Returns all the parts from the body and returns them as an array with the sections of
-     * each part. So $parts[0] will contain all part 1 sections and $parts[1] will contain all part 2 sections etc.
-     * @param $messageNo
-     * @param $options
+     * Fetches the structure of the E-mail (see: http://php.net/manual/en/function.imap-fetchstructure.php)
+     * @param int $messageNo The message number
+     * @return object | bool
      */
-
-    /**
-     * @param $messageNo
-     * @return object
-     */
-    public
-    function fetchStructure($messageNo)
+    public function fetchStructure($messageNo)
     {
         return imap_fetchstructure($this->connection, $messageNo);
     }
 
     /**
-     * Returns all the parts from the body
-     * @param $messageNo
-     * @param $options
+     * @param int $messageNo The number of the message
+     * @param int $options Any options to pass in imap_fetchBody() (see: http://php.net/manual/en/function.imap-fetchbody.php)
+     * @return array An array of BodyPart objects
      */
-    public
-    function fetchBodyParts($structure, $parts = [], $sections = [], $options = 0)
+
+    /**
+     * Returns an array of BodyParts (see ImapBodyParts) . The array is broken down into sections, so all parts from section 1
+     * will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.
+     *
+     * @param array $structure The structure retrieved from getStructure();
+     * @param array $parts The array being returned.
+     * @param array $sections The current section number
+     * @return array
+     */
+    protected function doFetchBodyParts($structure, $parts = [], $sections = [])
     {
         $sections[] = 1;
         if (isset($structure->parts) && count($structure->parts)) {
             foreach ($structure->parts as $i => $part) {
                 if (isset($part->parts)) {
                     // We have more parts, lets get them
-                    $parts = $this->fetchBodyParts($part, $parts, $sections);
+                    $parts = $this->doFetchBodyParts($part, $parts, $sections);
                 } else {
                     // Make the last element of array the loop number, that's the final section we are in!
                     // e.g. 1.1.2
@@ -323,20 +335,31 @@ class ImapMailManager implements MailManager
             $parts[0][] = new ImapBodyPart($structure->type, $structure->encoding, $structure->subtype, 1);
         }
 
-        //var_dump($parts);
-
         return $parts;
     }
 
     /**
+     * Returns an array of BodyParts (see ImapBodyParts) . The array is broken down into sections, so all parts from section 1
+     * will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.
+     * @param array $structure The structure retrieved from getStructure();
+     * @return array An array of BodyPart objects
+     */
+    public function fetchBodyParts($structure)
+    {
+        // Essentially encapsulates the recursive function doFetchBodyParts()
+        // So the internal params used for each recursion aren't set manually.
+        return $this->doFetchBodyParts($structure);
+    }
+
+    /**
+     * Sets returned name and charset params on the BodyPart object such if they exist.
      * @param $part
      * @param $bodyPart
      * @return mixed
      */
-    private
-    function setParams($part, &$bodyPart, $type)
+    private function setParams($part, &$bodyPart, $type)
     {
-// Check for charset and embedded files (these will be in parameters)
+        // Check for charset and embedded files (these will be in parameters)
         if ($part->ifparameters) {
             foreach ($part->parameters as $param) {
                 if ($param->attribute == 'CHARSET') {
@@ -353,12 +376,12 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * @param $encoding
-     * @param $body
-     * @return string
+     * Decodes the given body with the given encoding.
+     * @param int $encoding
+     * @param string $body
+     * @return string The decoded body
      */
-    private
-    function decode($encoding, $body)
+    private function decode($encoding, $body)
     {
         switch ($encoding) {
             case ENCBASE64:
@@ -374,23 +397,23 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * @param $messageNo
-     * @param $part
+     * Fetches the given body part (see: http://php.net/manual/en/function.imap-fetchbody.php)
+     * @param int $messageNo The message number
+     * @param string $part The part (e.g. 1.2). This will be returned from fetchBodyParts()
      * @return string
      */
-    public
-    function fetchBody($messageNo, $part, $options = 0)
+    public function fetchBody($messageNo, $part, $options = 0)
     {
         return imap_fetchbody($this->connection, $messageNo, $part, $options);
     }
 
     /**
+     * TODO This needs to be changed so an array of Attachment objects are returned
      * Get the E-mail attachment details for the given message number
-     * @param $messageNo
+     * @param int $messageNo The message number
      * @return array
      */
-    public
-    function getAttachments($messageNo)
+    public function getAttachments($messageNo)
     {
         $files = [];
         $structure = $this->fetchStructure($messageNo);
@@ -402,11 +425,8 @@ class ImapMailManager implements MailManager
                 if ($part->ifdparameters) {
                     foreach ($part->dparameters as $param) {
                         if ($param->attribute == 'FILENAME') {
-                            $files[] = [
-                                'filename' => $param->value,
-                                'part' => $i + 1, // parts are 1 based, not 0 based.
-                                'encoding' => $part->encoding
-                            ];
+                            $files[] = ['filename' => $param->value, 'part' => $i + 1, // parts are 1 based, not 0 based.
+                                'encoding' => $part->encoding];
                         }
                     }
                 }
@@ -417,11 +437,13 @@ class ImapMailManager implements MailManager
     }
 
     /**
+     * TODO implement the replace function so it works for non cid messages
      * Gets the embedded images for the given messages and alters the body accordingly
+     * Important: This function downloads images to the given path and places them inside an /embedded/{messageNo} folder
      * @param Message $message
+     * @return void
      */
-    public
-    function getEmbeddedImages(Message &$message)
+    public function getEmbeddedImages(Message &$message, $path = "")
     {
         // First get all images
         $messageNo = $message->getMessageNo();
@@ -433,7 +455,7 @@ class ImapMailManager implements MailManager
                 foreach ($part as $i => $section) {
                     if ($section->isEmbedded()) {
                         $image = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection()));
-                        $file = $this->saveFile($messageNo . '/embedded', $image, $section->getName(), false);
+                        $file = $this->saveFile($path . $messageNo . "/embedded", $image, $section->getName(), false);
 
                         // Let's adjust the Email body to point to the image
                         $body = $message->getHtmlBody();
@@ -453,8 +475,7 @@ class ImapMailManager implements MailManager
      * @param $markAsRead
      * @return int
      */
-    public
-    function markAsRead($markAsRead)
+    private function isMarkAsRead($markAsRead)
     {
         $options = ($markAsRead) ? 0 : FT_PEEK;
         return $options;
@@ -462,12 +483,12 @@ class ImapMailManager implements MailManager
 
     /**
      * Download the attachments for the given message number
-     * @param $messageNo
-     * @param array $filenames
-     * @param string $path
+     * @param int $messageNo The number of the message
+     * @param array $filenames An array of filenames you want to download. Leave empty if you want to download all files
+     * @param string $path The download path
+     * @return void
      */
-    public
-    function downloadAttachments($messageNo, $filenames = [], $path = '')
+    public function downloadAttachments($messageNo, $filenames = [], $path = '')
     {
         $attachments = $this->getAttachments($messageNo);
         $files = [];
@@ -475,10 +496,7 @@ class ImapMailManager implements MailManager
             foreach ($attachments as $attachment) {
                 $file = $this->fetchBody($messageNo, $attachment['part']);
                 $decodedAttachment = $this->decode($attachment['encoding'], $file);
-                $files[] = [
-                    'decodedFile' => $decodedAttachment,
-                    'filename' => $attachment['filename']
-                ];
+                $files[] = ['decodedFile' => $decodedAttachment, 'filename' => $attachment['filename']];
 
                 if (in_array($attachment['filename'], $filenames) || empty($filenames)) {
                     $binary = ($attachment['encoding'] == ENCBINARY) ? true : false;
@@ -489,13 +507,13 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Save the file to the given path
+     * Saves the file to the given path
      * @param $messageNo
      * @param $path
      * @param $files
+     * @param bool|true $binary Whether this should be saved with the 'b' flag
      */
-    protected
-    function saveFile($path, $file, $fileName, $binary = false)
+    protected function saveFile($path, $file, $fileName, $binary = true)
     {
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
@@ -511,86 +529,89 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Returns all unread messages
-     * @param bool|false $markAsRead
-     * @return array
+     * Returns all messages marked as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getReadMessages($markAsRead = false)
+    public function getReadMessages($sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('SEEN', null, SORTDATE, true, $this->markAsRead($markAsRead));
+        return $this->searchMessages('SEEN', $sortBy, SORTDATE, $reverse, 0, $headersOnly);
     }
 
     /**
      * Flags the given messages as important
-     * @param $messageList
+     * @param string $messageList A comma delimited list of message numbers (see: getMessageList())
      * @return bool
      */
-    public
-    function flagAsImportant($messageList)
+    public function flagAsImportant($messageList)
     {
         return $this->setFlag($messageList, '\Flagged');
     }
 
     /**
-     * Returns all flagged messages
-     * @param bool|false $markAsRead
-     * @return array
+     * Returns all messages flagged as important (i.e. FLAGGED)
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getImportantMessages($markAsRead = false)
+    public function getImportantMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('FLAGGED', null, SORTDATE, true, $this->markAsRead($markAsRead));
+        return $this->searchMessages('FLAGGED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * Flags the given messages as important
-     * @param $messageList
+     * Flags the given messages as answered
+     * @param string $messageList A comma delimited list of message numbers (see: getMessageList())
      * @return bool
      */
-    public
-    function flagAsAnswered($messageList)
+    public function flagAsAnswered($messageList)
     {
         return $this->setFlag($messageList, '\Answered');
     }
 
     /**
-     * Returns all unanswered messages
-     * @param bool|false $markAsRead
-     * @return array
+     * Returns all messages flagged as important (i.e. FLAGGED)
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getAnsweredMessages($markAsRead = false)
+    public function getAnsweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('Answered', null, SORTDATE, true, $this->markAsRead($markAsRead));
+        return $this->searchMessages('ANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * Returns all unanswered messages
-     * @param bool|false $markAsRead
-     * @return array
+     * Returns all messages flagged as unanswered (i.e. FLAGGED)
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getUnansweredMessages($markAsRead = false)
+    public function getUnansweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('Unanswered', null, SORTDATE, true, $this->markAsRead($markAsRead));
+        return $this->searchMessages('UNANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * Returns all the folder names for the given mailbox
-     *
-     * @param $excludeMailbox
-     * @return array
+     * Returns all the folders for the given mailbox
+     * @param bool|false $currentFolder Whether the folders should be retrieved from the current folder or entire mailbox
+     * @return array an array of Folder objects.
      */
-    public
-    function getAllFolders($excludeMailbox = true)
+    public function getAllFolders($currentFolder = false)
     {
         // Exclude any mailboxes (e.g. INBOX) from the mailbox name so we can get all folders
-        if ($excludeMailbox) {
+        if (!$currentFolder) {
             preg_match("/\{(.*?)\}/", $this->mailboxName, $mailbox);
             $mailbox = $mailbox[0];
         } else {
-            $mailbox = $this->mailbox;
+            $mailbox = $this->mailboxName;
         }
 
         $imapFolders = imap_getmailboxes($this->connection, $mailbox, '*');
@@ -602,109 +623,119 @@ class ImapMailManager implements MailManager
         return $folders;
     }
 
+
     /**
      * Gets all messages for the given sender
-     * @param $sender
-     * @param int $sort
-     * @param bool $reverse
-     * @param bool $markAsRead
-     * @return array
+     * @param string $sender The senders name or email address
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getMessagesBySender($sender, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesBySender($sender, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('from', $sender, $sort, $reverse, $this->markAsRead($markAsRead));
+        return $this->searchMessages('FROM', $sender, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * @param $subject
-     * @param int $sort
-     * @param bool|true $reverse
-     * @param bool|false $markAsRead
-     * @return array
+     * Gets messages by subject
+     * @param string $subject The subject to search for
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getMessagesBySubject($subject, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesBySubject($subject, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('subject', $subject, $sort, $reverse, $this->markAsRead($markAsRead));
+        return $this->searchMessages('SUBJECT', $subject, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * @param $cc
-     * @param int $sort
-     * @param bool|true $reverse
-     * @param bool|false $markAsRead
-     * @return array
+     * Gets the messages by CC
+     * @param string $cc The name or email to search the cc field for
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getMessagesByCC($cc, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesByCC($cc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('cc', $cc, $sort, $reverse, $this->markAsRead($markAsRead));
+        return $this->searchMessages('CC', $cc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * @param $bcc
-     * @param int $sort
-     * @param bool|true $reverse
-     * @param bool|false $markAsRead
-     * @return array
+     * Gets the messages by BCC
+     * @param string $bcc The name or email to search the bcc field for
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getMessagesByBCC($bcc, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesByBCC($bcc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('bcc', $bcc, $sort, $reverse, $this->markAsRead($markAsRead));
+        return $this->searchMessages('BCC', $bcc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * @param $to
-     * @param int $sort
-     * @param bool|true $reverse
-     * @param bool|false $markAsRead
-     * @return array
+     * Gets the messages by the to field
+     * @param string $to The name or email to search the to field for
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getMessagesByReceiver($to, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesByReceiver($to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('to', $to, $sort, $reverse, $this->markAsRead($markAsRead));
+        return $this->searchMessages('to', $to, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * @param $date
-     * @param int $sort
-     * @param bool|true $reverse
-     * @param bool|false $markAsRead
-     * @return array
+     * Gets the messages sent on the specified date
+     * @param string $date The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getMessagesByDate($date, $sort = SORTDATE, $reverse = true, $markAsRead = false)
-    {
-        $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('on', $date, $sort, $reverse, $this->markAsRead($markAsRead));
-    }
-
-    /**
-     * @param $date
-     * @param int $sort
-     * @param bool|true $reverse
-     * @param bool|false $markAsRead
-     * @return array
-     */
-    public
-    function getMessagesBefore($date, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesByDate($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
         $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('before', $date, $sort, $reverse, $this->markAsRead($markAsRead));
+        return $this->searchMessages('ON', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * Gets messages sent between the two dates
-     * @param $from
-     * @param $to
-     * @return array
+     * Gets the messages sent before the specified date
+     * @param string $date The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesBefore($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        $date = Carbon::parse($date)->format('d-M-Y');
+        return $this->searchMessages('before', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets the messages sent between the specified dates
+     * @param string $from The from date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)
+     * @param string $to The to date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      * @throws Exception
      */
-    public
-    function getMessagesBetween($from, $to, $sort = SORTDATE, $reverse = false)
+    public function getMessagesBetween($from, $to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
         $fromTS = Carbon::parse($from)->timestamp;
         $to = Carbon::parse($to)->addDays(1)->timestamp;
@@ -714,11 +745,10 @@ class ImapMailManager implements MailManager
         }
 
         // Get all messages before the upper date range
-        $messages = $this->getMessagesAfter($from, $sort, $reverse, false);
+        $messages = $this->getMessagesAfter($from, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
         $filtered = [];
         foreach ($messages as $message) {
             $date = $message->getDate();
-            echo $date->timestamp;
             if ($date->timestamp <= $to) {
                 $filtered[] = $message;
             }
@@ -728,73 +758,52 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * @param $date
-     * @param int $sort
-     * @param bool|true $reverse
-     * @param bool|false $markAsRead
-     * @return array
+     * Gets the messages sent after the specified date
+     * @param string $date The date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)
+     * @param bool|false $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
      */
-    public
-    function getMessagesAfter($date, $headersOnly = false, $sort = SORTDATE, $reverse = true, $markAsRead = false)
+    public function getMessagesAfter($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
         $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('since', $date, $sort, $reverse, $this->markAsRead($markAsRead), $headersOnly);
+        return $this->searchMessages('since', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * Get message by uid
-     * @param $uid
-     * @return ImapMessage
+     * Get the message by the unique identifier
+     * @param string $uid the unique identifier
+     * @return Message the message
      */
-    public
-    function getMessageByUid($uid)
+    public function getMessageByUid($uid)
     {
         return $this->getMessage(imap_msgno($this->connection, $uid));
     }
 
-    public
-    function getEncoding($messageNo)
-    {
-        return $this->fetchStructure($messageNo)->encoding;
-
-    }
 
     /**
      * Returns all message details for the given mailbox
      * @param bool $markAsRead
      * @return array
      */
-    public
-    function getAllMessages($markAsRead = false)
+    public function getAllMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->sort(SORTDATE, true, $markAsRead);
-    }
-
-    /**
-     * Sorts the mail by the given criteria
-     * @param $criteria
-     * @param bool|false $reverse
-     * @return array
-     */
-    public
-    function sort($criteria, $reverse = false, $markAsRead = false)
-    {
-        $options = $this->markAsRead($markAsRead);
-        return $this->searchMessages('ALL', null, $criteria, $reverse, $options);
+        return $this->searchMessages('ALL', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
      * Returns the number of messages in the mailbox
      * @return int
      */
-    public
-    function getMessageCount()
+    public function getMessageCount()
     {
         return imap_num_msg($this->connection);
     }
 
     /**
-     * Returns the mail server
+     * Get the full mailbox name
      * @return string
      */
     public function getMailboxName()
@@ -804,7 +813,6 @@ class ImapMailManager implements MailManager
 
     /**
      * Gets the current folder name
-     * Returns the mail server
      * @return string
      */
     public function getFolderName()
@@ -813,12 +821,11 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Decodes the mailbox name
+     * Decodes the mailbox name if it's been encoded with utf-7
      * @param $mailboxName
      * @return mixed|string
      */
-    private
-    function decodeMailboxName($mailboxName)
+    private function decodeMailboxName($mailboxName)
     {
         // Check for non-printable ascii characters
         if ($this->encoded) {
@@ -832,19 +839,17 @@ class ImapMailManager implements MailManager
      * Returns the number of unread messages
      * @return int
      */
-    public
-    function getUnreadMessageCount()
+    public function getUnreadMessageCount()
     {
         $status = imap_status($this->getConnection(), $this->mailboxName, SA_UNSEEN);
         return $status->unseen;
     }
 
     /**
-     * Returns the current imap connection
-     * @return bool|false|resource
+     * Returns the current imap connection, which can be passed in to php's native imap functions.
+     * @return resource
      */
-    public
-    function getConnection()
+    public function getConnection()
     {
         return $this->connection;
     }
@@ -853,8 +858,7 @@ class ImapMailManager implements MailManager
      * Returns the Mailbox object
      * @return Mailbox
      */
-    public
-    function getMailbox()
+    public function getMailbox()
     {
         return $this->mailbox;
     }
@@ -862,33 +866,32 @@ class ImapMailManager implements MailManager
     /**
      * Deletes all messages from the trash folder
      * @param string $folder
+     * @return void
      * @throws Exception
      */
-    public
-    function emptyTrash($folder = 'trash')
+    public function emptyTrash($folder = 'trash')
     {
-        $folder = $this->getAliasFromConfig($folder);
+        $folder = $this->getFolderNameByAlias($folder);
         $this->deleteAllMessages($folder);
     }
 
     /**
-     * Returns the alias from the config file, or the folder name is not found.
-     * @param $folder
-     * @return mixed
+     * Returns the folder name from the config file, or the alias itself if no folder is found.
+     * @param string $alias the alias
+     * @return string
      */
-    protected
-    function getAliasFromConfig($folder)
+    protected function getFolderNameByAlias($alias)
     {
-        return (isset($this->config['aliases'][$folder])) ? $this->config['aliases'][$folder] : $folder;
+        return (isset($this->config['aliases'][$alias])) ? $this->config['aliases'][$alias] : $alias;
     }
 
     /**
      * Deletes all messages from the given folder
-     * @param string $folder
+     * @param string $folder The folder name
      * @throws Exception
+     * @return bool
      */
-    public
-    function deleteAllMessages($folder)
+    public function deleteAllMessages($folder)
     {
         if ($this->openFolder($folder)) {
             return $this->deleteMessages('1:*');
@@ -902,11 +905,10 @@ class ImapMailManager implements MailManager
      * @param $folder
      * @return bool
      */
-    public
-    function openFolder($folder)
+    public function openFolder($folder)
     {
         // Check for alias in config first or use folder as string.
-        $folder = $this->getAliasFromConfig($folder);
+        $folder = $this->getFolderNameByAlias($folder);
 
         $this->mailbox->setFolder($folder);
         $this->mailboxName = $this->createImapMailbox($this->mailbox);
@@ -918,19 +920,17 @@ class ImapMailManager implements MailManager
      * Resets/Refreshes the connection to the mail server
      * @return bool
      */
-    public
-    function refresh()
+    public function refresh()
     {
         return imap_reopen($this->connection, $this->mailboxName);
     }
 
     /**
      * Deletes the given message from the mailbox
-     * @param $messageList
+     * @param string $messageList A comma delimited list of message numbers (see: getMessageList())
      * @return bool
      */
-    public
-    function deleteMessages($messageList)
+    public function deleteMessages($messageList)
     {
         if (imap_delete($this->connection, $messageList)) {
             return imap_expunge($this->connection);
@@ -941,23 +941,23 @@ class ImapMailManager implements MailManager
 
     /**
      * Moves the given messages to the trash folder
-     * @param $messageList
-     * @param string $folder
+     * @param string $messageList A comma delimited list of message numbers (see: getMessageList())
+     * @param string $folder The name of the folder or it's alias
+     * @return void
      */
-    public
-    function moveToTrash($messageList, $folder = 'trash')
+    public function moveToTrash($messageList, $folder = 'trash')
     {
-        $folder = $this->getAliasFromConfig($folder);
+        $folder = $this->getFolderNameByAlias($folder);
         imap_mail_move($this->connection, $messageList, $folder);
         imap_expunge($this->connection);
     }
 
     /**
      * Closes the connection to the mail server
+     * @param bool $deleteFlaggedEmails If set to true all emails flagged for deletion will be removed
      * @return bool
      */
-    public
-    function closeConnection($deleteFlaggedEmails = true)
+    public function closeConnection($deleteFlaggedEmails = true)
     {
         if ($deleteFlaggedEmails) {
             return imap_close($this->connection, CL_EXPUNGE);
@@ -967,13 +967,14 @@ class ImapMailManager implements MailManager
     }
 
     /**
+     * Sets the disposition params (essentially the filename of the attachments which haven't been embedded)
      * @param $part
      * @param $bodyPart
+     * @return void
      */
-    private
-    function setDispositionParams($part, &$bodyPart)
+    private function setDispositionParams($part, &$bodyPart)
     {
-// Now lets look for disposition parameters for attachments
+        // Now lets look for disposition parameters for attachments
         if ($part->ifdparameters) {
             foreach ($part->dparameters as $param) {
                 if ($param->attribute == 'FILENAME') {
@@ -984,6 +985,7 @@ class ImapMailManager implements MailManager
     }
 
     /**
+     * Encodes the body to the set encoding (by default UTF-8)
      * @param $section
      * @param $body
      * @return mixed|string
@@ -993,13 +995,10 @@ class ImapMailManager implements MailManager
         $charset = ($section->getCharset()) ? $section->getCharset() : mb_detect_encoding($body);
         if ($charset) {
             return mb_convert_encoding($body, $this->outputEncoding, $charset);
-        }elseif($this->outputEncoding == "UTF-8"){
+        } elseif ($this->outputEncoding == "UTF-8") {
             return utf8_encode($body);
         }
 
         return mb_convert_encoding($body, $this->outputEncoding);
-
     }
-
-
 }

@@ -27,7 +27,7 @@ $folders = $mailManager->getAllFolders();
             crossorigin="anonymous"></script>
 
     <style type="text/css">
-        body {
+        html, body {
             width: 98%;
             margin: auto;
             margin-top: 20px;
@@ -87,8 +87,8 @@ $folders = $mailManager->getAllFolders();
     </div>
 
 
-    <div class="col-md-9">
-        <table class="table table-striped table-bordered table-hover pull-right ">
+    <div class="col-md-10 pull-right">
+        <table class="table table-striped table-bordered table-hover  ">
             <tr>
                 <th>From</th>
                 <th>Subject</th>
