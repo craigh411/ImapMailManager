@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2e08fad3db1abc3960b819cded7195eb",
-    "content-hash": "51e0f895d57b5de40264319b3925836e",
+    "hash": "b8af868e8e985ac6a3626f11d74c3502",
+    "content-hash": "89e39df7a1a60c14045ef2e90bfd2244",
     "packages": [
         {
             "name": "nesbot/carbon",
@@ -947,16 +947,16 @@
         },
         {
             "name": "sami/sami",
-            "version": "v3.1.0",
+            "version": "v3.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/Sami.git",
-                "reference": "504f99a1783e2e0e8817a57be946f7c699b83163"
+                "reference": "c7f82710279c9aaa673b1ad27148749e9bf7223c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/Sami/zipball/504f99a1783e2e0e8817a57be946f7c699b83163",
-                "reference": "504f99a1783e2e0e8817a57be946f7c699b83163",
+                "url": "https://api.github.com/repos/FriendsOfPHP/Sami/zipball/c7f82710279c9aaa673b1ad27148749e9bf7223c",
+                "reference": "c7f82710279c9aaa673b1ad27148749e9bf7223c",
                 "shasum": ""
             },
             "require": {
@@ -1001,7 +1001,7 @@
             "keywords": [
                 "phpdoc"
             ],
-            "time": "2015-08-30 14:15:00"
+            "time": "2015-08-13 07:35:12"
         },
         {
             "name": "sebastian/comparator",
@@ -1737,7 +1737,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": []

@@ -90,160 +90,129 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(
-    string $folder = &#039;INBOX&#039;, 
-    string $configFile = &#039;imap_config.php&#039;)
+                    <a href="#method___construct">__construct</a>(string $folder = &#039;INBOX&#039;, string $configFile = &#039;imap_config.php&#039;)
                                             <p>MailManager constructor.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    void
+                    void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setOutputEncoding">setOutputEncoding</a>(
-    string $encoding)
+                    <a href="#method_setOutputEncoding">setOutputEncoding</a>(string $encoding)
                                             <p>Sets the output encoding to the given encoding. By default the output encoding is
 UTF-8, so this is only required when you want your output to use a different encoding.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;
-    string
+                    static&nbsp;string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessageList">getMessageList</a>(
-    array $messages)
+                    <a href="#method_getMessageList">getMessageList</a>(array $messages)
                                             <p>Returns a comma delimited message list from the given array.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;
-    array
+                    static&nbsp;array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessageNumbers">getMessageNumbers</a>(
-    array $messages)
+                    <a href="#method_getMessageNumbers">getMessageNumbers</a>(array $messages)
                                             <p>Returns an array of message numbers for the given messages.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    bool
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_flagAsRead">flagAsRead</a>(
-    string $messageList)
+                    <a href="#method_flagAsRead">flagAsRead</a>(string $messageList)
                                             <p>Flags the given messages as read</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    bool
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setFlag">setFlag</a>(
-    string $messageList, 
-    string $flag)
+                    <a href="#method_setFlag">setFlag</a>(string $messageList, string $flag)
                                             <p>Sets the given flag on the given messages</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getUnreadMessages">getUnreadMessages</a>(
-    bool $markAsRead = false)
+                    <a href="#method_getUnreadMessages">getUnreadMessages</a>(bool $markAsRead = false)
                                             <p>Returns all unread messages</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_searchMessages">searchMessages</a>($criteria, $searches = null, 
-    int $sortBy = SORTDATE, $reverse = true, 
-    int $messageOptions, 
-    bool $headersOnly = false)
+                    <a href="#method_searchMessages">searchMessages</a>(string $criteria, string|array $searches = null, int $sortBy = SORTDATE, bool $reverse = true, int $messageOptions, bool $headersOnly = false)
                                             <p>Search for a message by the given criteria</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessage">getMessage</a>($messageNo, $options, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessage">getMessage</a>(int $messageNo, int $options, bool $headersOnly = false)
                                             <p>Gets the message by the given message number.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    object
+                    object
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_fetchStructure">fetchStructure</a>(
-    int $messageNo)
-                                            <p>Fetches the structure of the E-mail (see: http://php.net/manual/en/function.imap-fetchstructure.php)</p>                </div>
+                    <a href="#method_fetchStructure">fetchStructure</a>(int $messageNo)
+                                            <p>Fetches the structure of the E-mail (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_fetchBodyParts">fetchBodyParts</a>(
-    array $structure)
-                                            <p>Returns an array of BodyParts (see ImapBodyParts) . The array is broken down into sections, so all parts from section 1
-will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.</p>                </div>
+                    <a href="#method_fetchBodyParts">fetchBodyParts</a>(array $structure)
+                                            <p>Returns an array of BodyParts . The array is broken down into sections, so all parts from section 1
+will be at index 0 (<code>$bodyParts[0]</code>), part 2 at index 1 (<code>$bodyParts[0]</code>) etc.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    string
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_fetchBody">fetchBody</a>($messageNo, $part, $options)
-                                            <p>Fetches the given body part (see: http://php.net/manual/en/function.imap-fetchbody.php)</p>                </div>
+                                            <p>Fetches the given body part (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getAttachments">getAttachments</a>(
-    int $messageNo)
+                    <a href="#method_getAttachments">getAttachments</a>(int $messageNo)
                                             <p>TODO This needs to be changed so an array of Attachment objects are returned
 Get the E-mail attachment details for the given message number</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    void
+                    void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getEmbeddedImages">getEmbeddedImages</a>(
-    <abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr> $message, $path = &#039;&#039;)
+                    <a href="#method_getEmbeddedImages">getEmbeddedImages</a>(<abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr> $message, $path = &#039;&#039;)
                                             <p>TODO implement the replace function so it works for non cid messages
 Gets the embedded images for the given messages and alters the body accordingly
 Important: This function downloads images to the given path and places them inside an /embedded/{messageNo} folder</p>                </div>
@@ -251,253 +220,169 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    void
+                    void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_downloadAttachments">downloadAttachments</a>(
-    int $messageNo, 
-    array $filenames = array(), 
-    string $path = &#039;&#039;)
+                    <a href="#method_downloadAttachments">downloadAttachments</a>(int $messageNo, array $filenames = array(), string $path = &#039;&#039;)
                                             <p>Download the attachments for the given message number</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getReadMessages">getReadMessages</a>(
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getReadMessages">getReadMessages</a>(int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Returns all messages marked as read/seen</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    bool
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_flagAsImportant">flagAsImportant</a>(
-    string $messageList)
+                    <a href="#method_flagAsImportant">flagAsImportant</a>(string $messageList)
                                             <p>Flags the given messages as important</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getImportantMessages">getImportantMessages</a>(
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getImportantMessages">getImportantMessages</a>(bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Returns all messages flagged as important (i.e. FLAGGED)</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    bool
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_flagAsAnswered">flagAsAnswered</a>(
-    string $messageList)
+                    <a href="#method_flagAsAnswered">flagAsAnswered</a>(string $messageList)
                                             <p>Flags the given messages as answered</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getAnsweredMessages">getAnsweredMessages</a>(
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getAnsweredMessages">getAnsweredMessages</a>(bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Returns all messages flagged as important (i.e. FLAGGED)</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getUnansweredMessages">getUnansweredMessages</a>(
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getUnansweredMessages">getUnansweredMessages</a>(bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Returns all messages flagged as unanswered (i.e. FLAGGED)</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getAllFolders">getAllFolders</a>($currentFolder = false)
+                    <a href="#method_getAllFolders">getAllFolders</a>(bool|<abbr title="Humps\MailManager\false">false</abbr> $currentFolder = false)
                                             <p>Returns all the folders for the given mailbox</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesBySender">getMessagesBySender</a>($sender, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesBySender">getMessagesBySender</a>(string $sender, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets all messages for the given sender</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesBySubject">getMessagesBySubject</a>(
-    string $subject, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesBySubject">getMessagesBySubject</a>(string $subject, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets messages by subject</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesByCC">getMessagesByCC</a>(
-    string $cc, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesByCC">getMessagesByCC</a>(string $cc, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets the messages by CC</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesByBCC">getMessagesByBCC</a>(
-    string $bcc, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesByBCC">getMessagesByBCC</a>(string $bcc, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets the messages by BCC</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesByReceiver">getMessagesByReceiver</a>(
-    string $to, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesByReceiver">getMessagesByReceiver</a>(string $to, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets the messages by the to field</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesByDate">getMessagesByDate</a>(
-    string $date, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesByDate">getMessagesByDate</a>(string $date, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets the messages sent on the specified date</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesBefore">getMessagesBefore</a>(
-    string $date, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesBefore">getMessagesBefore</a>(string $date, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets the messages sent before the specified date</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesBetween">getMessagesBetween</a>(
-    string $from, 
-    string $to, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesBetween">getMessagesBetween</a>(string $from, string $to, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets the messages sent between the specified dates</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessagesAfter">getMessagesAfter</a>(
-    string $date, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)
+                    <a href="#method_getMessagesAfter">getMessagesAfter</a>(string $date, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)
                                             <p>Gets the messages sent after the specified date</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
+                    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessageByUid">getMessageByUid</a>($uid)
+                    <a href="#method_getMessageByUid">getMessageByUid</a>(string $uid)
                                             <p>Get the message by the unique identifier</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getAllMessages">getAllMessages</a>($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
@@ -506,8 +391,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    int
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getMessageCount">getMessageCount</a>()
@@ -516,8 +400,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    string
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getMailboxName">getMailboxName</a>()
@@ -526,8 +409,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    string
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getFolderName">getFolderName</a>()
@@ -536,8 +418,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    int
+                    int
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getUnreadMessageCount">getUnreadMessageCount</a>()
@@ -546,8 +427,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    bool|<abbr title="Humps\MailManager\Contracts\false">false</abbr>|resource
+                    resource
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getConnection">getConnection</a>()
@@ -556,8 +436,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    <a href="../../Humps/MailManager/Mailbox.html"><abbr title="Humps\MailManager\Mailbox">Mailbox</abbr></a>
+                    <a href="../../Humps/MailManager/Mailbox.html"><abbr title="Humps\MailManager\Mailbox">Mailbox</abbr></a>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getMailbox">getMailbox</a>()
@@ -566,29 +445,25 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_emptyTrash">emptyTrash</a>($folder = &#039;trash&#039;)
+                    <a href="#method_emptyTrash">emptyTrash</a>(string $folder = &#039;trash&#039;)
                                             <p>Deletes all messages from the trash folder</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_deleteAllMessages">deleteAllMessages</a>(
-    string $folder)
+                    <a href="#method_deleteAllMessages">deleteAllMessages</a>(string $folder)
                                             <p>Deletes all messages from the given folder</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    bool
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_openFolder">openFolder</a>($folder)
@@ -597,8 +472,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    bool
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_refresh">refresh</a>()
@@ -607,32 +481,28 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_deleteMessages">deleteMessages</a>($messageList)
+                    <a href="#method_deleteMessages">deleteMessages</a>(string $messageList)
                                             <p>Deletes the given message from the mailbox</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_moveToTrash">moveToTrash</a>($messageList, $folder = &#039;trash&#039;)
+                    <a href="#method_moveToTrash">moveToTrash</a>(string $messageList, string $folder = &#039;trash&#039;)
                                             <p>Moves the given messages to the trash folder</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_closeConnection">closeConnection</a>(
-    bool $deleteFlaggedEmails = true)
+                    <a href="#method_closeConnection">closeConnection</a>(bool $deleteFlaggedEmails = true)
                                             <p>Closes the connection to the mail server</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -646,10 +516,7 @@ Important: This function downloads images to the given path and places them insi
                     <h3 id="method___construct">
         <div class="location">at line 27</div>
         <code>                    
-    
-    <strong>__construct</strong>(
-    string $folder = &#039;INBOX&#039;, 
-    string $configFile = &#039;imap_config.php&#039;)</code>
+    <strong>__construct</strong>(string $folder = &#039;INBOX&#039;, string $configFile = &#039;imap_config.php&#039;)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -659,14 +526,12 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$folder</td>
                 <td>The name of the mailbox folder to open (defaults to 'INBOX')</td>
             </tr>
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$configFile</td>
                 <td>The path to the config file (defaults to 'imap_config.php' in current dir)</td>
             </tr>
@@ -692,10 +557,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_setOutputEncoding">
         <div class="location">at line 51</div>
-        <code>                    
-    void
-    <strong>setOutputEncoding</strong>(
-    string $encoding)</code>
+        <code>                    void
+    <strong>setOutputEncoding</strong>(string $encoding)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -706,10 +569,9 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$encoding</td>
-                <td>The encoding (see: http://php.net/manual/en/mbstring.supported-encodings.php)</td>
+                <td>The encoding (see: <a href="http://php.net/manual/en/mbstring.supported-encodings.php">http://php.net/manual/en/mbstring.supported-encodings.php</a>)</td>
             </tr>
             </table>
 
@@ -718,8 +580,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    void</td>
+            <td>void</td>
             <td>
 </td>
         </tr>
@@ -734,10 +595,8 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_getMessageList">
         <div class="location">at line 120</div>
-        <code>        static            
-    string
-    <strong>getMessageList</strong>(
-    array $messages)</code>
+        <code>        static            string
+    <strong>getMessageList</strong>(array $messages)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -747,8 +606,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    array</td>
+                <td>array</td>
                 <td>$messages</td>
                 <td>An array of Message objects.</td>
             </tr>
@@ -759,8 +617,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
+            <td>string</td>
             <td>The message list.</td>
         </tr>
     </table>
@@ -784,10 +641,8 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_getMessageNumbers">
         <div class="location">at line 131</div>
-        <code>        static            
-    array
-    <strong>getMessageNumbers</strong>(
-    array $messages)</code>
+        <code>        static            array
+    <strong>getMessageNumbers</strong>(array $messages)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -797,13 +652,9 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    array</td>
+                <td>array</td>
                 <td>$messages</td>
-                <td><ul>
-<li>Expects an array of Message objects</li>
-</ul>
-</td>
+                <td>An array of Message objects</td>
             </tr>
             </table>
 
@@ -812,8 +663,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>
 </td>
         </tr>
@@ -838,10 +688,8 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_flagAsRead">
         <div class="location">at line 152</div>
-        <code>                    
-    bool
-    <strong>flagAsRead</strong>(
-    string $messageList)</code>
+        <code>                    bool
+    <strong>flagAsRead</strong>(string $messageList)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -851,10 +699,9 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$messageList</td>
-                <td>A comma delimited list of message numbers (see: getMessageList())</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
             </tr>
             </table>
 
@@ -863,8 +710,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    bool</td>
+            <td>bool</td>
             <td>
 </td>
         </tr>
@@ -879,11 +725,8 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_setFlag">
         <div class="location">at line 163</div>
-        <code>                    
-    bool
-    <strong>setFlag</strong>(
-    string $messageList, 
-    string $flag)</code>
+        <code>                    bool
+    <strong>setFlag</strong>(string $messageList, string $flag)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -893,14 +736,12 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$messageList</td>
-                <td>A comma delimited list of message numbers (see: getMessageList())</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
             </tr>
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$flag</td>
                 <td>Either \Seen, \Answered, \Flagged, \Deleted, or \Draft</td>
             </tr>
@@ -911,8 +752,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    bool</td>
+            <td>bool</td>
             <td>
 </td>
         </tr>
@@ -927,10 +767,8 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_getUnreadMessages">
         <div class="location">at line 173</div>
-        <code>                    
-    array
-    <strong>getUnreadMessages</strong>(
-    bool $markAsRead = false)</code>
+        <code>                    array
+    <strong>getUnreadMessages</strong>(bool $markAsRead = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -940,8 +778,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$markAsRead</td>
                 <td>Marks the fetched messages as read when set to true</td>
             </tr>
@@ -952,8 +789,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>
 </td>
         </tr>
@@ -968,12 +804,8 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_searchMessages">
         <div class="location">at line 190</div>
-        <code>                    
-    array
-    <strong>searchMessages</strong>($criteria, $searches = null, 
-    int $sortBy = SORTDATE, $reverse = true, 
-    int $messageOptions, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>searchMessages</strong>(string $criteria, string|array $searches = null, int $sortBy = SORTDATE, bool $reverse = true, int $messageOptions, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -983,38 +815,32 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$criteria</td>
-                <td>
-</td>
+                <td>The search criteria (e.g. 'FROM' for 'from' email address). see imap_search criteria (<a href="http://php.net/manual/en/function.imap-search.php">http://php.net/manual/en/function.imap-search.php</a>)</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>string|array</td>
                 <td>$searches</td>
-                <td>
-</td>
+                <td>The search strings, can be passed as a single string, an array of search strings or null if no search string is required.</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>bool</td>
                 <td>$reverse</td>
-                <td>
-</td>
+                <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$messageOptions</td>
                 <td>Any options to pass through the imap<em>fetch</em>body (see: <a href="http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1025,10 +851,8 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
-            <td>
-</td>
+            <td>array</td>
+            <td>An array of Message objects</td>
         </tr>
     </table>
 
@@ -1041,10 +865,8 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_getMessage">
         <div class="location">at line 229</div>
-        <code>                    
-    
-    <strong>getMessage</strong>($messageNo, $options, 
-    bool $headersOnly = false)</code>
+        <code>                    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
+    <strong>getMessage</strong>(int $messageNo, int $options, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1054,26 +876,32 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$messageNo</td>
-                <td>
-</td>
+                <td>The message number</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$options</td>
-                <td>
-</td>
+                <td>Any options for fetchBody (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Only retrieve header information (essentially excludes fetching the body when set to true)</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a></td>
+            <td>The Message object!</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -1083,21 +911,18 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_fetchStructure">
         <div class="location">at line 290</div>
-        <code>                    
-    object
-    <strong>fetchStructure</strong>(
-    int $messageNo)</code>
+        <code>                    object
+    <strong>fetchStructure</strong>(int $messageNo)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Fetches the structure of the E-mail (see: http://php.net/manual/en/function.imap-fetchstructure.php)</p>                                </div>
+                                    <p>Fetches the structure of the E-mail (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$messageNo</td>
                 <td>The message number</td>
             </tr>
@@ -1108,8 +933,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    object</td>
+            <td>object</td>
             <td>| bool</td>
         </tr>
     </table>
@@ -1123,24 +947,21 @@ UTF-8, so this is only required when you want your output to use a different enc
                     <div class="method-item">
                     <h3 id="method_fetchBodyParts">
         <div class="location">at line 347</div>
-        <code>                    
-    array
-    <strong>fetchBodyParts</strong>(
-    array $structure)</code>
+        <code>                    array
+    <strong>fetchBodyParts</strong>(array $structure)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Returns an array of BodyParts (see ImapBodyParts) . The array is broken down into sections, so all parts from section 1
-will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.</p>                                </div>
+                                    <p>Returns an array of BodyParts . The array is broken down into sections, so all parts from section 1
+will be at index 0 (<code>$bodyParts[0]</code>), part 2 at index 1 (<code>$bodyParts[0]</code>) etc.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    array</td>
+                <td>array</td>
                 <td>$structure</td>
-                <td>The structure retrieved from getStructure();</td>
+                <td>The structure retrieved from <code>getStructure()</code>;</td>
             </tr>
             </table>
 
@@ -1149,9 +970,8 @@ will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.</p>  
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
-            <td>An array of BodyPart objects</td>
+            <td>array</td>
+            <td>An array of <a href="Contracts/BodyPart.html">BodyPart</a> object objects</td>
         </tr>
     </table>
 
@@ -1164,13 +984,12 @@ will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.</p>  
                     <div class="method-item">
                     <h3 id="method_fetchBody">
         <div class="location">at line 405</div>
-        <code>                    
-    string
+        <code>                    string
     <strong>fetchBody</strong>($messageNo, $part, $options)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Fetches the given body part (see: http://php.net/manual/en/function.imap-fetchbody.php)</p>                                </div>
+                                    <p>Fetches the given body part (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1200,8 +1019,7 @@ will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.</p>  
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -1216,10 +1034,8 @@ will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.</p>  
                     <div class="method-item">
                     <h3 id="method_getAttachments">
         <div class="location">at line 416</div>
-        <code>                    
-    array
-    <strong>getAttachments</strong>(
-    int $messageNo)</code>
+        <code>                    array
+    <strong>getAttachments</strong>(int $messageNo)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1230,8 +1046,7 @@ Get the E-mail attachment details for the given message number</p>              
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$messageNo</td>
                 <td>The message number</td>
             </tr>
@@ -1242,8 +1057,7 @@ Get the E-mail attachment details for the given message number</p>              
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>
 </td>
         </tr>
@@ -1258,10 +1072,8 @@ Get the E-mail attachment details for the given message number</p>              
                     <div class="method-item">
                     <h3 id="method_getEmbeddedImages">
         <div class="location">at line 446</div>
-        <code>                    
-    void
-    <strong>getEmbeddedImages</strong>(
-    <abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr> $message, $path = &#039;&#039;)</code>
+        <code>                    void
+    <strong>getEmbeddedImages</strong>(<abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr> $message, $path = &#039;&#039;)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1273,8 +1085,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    <abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr></td>
+                <td><abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr></td>
                 <td>$message</td>
                 <td>
 </td>
@@ -1292,8 +1103,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    void</td>
+            <td>void</td>
             <td>
 </td>
         </tr>
@@ -1308,12 +1118,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_downloadAttachments">
         <div class="location">at line 491</div>
-        <code>                    
-    void
-    <strong>downloadAttachments</strong>(
-    int $messageNo, 
-    array $filenames = array(), 
-    string $path = &#039;&#039;)</code>
+        <code>                    void
+    <strong>downloadAttachments</strong>(int $messageNo, array $filenames = array(), string $path = &#039;&#039;)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1323,20 +1129,17 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$messageNo</td>
                 <td>The number of the message</td>
             </tr>
                     <tr>
-                <td>
-    array</td>
+                <td>array</td>
                 <td>$filenames</td>
                 <td>An array of filenames you want to download. Leave empty if you want to download all files</td>
             </tr>
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$path</td>
                 <td>The download path</td>
             </tr>
@@ -1347,8 +1150,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    void</td>
+            <td>void</td>
             <td>
 </td>
         </tr>
@@ -1363,12 +1165,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getReadMessages">
         <div class="location">at line 538</div>
-        <code>                    
-    array
-    <strong>getReadMessages</strong>(
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getReadMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1378,20 +1176,17 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1402,8 +1197,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -1417,10 +1211,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_flagAsImportant">
         <div class="location">at line 548</div>
-        <code>                    
-    bool
-    <strong>flagAsImportant</strong>(
-    string $messageList)</code>
+        <code>                    bool
+    <strong>flagAsImportant</strong>(string $messageList)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1430,10 +1222,9 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$messageList</td>
-                <td>A comma delimited list of message numbers (see: getMessageList())</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
             </tr>
             </table>
 
@@ -1442,8 +1233,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    bool</td>
+            <td>bool</td>
             <td>
 </td>
         </tr>
@@ -1458,13 +1248,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getImportantMessages">
         <div class="location">at line 561</div>
-        <code>                    
-    array
-    <strong>getImportantMessages</strong>(
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getImportantMessages</strong>(bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1474,26 +1259,22 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1504,8 +1285,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -1519,10 +1299,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_flagAsAnswered">
         <div class="location">at line 571</div>
-        <code>                    
-    bool
-    <strong>flagAsAnswered</strong>(
-    string $messageList)</code>
+        <code>                    bool
+    <strong>flagAsAnswered</strong>(string $messageList)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1532,10 +1310,9 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$messageList</td>
-                <td>A comma delimited list of message numbers (see: getMessageList())</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
             </tr>
             </table>
 
@@ -1544,8 +1321,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    bool</td>
+            <td>bool</td>
             <td>
 </td>
         </tr>
@@ -1560,13 +1336,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getAnsweredMessages">
         <div class="location">at line 584</div>
-        <code>                    
-    array
-    <strong>getAnsweredMessages</strong>(
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getAnsweredMessages</strong>(bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1576,26 +1347,22 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1606,8 +1373,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -1621,13 +1387,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getUnansweredMessages">
         <div class="location">at line 597</div>
-        <code>                    
-    array
-    <strong>getUnansweredMessages</strong>(
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getUnansweredMessages</strong>(bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1637,26 +1398,22 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1667,8 +1424,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -1682,9 +1438,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getAllFolders">
         <div class="location">at line 607</div>
-        <code>                    
-    array
-    <strong>getAllFolders</strong>($currentFolder = false)</code>
+        <code>                    array
+    <strong>getAllFolders</strong>(bool|<abbr title="Humps\MailManager\false">false</abbr> $currentFolder = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1694,10 +1449,9 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$currentFolder</td>
-                <td>
-</td>
+                <td>Whether the folders should be retrieved from the current folder or entire mailbox</td>
             </tr>
             </table>
 
@@ -1706,10 +1460,8 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
-            <td>
-</td>
+            <td>array</td>
+            <td>an array of Folder objects.</td>
         </tr>
     </table>
 
@@ -1722,13 +1474,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesBySender">
         <div class="location">at line 636</div>
-        <code>                    
-    array
-    <strong>getMessagesBySender</strong>($sender, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesBySender</strong>(string $sender, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1738,32 +1485,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$sender</td>
-                <td>
-</td>
+                <td>The senders name or email address</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1774,10 +1516,8 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
-            <td>
-</td>
+            <td>array</td>
+            <td>An array of Message objects</td>
         </tr>
     </table>
 
@@ -1790,14 +1530,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesBySubject">
         <div class="location">at line 650</div>
-        <code>                    
-    array
-    <strong>getMessagesBySubject</strong>(
-    string $subject, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesBySubject</strong>(string $subject, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1807,32 +1541,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$subject</td>
                 <td>The subject to search for</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1843,8 +1572,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -1858,14 +1586,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesByCC">
         <div class="location">at line 664</div>
-        <code>                    
-    array
-    <strong>getMessagesByCC</strong>(
-    string $cc, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesByCC</strong>(string $cc, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1875,32 +1597,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$cc</td>
                 <td>The name or email to search the cc field for</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1911,8 +1628,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -1926,14 +1642,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesByBCC">
         <div class="location">at line 678</div>
-        <code>                    
-    array
-    <strong>getMessagesByBCC</strong>(
-    string $bcc, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesByBCC</strong>(string $bcc, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -1943,32 +1653,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$bcc</td>
                 <td>The name or email to search the bcc field for</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -1979,8 +1684,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -1994,14 +1698,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesByReceiver">
         <div class="location">at line 692</div>
-        <code>                    
-    array
-    <strong>getMessagesByReceiver</strong>(
-    string $to, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesByReceiver</strong>(string $to, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2011,32 +1709,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$to</td>
                 <td>The name or email to search the to field for</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -2047,8 +1740,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -2062,14 +1754,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesByDate">
         <div class="location">at line 706</div>
-        <code>                    
-    array
-    <strong>getMessagesByDate</strong>(
-    string $date, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesByDate</strong>(string $date, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2079,32 +1765,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$date</td>
-                <td>The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)</td>
+                <td>The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -2115,8 +1796,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -2130,14 +1810,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesBefore">
         <div class="location">at line 721</div>
-        <code>                    
-    array
-    <strong>getMessagesBefore</strong>(
-    string $date, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesBefore</strong>(string $date, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2147,32 +1821,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$date</td>
-                <td>The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)</td>
+                <td>The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -2183,8 +1852,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -2198,15 +1866,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesBetween">
         <div class="location">at line 738</div>
-        <code>                    
-    array
-    <strong>getMessagesBetween</strong>(
-    string $from, 
-    string $to, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesBetween</strong>(string $from, string $to, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2216,38 +1877,32 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$from</td>
-                <td>The from date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)</td>
+                <td>The from date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)</td>
             </tr>
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$to</td>
-                <td>The to date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)</td>
+                <td>The to date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -2258,8 +1913,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -2283,14 +1937,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessagesAfter">
         <div class="location">at line 769</div>
-        <code>                    
-    array
-    <strong>getMessagesAfter</strong>(
-    string $date, 
-    bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, 
-    int $sortBy = SORTDATE, 
-    bool $reverse = true, 
-    bool $headersOnly = false)</code>
+        <code>                    array
+    <strong>getMessagesAfter</strong>(string $date, bool|<abbr title="Humps\MailManager\false">false</abbr> $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2300,32 +1948,27 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$date</td>
-                <td>The date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: http://carbon.nesbot.com/docs/#api-instantiation)</td>
+                <td>The date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool|<abbr title="Humps\MailManager\false">false</abbr></td>
+                <td>bool|<abbr title="Humps\MailManager\false">false</abbr></td>
                 <td>$markAsRead</td>
                 <td>Set the fetched messages as read/seen</td>
             </tr>
                     <tr>
-                <td>
-    int</td>
+                <td>int</td>
                 <td>$sortBy</td>
-                <td>The criteria to sort by (see: http://php.net/manual/en/function.imap-sort.php)</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>Whether the sort should be in reverse order</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$headersOnly</td>
                 <td>Return headers only, don't fetch the message body.</td>
             </tr>
@@ -2336,8 +1979,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>An array of Message objects</td>
         </tr>
     </table>
@@ -2351,9 +1993,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessageByUid">
         <div class="location">at line 780</div>
-        <code>                    
-    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
-    <strong>getMessageByUid</strong>($uid)</code>
+        <code>                    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
+    <strong>getMessageByUid</strong>(string $uid)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2363,10 +2004,9 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$uid</td>
-                <td>
-</td>
+                <td>the unique identifier</td>
             </tr>
             </table>
 
@@ -2375,10 +2015,8 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a></td>
-            <td>
-</td>
+            <td><a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a></td>
+            <td>the message</td>
         </tr>
     </table>
 
@@ -2391,8 +2029,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getAllMessages">
         <div class="location">at line 791</div>
-        <code>                    
-    array
+        <code>                    array
     <strong>getAllMessages</strong>($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)</code>
     </h3>
     <div class="details">
@@ -2433,8 +2070,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
+            <td>array</td>
             <td>
 </td>
         </tr>
@@ -2449,8 +2085,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMessageCount">
         <div class="location">at line 800</div>
-        <code>                    
-    
+        <code>                    int
     <strong>getMessageCount</strong>()</code>
     </h3>
     <div class="details">
@@ -2458,6 +2093,16 @@ Important: This function downloads images to the given path and places them insi
                                     <p>Returns the number of messages in the mailbox</p>                                </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -2467,8 +2112,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMailboxName">
         <div class="location">at line 809</div>
-        <code>                    
-    string
+        <code>                    string
     <strong>getMailboxName</strong>()</code>
     </h3>
     <div class="details">
@@ -2480,8 +2124,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -2496,8 +2139,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getFolderName">
         <div class="location">at line 818</div>
-        <code>                    
-    string
+        <code>                    string
     <strong>getFolderName</strong>()</code>
     </h3>
     <div class="details">
@@ -2509,8 +2151,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -2525,8 +2166,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getUnreadMessageCount">
         <div class="location">at line 842</div>
-        <code>                    
-    int
+        <code>                    int
     <strong>getUnreadMessageCount</strong>()</code>
     </h3>
     <div class="details">
@@ -2538,8 +2178,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    int</td>
+            <td>int</td>
             <td>
 </td>
         </tr>
@@ -2554,8 +2193,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getConnection">
         <div class="location">at line 852</div>
-        <code>                    
-    bool|<abbr title="Humps\MailManager\Contracts\false">false</abbr>|resource
+        <code>                    resource
     <strong>getConnection</strong>()</code>
     </h3>
     <div class="details">
@@ -2567,8 +2205,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    bool|<abbr title="Humps\MailManager\Contracts\false">false</abbr>|resource</td>
+            <td>resource</td>
             <td>
 </td>
         </tr>
@@ -2583,8 +2220,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_getMailbox">
         <div class="location">at line 861</div>
-        <code>                    
-    <a href="../../Humps/MailManager/Mailbox.html"><abbr title="Humps\MailManager\Mailbox">Mailbox</abbr></a>
+        <code>                    <a href="../../Humps/MailManager/Mailbox.html"><abbr title="Humps\MailManager\Mailbox">Mailbox</abbr></a>
     <strong>getMailbox</strong>()</code>
     </h3>
     <div class="details">
@@ -2596,8 +2232,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    <a href="../../Humps/MailManager/Mailbox.html"><abbr title="Humps\MailManager\Mailbox">Mailbox</abbr></a></td>
+            <td><a href="../../Humps/MailManager/Mailbox.html"><abbr title="Humps\MailManager\Mailbox">Mailbox</abbr></a></td>
             <td>
 </td>
         </tr>
@@ -2612,9 +2247,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_emptyTrash">
         <div class="location">at line 872</div>
-        <code>                    
-    
-    <strong>emptyTrash</strong>($folder = &#039;trash&#039;)</code>
+        <code>                    void
+    <strong>emptyTrash</strong>(string $folder = &#039;trash&#039;)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2624,7 +2258,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$folder</td>
                 <td>
 </td>
@@ -2632,6 +2266,16 @@ Important: This function downloads images to the given path and places them insi
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
                             <h4>Exceptions</h4>
 
@@ -2651,10 +2295,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_deleteAllMessages">
         <div class="location">at line 894</div>
-        <code>                    
-    
-    <strong>deleteAllMessages</strong>(
-    string $folder)</code>
+        <code>                    bool
+    <strong>deleteAllMessages</strong>(string $folder)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2664,15 +2306,23 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$folder</td>
-                <td>
-</td>
+                <td>The folder name</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
                             <h4>Exceptions</h4>
 
@@ -2692,8 +2342,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_openFolder">
         <div class="location">at line 908</div>
-        <code>                    
-    
+        <code>                    bool
     <strong>openFolder</strong>($folder)</code>
     </h3>
     <div class="details">
@@ -2712,6 +2361,16 @@ Important: This function downloads images to the given path and places them insi
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -2721,8 +2380,7 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_refresh">
         <div class="location">at line 923</div>
-        <code>                    
-    
+        <code>                    bool
     <strong>refresh</strong>()</code>
     </h3>
     <div class="details">
@@ -2730,6 +2388,16 @@ Important: This function downloads images to the given path and places them insi
                                     <p>Resets/Refreshes the connection to the mail server</p>                                </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -2739,9 +2407,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_deleteMessages">
         <div class="location">at line 933</div>
-        <code>                    
-    
-    <strong>deleteMessages</strong>($messageList)</code>
+        <code>                    bool
+    <strong>deleteMessages</strong>(string $messageList)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2751,14 +2418,23 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$messageList</td>
-                <td>
-</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -2768,9 +2444,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_moveToTrash">
         <div class="location">at line 948</div>
-        <code>                    
-    
-    <strong>moveToTrash</strong>($messageList, $folder = &#039;trash&#039;)</code>
+        <code>                    void
+    <strong>moveToTrash</strong>(string $messageList, string $folder = &#039;trash&#039;)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2780,20 +2455,28 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$messageList</td>
-                <td>
-</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$folder</td>
-                <td>
-</td>
+                <td>The name of the folder or it's alias</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -2803,10 +2486,8 @@ Important: This function downloads images to the given path and places them insi
                     <div class="method-item">
                     <h3 id="method_closeConnection">
         <div class="location">at line 960</div>
-        <code>                    
-    
-    <strong>closeConnection</strong>(
-    bool $deleteFlaggedEmails = true)</code>
+        <code>                    bool
+    <strong>closeConnection</strong>(bool $deleteFlaggedEmails = true)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -2816,14 +2497,23 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$deleteFlaggedEmails</td>
                 <td>If set to true all emails flagged for deletion will be removed</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
