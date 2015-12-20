@@ -99,7 +99,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getMessageNo">getMessageNo</a>()
@@ -108,20 +108,20 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getSubject">getSubject</a>()
-                                            <p>Returns the subject of the E-mail</p>                </div>
+                                            <p>Returns the subject</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    array|string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getFrom">getFrom</a>(bool|<abbr title="Humps\MailManager\Contracts\true">true</abbr> $asString = true)
-                                            <p>Return the from addresses or an array of from addresses if $asString is false</p>                </div>
+                    <a href="#method_getFrom">getFrom</a>(bool $asString = true)
+                                            <p>Returns the from email(s)</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -130,7 +130,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getCC">getCC</a>()
-                                            <p>Return an array of CC addresses</p>                </div>
+                                            <p>Returns the CC Email addresses</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -139,7 +139,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getTo">getTo</a>()
-                                            <p>Returns an array of to addresses</p>                </div>
+                                            <p>Returns the To Email addresses</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -147,26 +147,26 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setHtmlBody">setHtmlBody</a>($body)
-                                            <p>Sets the body of the message</p>                </div>
+                    <a href="#method_setHtmlBody">setHtmlBody</a>(string $body)
+                                            <p>Sets the HTML body of the Email</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getTextBody">getTextBody</a>()
-                                            <p>Returns the body of the message</p>                </div>
+                                            <p>Returns the text body of the Email</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getHtmlBody">getHtmlBody</a>()
-                                            <p>Returns the body of the message</p>                </div>
+                                            <p>Returns the HTML body of the Email</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -174,8 +174,8 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setTextBody">setTextBody</a>($body)
-                                            <p>Sets the body of the message</p>                </div>
+                    <a href="#method_setTextBody">setTextBody</a>(string $body)
+                                            <p>Sets the plain text body of the Email</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -190,11 +190,11 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    float
+                    mixed
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getSize">getSize</a>()
-                                            <p>returns the size of the message</p>                </div>
+                                            <p>Returns the size of the Email in kb</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -208,20 +208,11 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getRawDate">getRawDate</a>()
-                                            <p>The raw date as returned from the server</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getHeaderDate">getHeaderDate</a>()
-                                            <p>Any header date as returned from the server, usually same as getRawDate().</p>                </div>
+                                            <p>The date as supplied in the MailDate header</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -230,7 +221,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_setAttachments">setAttachments</a>($attachments)
-                                            <p>Sets the attachments</p>                </div>
+                                            <p>Sets the attachments for the Email</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -239,7 +230,17 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getAttachments">getAttachments</a>()
-                                            <p>Returns an array of attachments</p>                </div>
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessage">getMessage</a>()
+                                            <p>The original response from the mail server</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -247,23 +248,13 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMessage">getMessage</a>()
-                                            <p>Get the entire message</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
                     <a href="#method_isUnread">isUnread</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>If the Email has been read or not</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method___toString">__toString</a>()
@@ -305,8 +296,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageNo">
-        <div class="location">at line 18</div>
-        <code>                    mixed
+        <div class="location">at line 22</div>
+        <code>                    string
     <strong>getMessageNo</strong>()</code>
     </h3>
     <div class="details">
@@ -318,7 +309,7 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -332,20 +323,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getSubject">
-        <div class="location">at line 24</div>
-        <code>                    mixed
+        <div class="location">at line 32</div>
+        <code>                    string
     <strong>getSubject</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Returns the subject of the E-mail</p>                                </div>
+                                    <p>Returns the subject</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -359,22 +350,21 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFrom">
-        <div class="location">at line 29</div>
-        <code>                    mixed
-    <strong>getFrom</strong>(bool|<abbr title="Humps\MailManager\Contracts\true">true</abbr> $asString = true)</code>
+        <div class="location">at line 42</div>
+        <code>                    array|string
+    <strong>getFrom</strong>(bool $asString = true)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Return the from addresses or an array of from addresses if $asString is false</p>                                </div>
+                                    <p>Returns the from email(s)</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>bool|<abbr title="Humps\MailManager\Contracts\true">true</abbr></td>
+                <td>bool</td>
                 <td>$asString</td>
-                <td>
-</td>
+                <td>Pass as false if you want to return addresses as an array of EmailAddress objects</td>
             </tr>
             </table>
 
@@ -383,7 +373,7 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>array|string</td>
             <td>
 </td>
         </tr>
@@ -397,13 +387,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getCC">
-        <div class="location">at line 44</div>
+        <div class="location">at line 61</div>
         <code>                    array
     <strong>getCC</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Return an array of CC addresses</p>                                </div>
+                                    <p>Returns the CC Email addresses</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -411,8 +401,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>array</td>
-            <td>
-</td>
+            <td>An array of EmailAddress objects</td>
         </tr>
     </table>
 
@@ -424,13 +413,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTo">
-        <div class="location">at line 55</div>
+        <div class="location">at line 76</div>
         <code>                    array
     <strong>getTo</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Returns an array of to addresses</p>                                </div>
+                                    <p>Returns the To Email addresses</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -438,8 +427,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>array</td>
-            <td>
-</td>
+            <td>An array of EmailAddress objects</td>
         </tr>
     </table>
 
@@ -451,22 +439,21 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setHtmlBody">
-        <div class="location">at line 65</div>
+        <div class="location">at line 90</div>
         <code>                    mixed
-    <strong>setHtmlBody</strong>($body)</code>
+    <strong>setHtmlBody</strong>(string $body)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Sets the body of the message</p>                                </div>
+                                    <p>Sets the HTML body of the Email</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$body</td>
-                <td>
-</td>
+                <td>the HTML body of the Email</td>
             </tr>
             </table>
 
@@ -489,20 +476,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTextBody">
-        <div class="location">at line 70</div>
-        <code>                    mixed
+        <div class="location">at line 99</div>
+        <code>                    string
     <strong>getTextBody</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Returns the body of the message</p>                                </div>
+                                    <p>Returns the text body of the Email</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -516,20 +503,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHtmlBody">
-        <div class="location">at line 75</div>
-        <code>                    mixed
+        <div class="location">at line 108</div>
+        <code>                    string
     <strong>getHtmlBody</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Returns the body of the message</p>                                </div>
+                                    <p>Returns the HTML body of the Email</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -543,22 +530,21 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setTextBody">
-        <div class="location">at line 82</div>
+        <div class="location">at line 119</div>
         <code>                    mixed
-    <strong>setTextBody</strong>($body)</code>
+    <strong>setTextBody</strong>(string $body)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Sets the body of the message</p>                                </div>
+                                    <p>Sets the plain text body of the Email</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$body</td>
-                <td>
-</td>
+                <td>the PLAIN body of the Email</td>
             </tr>
             </table>
 
@@ -581,7 +567,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setInlineAttachments">
-        <div class="location">at line 87</div>
+        <div class="location">at line 127</div>
         <code>                    
     <strong>setInlineAttachments</strong>()</code>
     </h3>
@@ -596,20 +582,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getSize">
-        <div class="location">at line 92</div>
-        <code>                    float
+        <div class="location">at line 136</div>
+        <code>                    mixed
     <strong>getSize</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>returns the size of the message</p>                                </div>
+                                    <p>Returns the size of the Email in kb</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>float</td>
+            <td>mixed</td>
             <td>
 </td>
         </tr>
@@ -623,7 +609,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getDate">
-        <div class="location">at line 101</div>
+        <div class="location">at line 145</div>
         <code>                    <abbr title="Carbon\Carbon">Carbon</abbr>
     <strong>getDate</strong>()</code>
     </h3>
@@ -637,8 +623,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><abbr title="Carbon\Carbon">Carbon</abbr></td>
-            <td>
-</td>
+            <td>The date as a Carbon object (see: <a href="http://carbon.nesbot.com/">http://carbon.nesbot.com/</a>)</td>
         </tr>
     </table>
 
@@ -650,47 +635,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getRawDate">
-        <div class="location">at line 106</div>
-        <code>                    mixed
+        <div class="location">at line 154</div>
+        <code>                    string
     <strong>getRawDate</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>The raw date as returned from the server</p>                                </div>
+                                    <p>The date as supplied in the MailDate header</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getHeaderDate">
-        <div class="location">at line 111</div>
-        <code>                    mixed
-    <strong>getHeaderDate</strong>()</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Any header date as returned from the server, usually same as getRawDate().</p>                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -704,13 +662,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setAttachments">
-        <div class="location">at line 116</div>
+        <div class="location">at line 164</div>
         <code>                    
     <strong>setAttachments</strong>($attachments)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Sets the attachments</p>                                </div>
+                                    <p>Sets the attachments for the Email</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -732,13 +690,11 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getAttachments">
-        <div class="location">at line 121</div>
+        <div class="location">at line 172</div>
         <code>                    array
     <strong>getAttachments</strong>()</code>
     </h3>
     <div class="details">
-                    <div class="method-description">
-                                    <p>Returns an array of attachments</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -759,13 +715,40 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessage">
-        <div class="location">at line 126</div>
-        <code>                    mixed
+        <div class="location">at line 181</div>
+        <code>                    array
     <strong>getMessage</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Get the entire message</p>                                </div>
+                                    <p>The original response from the mail server</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isUnread">
+        <div class="location">at line 241</div>
+        <code>                    mixed
+    <strong>isUnread</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>If the Email has been read or not</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -785,29 +768,24 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_isUnread">
-        <div class="location">at line 180</div>
-        <code>                    
-    <strong>isUnread</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at line 185</div>
-        <code>                    
+        <div class="location">at line 249</div>
+        <code>                    string
     <strong>__toString</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>

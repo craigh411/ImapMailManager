@@ -4,7 +4,9 @@
 namespace Humps\MailManager;
 
 
-class EmailAddress
+use Humps\MailManager\Collections\Collectable;
+
+class EmailAddress implements Collectable
 {
 
     protected $mailbox;

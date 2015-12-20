@@ -101,7 +101,7 @@ $folders = $mailManager->getAllFolders();
                     ?>
                     <tr>
                         <td><?= htmlspecialchars($message->getFrom()) ?></td>
-                        <td class="<?= ($message->isUnread()) ? 'unread' : '' ?>">
+                        <td class="<?= (true) ? 'unread' : '' ?>">
                             <a href="showMessage.php?mid=<?= $message->getMessageNo() ?>&folder=<?=$mailManager->getFolderName()?>"><?= $message->getSubject() ?></a>
                         </td>
                         <td><?= $message->getDate()->diffForHumans(); ?></td>

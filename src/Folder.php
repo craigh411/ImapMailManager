@@ -4,7 +4,9 @@
 namespace Humps\MailManager;
 
 
-class Folder
+use Humps\MailManager\Collections\Collectable;
+
+class Folder implements Collectable
 {
     private $folder;
 

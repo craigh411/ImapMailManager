@@ -5,8 +5,11 @@ namespace Humps\MailManager;
 
 use Carbon\Carbon;
 use Exception;
+use Humps\MailManager\Collections\FolderCollection;
 use Humps\MailManager\Contracts\MailManager;
 use Humps\MailManager\Contracts\Message;
+use Humps\MailManager\Factories\MailboxFactory;
+use Humps\MailManager\Factories\ImapMessageFactory as MessageFactory;
 
 class ImapMailManager implements MailManager
 {
@@ -40,17 +43,6 @@ class ImapMailManager implements MailManager
         } catch (Exception $e) {
             throw $e;
         }
-    }
-
-    /**
-     * Sets the output encoding to the given encoding. By default the output encoding is
-     * UTF-8, so this is only required when you want your output to use a different encoding.
-     * @param string $encoding The encoding (see: <a href="http://php.net/manual/en/mbstring.supported-encodings.php">http://php.net/manual/en/mbstring.supported-encodings.php</a>)
-     * @return void
-     */
-    public function setOutputEncoding($encoding)
-    {
-        $this->outputEncoding = $encoding;
     }
 
     /**
@@ -112,67 +104,246 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Returns a comma delimited message list from the given array.
-     * @param array $messages An array of Message objects.
-     * @return string The message list.
-     * @throws Exception
+     * Gets the message by the given message number.
+     * @param int $messageNo The message number
+     * @param int $options Any options for fetchBody (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)
+     * @param bool $headersOnly Only retrieve header information (essentially excludes fetching the body when set to true)
+     * @return Message The Message object!
      */
-    public static function getMessageList(array $messages)
+    public function getMessage($messageNo, $options = 0, $headersOnly = false)
     {
-        return implode(',', self::getMessageNumbers($messages));
-    }
+        $headers = imap_headerinfo($this->connection, $messageNo);
+        $message = MessageFactory::create($headers);
 
-    /**
-     * Returns an array of message numbers for the given messages.
-     * @param array $messages An array of Message objects
-     * @return array
-     * @throws Exception
-     */
-    public static function getMessageNumbers(array $messages)
-    {
-        $messageNos = [];
-        if (count($messages)) {
-            foreach ($messages as $message) {
-                if ($message instanceof Message) {
-                    $messageNos[] = $message->getMessageNo();
-                } else {
-                    throw new Exception('array of Message objects expected. ' . get_class($message) . ' Received');
-                }
-            }
+        if (!$headersOnly) {
+            $this->setMessageBody($message, $options);
         }
-        return $messageNos;
-    }
 
+        $message->setAttachments($this->getAttachments($messageNo));
+        $this->getEmbeddedImages($message);
 
-    /**
-     * Flags the given messages as read
-     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
-     * @return bool
-     */
-    public function flagAsRead($messageList)
-    {
-        return $this->setFlag($messageList, '\Seen');
+        return $message;
     }
 
     /**
-     * Sets the given flag on the given messages
-     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
-     * @param string $flag Either \Seen, \Answered, \Flagged, \Deleted, or \Draft
-     * @return bool
+     * Returns all messages for the given mailbox
+     * @param bool $markAsRead
+     * @return array An array of Message objects
      */
-    public function setFlag($messageList, $flag)
+    public function getAllMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return imap_setflag_full($this->connection, $messageList, $flag);
+        return $this->searchMessages('ALL', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
      * Returns all unread messages
      * @param bool $markAsRead Marks the fetched messages as read when set to true
-     * @return array
+     * @return array An array of Message objects
      */
     public function getUnreadMessages($markAsRead = false)
     {
         return $this->searchMessages('UNSEEN', null, SORTDATE, true, $this->isMarkAsRead($markAsRead));
+    }
+
+    /**
+     * Gets all messages for the given sender
+     * @param string $sender The senders name or email address
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesBySender($sender, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('FROM', $sender, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets messages by subject
+     * @param string $subject The subject to search for
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesBySubject($subject, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('SUBJECT', $subject, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets the messages by CC
+     * @param string $cc The name or email to search the cc field for
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesByCC($cc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('CC', $cc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets the messages by BCC
+     * @param string $bcc The name or email to search the bcc field for
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesByBCC($bcc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('BCC', $bcc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets the messages by the to field
+     * @param string $to The name or email to search the to field for
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesByReceiver($to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('to', $to, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets the messages sent on the specified date
+     * @param string $date The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesByDate($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        $date = Carbon::parse($date)->format('d-M-Y');
+        return $this->searchMessages('ON', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets the messages sent before the specified date
+     * @param string $date The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesBefore($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        $date = Carbon::parse($date)->format('d-M-Y');
+        return $this->searchMessages('before', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Gets the messages sent between the specified dates
+     * @param string $from The from date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
+     * @param string $to The to date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     * @throws Exception
+     */
+    public function getMessagesBetween($from, $to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        $fromTS = Carbon::parse($from)->timestamp;
+        $to = Carbon::parse($to)->addDays(1)->timestamp;
+
+        if ($fromTS > $to) {
+            throw new Exception('Invalid Date Range');
+        }
+
+        // Get all messages before the upper date range
+        $messages = $this->getMessagesAfter($from, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $filtered = [];
+        foreach ($messages as $message) {
+            $date = $message->getDate();
+            if ($date->timestamp <= $to) {
+                $filtered[] = $message;
+            }
+        }
+
+        return $filtered;
+    }
+
+    /**
+     * Gets the messages sent after the specified date
+     * @param string $date The date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getMessagesAfter($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        $date = Carbon::parse($date)->format('d-M-Y');
+        return $this->searchMessages('since', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Returns all messages marked as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getReadMessages($sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('SEEN', $sortBy, SORTDATE, $reverse, 0, $headersOnly);
+    }
+
+
+    /**
+     * Returns all messages flagged as important (i.e. FLAGGED)
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getImportantMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('FLAGGED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+
+    /**
+     * Returns all messages flagged as answered
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getAnsweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('ANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+    }
+
+    /**
+     * Returns all messages flagged as unanswered
+     * @param bool $markAsRead Set the fetched messages as read/seen
+     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
+     * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $headersOnly Return headers only, don't fetch the message body.
+     * @return array An array of Message objects
+     */
+    public function getUnansweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
+    {
+        return $this->searchMessages('UNANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -220,26 +391,88 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * Gets the message by the given message number.
-     * @param int $messageNo The message number
-     * @param int $options Any options for fetchBody (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)
-     * @param bool $headersOnly Only retrieve header information (essentially excludes fetching the body when set to true)
-     * @return Message The Message object!
+     * Get the message by the unique identifier
+     * @param string $uid the unique identifier
+     * @return Message the message
      */
-    public function getMessage($messageNo, $options = 0, $headersOnly = false)
+    public function getMessageByUid($uid)
     {
-        $message = new ImapMessage(imap_headerinfo($this->connection, $messageNo));
-
-        if (!$headersOnly) {
-            $this->setMessageBody($message, $options);
-        }
-
-        $message->setAttachments($this->getAttachments($messageNo));
-        $this->getEmbeddedImages($message);
-
-        return $message;
+        return $this->getMessage(imap_msgno($this->connection, $uid));
     }
 
+    /**
+     * Returns a comma delimited message list from the given array.
+     * @param array $messages An array of Message objects.
+     * @return string The message list.
+     * @throws Exception
+     */
+    public static function getMessageList(array $messages)
+    {
+        return implode(',', self::getMessageNumbers($messages));
+    }
+
+    /**
+     * Returns an array of message numbers for the given messages.
+     * @param array $messages An array of Message objects
+     * @return array
+     * @throws Exception
+     */
+    public static function getMessageNumbers(array $messages)
+    {
+        $messageNos = [];
+        if (count($messages)) {
+            foreach ($messages as $message) {
+                if ($message instanceof Message) {
+                    $messageNos[] = $message->getMessageNo();
+                } else {
+                    throw new Exception('array of Message objects expected. ' . get_class($message) . ' Received');
+                }
+            }
+        }
+        return $messageNos;
+    }
+
+
+    /**
+     * Flags the given messages as read
+     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
+     * @return bool
+     */
+    public function flagAsRead($messageList)
+    {
+        return $this->setFlag($messageList, '\Seen');
+    }
+
+    /**
+     * Flags the given messages as important
+     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
+     * @return bool
+     */
+    public function flagAsImportant($messageList)
+    {
+        return $this->setFlag($messageList, '\Flagged');
+    }
+
+    /**
+     * Flags the given messages as answered
+     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
+     * @return bool
+     */
+    public function flagAsAnswered($messageList)
+    {
+        return $this->setFlag($messageList, '\Answered');
+    }
+
+    /**
+     * Sets the given flag on the given messages
+     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
+     * @param string $flag Either \Seen, \Answered, \Flagged, \Deleted, or \Draft
+     * @return bool
+     */
+    public function setFlag($messageList, $flag)
+    {
+        return imap_setflag_full($this->connection, $messageList, $flag);
+    }
 
     /**
      * Sets the main body of the message
@@ -300,7 +533,7 @@ class ImapMailManager implements MailManager
 
     /**
      * Returns an array of BodyParts. The array is broken down into sections, so all parts from section 1
-     * will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[0]) etc.
+     * will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[1]) etc.
      *
      * @param array $structure The structure retrieved from getStructure();
      * @param array $parts The array being returned.
@@ -391,8 +624,7 @@ class ImapMailManager implements MailManager
             case ENCBINARY:
                 return imap_binary($body);
             default:
-                $decoder = new EmailDecoder($body);
-                return $decoder->decode();
+                return EmailDecoder::decodeBody($body);
         }
     }
 
@@ -400,6 +632,7 @@ class ImapMailManager implements MailManager
      * Fetches the given body part (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)
      * @param int $messageNo The message number
      * @param string $part The part (e.g. 1.2). This will be returned from <a href="#method_fetchBodyParts">fetchBodyParts()</a>
+     * @param int $options Any options to pass to imap_fetchbody (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>);
      * @return string
      */
     public function fetchBody($messageNo, $part, $options = 0)
@@ -419,7 +652,7 @@ class ImapMailManager implements MailManager
         $structure = $this->fetchStructure($messageNo);
 
         // SEE: http://php.net/manual/en/function.imap-fetchstructure.php
-        // FOr what all these attributes are.
+        // For what all these attributes are.
         if (isset($structure->parts) && count($structure->parts)) {
             foreach ($structure->parts as $i => $part) {
                 if ($part->ifdparameters) {
@@ -511,7 +744,7 @@ class ImapMailManager implements MailManager
      * @param $messageNo
      * @param $path
      * @param $files
-     * @param bool|true $binary Whether this should be saved with the 'b' flag
+     * @param bool $binary Whether this should be saved with the 'b' flag
      */
     protected function saveFile($path, $file, $fileName, $binary = true)
     {
@@ -528,81 +761,11 @@ class ImapMailManager implements MailManager
         return $path . '/' . $fileName;
     }
 
-    /**
-     * Returns all messages marked as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getReadMessages($sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('SEEN', $sortBy, SORTDATE, $reverse, 0, $headersOnly);
-    }
-
-    /**
-     * Flags the given messages as important
-     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
-     * @return bool
-     */
-    public function flagAsImportant($messageList)
-    {
-        return $this->setFlag($messageList, '\Flagged');
-    }
-
-    /**
-     * Returns all messages flagged as important (i.e. FLAGGED)
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getImportantMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('FLAGGED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Flags the given messages as answered
-     * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
-     * @return bool
-     */
-    public function flagAsAnswered($messageList)
-    {
-        return $this->setFlag($messageList, '\Answered');
-    }
-
-    /**
-     * Returns all messages flagged as important (i.e. FLAGGED)
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getAnsweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('ANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Returns all messages flagged as unanswered (i.e. FLAGGED)
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getUnansweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('UNANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
 
     /**
      * Returns all the folders for the given mailbox
-     * @param bool|false $currentFolder Whether the folders should be retrieved from the current folder or entire mailbox
-     * @return array an array of Folder objects.
+     * @param bool $currentFolder Whether the folders should be retrieved from the current folder or entire mailbox
+     * @return array an array of <a href="Folder.html">Folder</a> objects.
      */
     public function getAllFolders($currentFolder = false)
     {
@@ -615,183 +778,14 @@ class ImapMailManager implements MailManager
         }
 
         $imapFolders = imap_getmailboxes($this->connection, $mailbox, '*');
-        $folders = [];
+        $folders = new FolderCollection();
         foreach ($imapFolders as $folder) {
-            $folders[] = new Folder($folder);
+           $folders = $folders->addFolder(new Folder($folder));
         }
 
         return $folders;
     }
 
-
-    /**
-     * Gets all messages for the given sender
-     * @param string $sender The senders name or email address
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesBySender($sender, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('FROM', $sender, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Gets messages by subject
-     * @param string $subject The subject to search for
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesBySubject($subject, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('SUBJECT', $subject, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Gets the messages by CC
-     * @param string $cc The name or email to search the cc field for
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesByCC($cc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('CC', $cc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Gets the messages by BCC
-     * @param string $bcc The name or email to search the bcc field for
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesByBCC($bcc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('BCC', $bcc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Gets the messages by the to field
-     * @param string $to The name or email to search the to field for
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesByReceiver($to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('to', $to, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Gets the messages sent on the specified date
-     * @param string $date The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesByDate($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('ON', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Gets the messages sent before the specified date
-     * @param string $date The date  - This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesBefore($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('before', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Gets the messages sent between the specified dates
-     * @param string $from The from date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
-     * @param string $to The to date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     * @throws Exception
-     */
-    public function getMessagesBetween($from, $to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        $fromTS = Carbon::parse($from)->timestamp;
-        $to = Carbon::parse($to)->addDays(1)->timestamp;
-
-        if ($fromTS > $to) {
-            throw new Exception('Invalid Date Range');
-        }
-
-        // Get all messages before the upper date range
-        $messages = $this->getMessagesAfter($from, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-        $filtered = [];
-        foreach ($messages as $message) {
-            $date = $message->getDate();
-            if ($date->timestamp <= $to) {
-                $filtered[] = $message;
-            }
-        }
-
-        return $filtered;
-    }
-
-    /**
-     * Gets the messages sent after the specified date
-     * @param string $date The date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
-     * @param bool|false $markAsRead Set the fetched messages as read/seen
-     * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
-     * @param bool $reverse Whether the sort should be in reverse order
-     * @param bool $headersOnly Return headers only, don't fetch the message body.
-     * @return array An array of Message objects
-     */
-    public function getMessagesAfter($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('since', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
-
-    /**
-     * Get the message by the unique identifier
-     * @param string $uid the unique identifier
-     * @return Message the message
-     */
-    public function getMessageByUid($uid)
-    {
-        return $this->getMessage(imap_msgno($this->connection, $uid));
-    }
-
-
-    /**
-     * Returns all message details for the given mailbox
-     * @param bool $markAsRead
-     * @return array
-     */
-    public function getAllMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
-    {
-        return $this->searchMessages('ALL', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-    }
 
     /**
      * Returns the number of messages in the mailbox
@@ -1000,5 +994,16 @@ class ImapMailManager implements MailManager
         }
 
         return mb_convert_encoding($body, $this->outputEncoding);
+    }
+
+    /**
+     * Sets the output encoding to the given encoding. By default the output encoding is
+     * UTF-8, so this is only required when you want your output to use a different encoding.
+     * @param string $encoding The encoding (see: <a href="http://php.net/manual/en/mbstring.supported-encodings.php">http://php.net/manual/en/mbstring.supported-encodings.php</a>)
+     * @return void
+     */
+    public function setOutputEncoding($encoding)
+    {
+        $this->outputEncoding = $encoding;
     }
 }

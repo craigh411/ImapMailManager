@@ -12,28 +12,23 @@ use Exception;
  */
 class EmailDecoder
 {
-    protected $message;
 
-    function __construct($message)
-    {
-        $this->message = $message;
-    }
 
-    public function decode()
+    public static function decodeBody($message)
     {
 
         // Was it a binary message
-        if ($decoded = base64_decode(imap_binary($this->message), true)) {
+        if ($decoded = base64_decode(imap_binary($message), true)) {
             return trim($decoded);
         }
 
         // Let's check if the message is base64
-        if ($decoded = base64_decode($this->message, true)) {
+        if ($decoded = base64_decode($message, true)) {
             return $decoded;
         }
 
         // Lets decode manually, but it's probably ASCII!
-        return $this->decodeQP();
+        return self::decodeQP($message);
 
 
     }
@@ -45,12 +40,10 @@ class EmailDecoder
      *
      * @return string
      */
-    public function decodeQP()
+    public static function decodeQP($message)
     {
         // Pick up all equal signs followed by hex values
-        preg_match_all("/\=[a-f0-9]{2}/i", $this->message, $encodedChars);
-
-        $message = $this->message;
+        preg_match_all("/\=[a-f0-9]{2}/i", $message, $encodedChars);
 
         // Remove equals from end of line (soft-break)
         $message = preg_replace("/=\r\n/", '', $message);
@@ -74,9 +67,44 @@ class EmailDecoder
         return trim($message);
     }
 
-    public function guessEncoding()
+    /**
+     * Decodes the given email header
+     * @param $header
+     * @return string
+     */
+    public static function decodeHeader($header)
     {
-        return mb_detect_encoding($this->message, 'BASE64, 8bit');
+        $header = imap_mime_header_decode($header);
+        $str = '';
+
+        $encodings = mb_list_encodings();
+        // Add simplified Chinese (GB2312), supported but not listed and widely used.
+        $encodings[] = 'GB2312';
+
+        // Make all strings upper case for comparison, charsets are presented
+        // with different case and we are using in_array() for comparison
+        $encodings = array_map(function ($encoding) {
+            return strtoupper($encoding);
+        }, $encodings);
+
+
+        // A bit hacky, but imap_mime_header_decode() doesn't map the '£' symbol from ISO-8859-1,
+        // so ISO-8859-1 strings need to be run through utf8_encode() for correct display.
+        if (count($header)) {
+            foreach ($header as $h) {
+                if (strtoupper($h->charset) === "ISO-8859-1" || !in_array($h->charset, $encodings)) {
+                    $str .= utf8_encode($h->text);
+                } else {
+                    $str .= mb_convert_encoding($h->text, 'utf-8', $h->charset);
+                }
+            }
+        }
+        return $str;
+    }
+
+    public static function guessEncoding($message)
+    {
+        return mb_detect_encoding($message, 'BASE64, 8bit');
     }
 
 }

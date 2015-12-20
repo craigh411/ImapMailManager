@@ -3,187 +3,253 @@
 namespace Humps\MailManager;
 
 use Carbon\Carbon;
+
+use Humps\MailManager\Collections\Collectable;
+use Humps\MailManager\Collections\EmailCollection;
 use Humps\MailManager\Contracts\Message;
 
-class ImapMessage implements Message
+class ImapMessage implements Message, Collectable
 {
 
-    private $message;
+    protected $message;
+    protected $messageNo;
+    protected $subject;
+    protected $from;
+    protected $to;
+    protected $cc;
+    protected $bcc;
+    protected $htmlBody;
+    protected $textBody;
+    protected $attachments;
+    protected $size;
+    protected $date;
 
-    public function __construct($message)
-    {
-        $this->message = (array)$message;
-    }
-
-    public function getMessageNo()
-    {
-        return trim($this->message['Msgno']);
-    }
-
-
-    public function getSubject()
-    {
-        return $this->decode($this->message['subject']);
-    }
-
-    public function getFrom($asString = true)
-    {
-        if ($asString) {
-            if (isset($this->message['fromaddress'])) {
-                $from = preg_replace(['/^\"/', '/\"\s+? </'], '', $this->message['fromaddress']);
-                return $this->decode($from);
-            }
-
-            return "unknown";
-        }
-
-        $from = $this->getEmails($this->message['from']);
-        return $from;
-    }
-
-    public function getCC()
-    {
-        $cc = null;
-        if (isset($this->message['cc'])) {
-            $cc = $this->message['cc'];
-            $cc = $this->getEmails($cc);
-        }
-
-        return $cc;
-    }
-
-    public function getTo()
-    {
-        if (isset($this->message['to'])) {
-            $to = $this->message['to'];
-            return $this->getEmails($to);
-        }
-
-        return [];
-    }
-
-    public function setHtmlBody($body)
-    {
-        $this->message['html_body'] = $body;
-    }
-
-    public function getTextBody()
-    {
-        return (isset($this->message['text_body'])) ? $this->message['text_body'] : "";
-    }
-
-    public function getHtmlBody()
-    {
-
-        return (isset($this->message['html_body'])) ? $this->message['html_body'] : "";
-    }
-
-
-    public function setTextBody($body)
-    {
-        $this->message['text_body'] = $body;
-    }
-
-    public function setInlineAttachments()
-    {
-
-    }
-
-    public function getSize()
-    {
-        return $this->message['Size'];
-    }
 
     /**
-     * Returns the Carbon parsed date
-     * @return Carbon
+     * @return mixed
      */
-    public function getDate()
-    {
-        return Carbon::parse($this->message['MailDate']);
-    }
-
-    public function getRawDate()
-    {
-        return $this->decode($this->message['MailDate']);
-    }
-
-    public function getHeaderDate()
-    {
-        return $this->decode($this->message['date']);
-    }
-
-    public function setAttachments($attachments)
-    {
-        $this->message['attachments'] = $attachments;
-    }
-
-    public function getAttachments()
-    {
-        return $this->message['attachments'];
-    }
-
     public function getMessage()
     {
         return $this->message;
     }
 
-    private function decode($header)
+    /**
+     * @param mixed $message
+     */
+    public function setMessage(array $message)
     {
-
-
-        $header = imap_mime_header_decode($header);
-        $str = '';
-
-        $encodings = mb_list_encodings();
-        // Add simplified Chinese (GB2312), supported but not listed and widely used.
-        $encodings[] = 'GB2312';
-
-        // Make all strings upper case for comparison, charsets are presented
-        // with different case and we are using in_array() for comparison
-        $encodings = array_map(function ($encoding) {
-            return strtoupper($encoding);
-        }, $encodings);
-
-
-        // A bit hacky, but imap_mime_header_decode() doesn't map the '£' symbol from ISO-8859-1,
-        // so ISO-8859-1 strings need to be run through utf8_encode() for correct display.
-        if (count($header)) {
-            foreach ($header as $h) {
-                if (strtoupper($h->charset) === "ISO-8859-1" || !in_array($h->charset, $encodings)) {
-                    $str .= utf8_encode($h->text);
-                } else {
-                    $str .= mb_convert_encoding($h->text, 'utf-8', $h->charset);
-                }
-            }
-        }
-        return $str;
+        $this->message = $message;
     }
 
     /**
-     * @param $emails
-     * @return array
+     * @return mixed
      */
-    protected function getEmails($emails)
+    public function getMessageNo()
     {
-        $emailAddresses = [];
-
-        foreach ($emails as $key => $email) {
-            $mailbox = $this->decode($email->mailbox);
-            $host = $this->decode($email->host);
-            $emailAddresses[] = new EmailAddress($mailbox, $host);
-        }
-
-        return $emailAddresses;
+        return $this->messageNo;
     }
 
-    public function isUnread()
+    /**
+     * @param mixed $messageNo
+     */
+    public function setMessageNo($messageNo)
     {
-        return $this->message['Unseen'];
+        $this->messageNo = $messageNo;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param mixed $subject
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    /**
+     * @param mixed $from
+     */
+    public function setFrom(EmailCollection $from)
+    {
+        $this->from = $from;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTo()
+    {
+        return $this->to;
+    }
+
+    /**
+     * @param mixed $to
+     */
+    public function setTo(EmailCollection $to)
+    {
+        $this->to = $to;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCc()
+    {
+        return $this->cc;
+    }
+
+    /**
+     * @param mixed $cc
+     */
+    public function setCc(EmailCollection $cc)
+    {
+        $this->cc = $cc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBcc()
+    {
+        return $this->bcc;
+    }
+
+    /**
+     * @param mixed $bcc
+     */
+    public function setBcc(EmailCollection $bcc)
+    {
+        $this->bcc = $bcc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHtmlBody()
+    {
+        return $this->htmlBody;
+    }
+
+    /**
+     * @param mixed $htmlBody
+     */
+    public function setHtmlBody($htmlBody)
+    {
+        $this->htmlBody = $htmlBody;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTextBody()
+    {
+        return $this->textBody;
+    }
+
+    /**
+     * @param mixed $textBody
+     */
+    public function setTextBody($textBody)
+    {
+        $this->textBody = $textBody;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * @param mixed $attachments
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attachments = $attachments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param mixed $size
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return Carbon::parse($this->date);
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRawDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $rawDate
+     */
+    public function setRawDate($rawDate)
+    {
+        $this->rawDate = $rawDate;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getTextBody();
     }
+
+    /**
+     * Make deep copy when cloned
+     */
+    public function __clone()
+    {
+        $this->to = clone $this->to;
+        $this->from = clone $this->from;
+        $this->cc = clone $this->cc;
+        $this->bcc = clone $this->bcc;
+    }
+
 }

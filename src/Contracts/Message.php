@@ -21,7 +21,7 @@ interface Message
      * @param bool|true $asString
      * @return mixed
      */
-    public function getFrom($asString = true);
+    public function getFrom();
 
     /**
      * Return an array of CC addresses
@@ -81,11 +81,6 @@ interface Message
      */
     public function getRawDate();
 
-    /**
-     * Any header date as returned from the server, usually same as getRawDate().
-     * @return mixed
-     */
-    public function getHeaderDate();
 
     /**
      * Sets the attachments

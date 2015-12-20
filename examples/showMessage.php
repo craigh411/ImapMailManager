@@ -38,7 +38,6 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
         .message {
             border: 1px solid #ccc;
             border-top: 0;
-            padding: 0;
         }
 
         .body {
@@ -60,11 +59,7 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
             </tr>
             <tr>
                 <td>To:</td>
-                <td><?= implode(',', array_map(function ($m) {
-                        return $m->getEmailAddress();
-                    }, $message->getTo()));
-
-                    ?></td>
+                <td><?= $message->getTo(); ?></td>
             </tr>
             <tr>
                 <td>Subject:</td>

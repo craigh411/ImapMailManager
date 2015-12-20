@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Humps\MailManager;
+namespace Humps\MailManager\Factories;
 
 
 use Exception;
+use Humps\MailManager\Mailbox;
 
 class MailboxFactory
 {
