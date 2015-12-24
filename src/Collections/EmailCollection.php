@@ -21,9 +21,9 @@ class EmailCollection extends Collection
      * Converts the collection to a string.
      * @return string
      */
-    public function __toString()
+    public function implodeEmails($delimiter = ', ')
     {
-        return implode(', ', array_map(function ($collection) {
+        return implode($delimiter, array_map(function ($collection) {
             return $collection->getEmailAddress();
         }, $this->collection));
     }

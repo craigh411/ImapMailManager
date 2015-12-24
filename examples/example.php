@@ -6,7 +6,7 @@ require_once '../vendor/autoload.php';
 $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
 
 $mailManager = new ImapMailManager($folder);
-$messages = $mailManager->getMessagesAfter('17-12-2015', true);
+$messages = $mailManager->getMessagesAfter('23-12-2015', true);
 $folders = $mailManager->getAllFolders();
 ?>
 
@@ -100,7 +100,7 @@ $folders = $mailManager->getAllFolders();
                 foreach ($messages as $i => $message):
                     ?>
                     <tr>
-                        <td><?= htmlspecialchars($message->getFrom()) ?></td>
+                        <td><?= ($message->getFrom()[0]->getPersonal()) ? $message->getFrom()[0]->getPersonal() : htmlspecialchars($message->getFrom()[0]->getEmailAddress()) ?></td>
                         <td class="<?= (true) ? 'unread' : '' ?>">
                             <a href="showMessage.php?mid=<?= $message->getMessageNo() ?>&folder=<?=$mailManager->getFolderName()?>"><?= $message->getSubject() ?></a>
                         </td>

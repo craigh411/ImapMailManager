@@ -4,15 +4,18 @@ namespace Humps\MailManager;
 
 use Carbon\Carbon;
 
+use Humps\MailManager\Collections\AttachmentCollection;
 use Humps\MailManager\Collections\Collectable;
 use Humps\MailManager\Collections\EmailCollection;
+use Humps\MailManager\Collections\Jsonable;
 use Humps\MailManager\Contracts\Message;
+use JsonSerializable;
 
-class ImapMessage implements Message, Collectable
+class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
 {
-
     protected $message;
     protected $messageNo;
+    protected $uid;
     protected $subject;
     protected $from;
     protected $to;
@@ -23,10 +26,14 @@ class ImapMessage implements Message, Collectable
     protected $attachments;
     protected $size;
     protected $date;
+    protected $important;
+    protected $read;
+    protected $answered;
 
 
     /**
-     * @return mixed
+     * Returns all the message details as an array
+     * @return array
      */
     public function getMessage()
     {
@@ -34,7 +41,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $message
+     * Sets the message details
+     * @param array $message
      */
     public function setMessage(array $message)
     {
@@ -42,7 +50,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns the message number
+     * @return int
      */
     public function getMessageNo()
     {
@@ -50,7 +59,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $messageNo
+     * Sets the message number
+     * @param int $messageNo
      */
     public function setMessageNo($messageNo)
     {
@@ -58,7 +68,26 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns the unique message id
+     * @return string
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * Sets the unique message id
+     * @param string $uid
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+    }
+
+    /**
+     * Returns the subject
+     * @return string
      */
     public function getSubject()
     {
@@ -66,7 +95,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $subject
+     * Sets the subject
+     * @param string $subject
      */
     public function setSubject($subject)
     {
@@ -74,7 +104,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns a collection of EmailsAddress objects for the from field
+     * @return EmailCollection
      */
     public function getFrom()
     {
@@ -82,7 +113,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $from
+     * Sets the collection of Email objects for the from field
+     * @param EmailCollection $from
      */
     public function setFrom(EmailCollection $from)
     {
@@ -90,7 +122,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns a collection of EmailsAddress objects for the to field
+     * @return EmailCollection
      */
     public function getTo()
     {
@@ -98,7 +131,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $to
+     * Sets the collection of Email objects for the to field
+     * @param EmailCollection $from
      */
     public function setTo(EmailCollection $to)
     {
@@ -106,7 +140,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns a collection of EmailsAddress objects for the cc field
+     * @return EmailCollection
      */
     public function getCc()
     {
@@ -114,7 +149,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $cc
+     * Sets the collection of Email objects for the cc field
+     * @param EmailCollection $from
      */
     public function setCc(EmailCollection $cc)
     {
@@ -122,7 +158,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns a collection of EmailsAddress objects for the bcc field
+     * @return EmailCollection
      */
     public function getBcc()
     {
@@ -130,7 +167,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $bcc
+     * Sets the collection of Email objects for the bcc field
+     * @param EmailCollection $from
      */
     public function setBcc(EmailCollection $bcc)
     {
@@ -138,7 +176,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns the html body for the message
+     * @return string
      */
     public function getHtmlBody()
     {
@@ -146,7 +185,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $htmlBody
+     * Sets the html body for the message
+     * @param string $htmlBody
      */
     public function setHtmlBody($htmlBody)
     {
@@ -154,7 +194,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns the text/plain body for the message
+     * @return string
      */
     public function getTextBody()
     {
@@ -162,7 +203,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $textBody
+     * Sets the text/plain body for the message
+     * @param string $textBody
      */
     public function setTextBody($textBody)
     {
@@ -170,7 +212,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns a collection of Attachment objects
+     * @return AttachmentCollection
      */
     public function getAttachments()
     {
@@ -178,15 +221,17 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $attachments
+     * Sets the attachments for the message
+     * @param AttachmentCollection $attachments
      */
-    public function setAttachments($attachments)
+    public function setAttachments(AttachmentCollection $attachments)
     {
         $this->attachments = $attachments;
     }
 
     /**
-     * @return mixed
+     * Returns the size of the message
+     * @return int
      */
     public function getSize()
     {
@@ -194,7 +239,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $size
+     * Sets the size of the message
+     * @param int $size
      */
     public function setSize($size)
     {
@@ -202,7 +248,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns a Carbon date
+     * @return Carbon
      */
     public function getDate()
     {
@@ -210,7 +257,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $date
+     * Sets the date
+     * @param string $date
      */
     public function setDate($date)
     {
@@ -218,7 +266,8 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @return mixed
+     * Returns the raw date as set with setDate
+     * @return string
      */
     public function getRawDate()
     {
@@ -226,19 +275,67 @@ class ImapMessage implements Message, Collectable
     }
 
     /**
-     * @param mixed $rawDate
+     * Returns the important flag
+     * @return bool
      */
-    public function setRawDate($rawDate)
+    public function isImportant()
     {
-        $this->rawDate = $rawDate;
+        return $this->important;
     }
 
     /**
+     * Sets the important flag
+     * @param bool $important
+     */
+    public function setImportant($important)
+    {
+        $this->important = $important;
+    }
+
+    /**
+     * Returns the seen/read flag
+     * @return bool
+     */
+    public function isRead()
+    {
+        return $this->read;
+    }
+
+    /**
+     * Sets the seen/read flag
+     * @param bool $read
+     */
+    public function setRead($read)
+    {
+        $this->read = $read;
+    }
+
+    /**
+     * Returns the answer flag
+     * @return bool
+     */
+    public function isAnswered()
+    {
+        return $this->answered;
+    }
+
+    /**
+     * Sets the answered flag
+     * @param bool $answered
+     */
+    public function setAnswered($answered)
+    {
+        $this->answered = $answered;
+    }
+
+
+    /**
+     * Returns a string representation of this object. In this case JSON.
      * @return string
      */
     public function __toString()
     {
-        return $this->getTextBody();
+        return $this->toJson();
     }
 
     /**
@@ -250,6 +347,37 @@ class ImapMessage implements Message, Collectable
         $this->from = clone $this->from;
         $this->cc = clone $this->cc;
         $this->bcc = clone $this->bcc;
+        $this->attachments = clone $this->attachments;
     }
 
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'message_no'  => $this->messageNo,
+            'subject'     => $this->subject,
+            'date'        => $this->getRawDate(),
+            'to'          => $this->to,
+            'from'        => $this->from,
+            'cc'          => $this->cc,
+            'bcc'         => $this->bcc,
+            'text_body'   => htmlspecialchars($this->textBody),
+            'html_body'   => htmlspecialchars($this->htmlBody),
+            'size'        => $this->size,
+            'attachments' => $this->attachments
+        ];
+    }
+
+    /*
+     * Returns the json representation of this object
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
 }

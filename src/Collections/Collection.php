@@ -7,6 +7,14 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 
+/**
+ * Class Collection
+ * @package Humps\MailManager\Collections
+ *
+ * A simple abstract class for allowing access to an array of objects. This is not intended to be a comprehensive
+ * Collection class, but rather, a convenient abstract wrapper for ensuring that the correct object arrays are
+ * being passed in to functions which type hint child classes.
+ */
 abstract class Collection implements IteratorAggregate, ArrayAccess, Countable, Jsonable
 {
 
@@ -17,6 +25,15 @@ abstract class Collection implements IteratorAggregate, ArrayAccess, Countable, 
         $this->collection = [];
     }
 
+    /**
+     * A protected method for adding a Collectable to the Collection. This is required
+     * as php does not allow abstract class methods to be overriden by methods with
+     * different parameter types, which would mean we would have an array of Collectable objects
+     * rather than their concrete implementations.
+     *
+     * @param Collectable $item
+     * @param null $key
+     */
     protected function addCollectable(Collectable $item, $key = null)
     {
         if ($key) {

@@ -55,11 +55,11 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
         <table class="table table-striped">
             <tr>
                 <td>From:</td>
-                <td><?= htmlspecialchars($message->getFrom()) ?></td>
+                <td><?= htmlspecialchars($message->getFrom()->implodeEmails()) ?></td>
             </tr>
             <tr>
                 <td>To:</td>
-                <td><?= $message->getTo(); ?></td>
+                <td><?= htmlspecialchars($message->getTo()->implodeEmails()) ?></td>
             </tr>
             <tr>
                 <td>Subject:</td>

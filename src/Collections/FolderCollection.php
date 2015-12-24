@@ -12,9 +12,9 @@ class FolderCollection extends Collection
         parent::__construct();
     }
 
-    public function addFolder(Folder $folder, $key = null)
+    public function add(Folder $folder, $key = null)
     {
-        return parent::add($folder);
+        parent::addCollectable($folder, $key);
     }
 
 }

@@ -41,7 +41,6 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Carbon\Carbon', $m->getDate());
         $this->assertEquals(Carbon::now()->toDateString(), $m->getDate()->toDateString());
         $this->assertInternalType('string', $m->getRawDate());
-        $this->assertInternalType('string', $m->getHeaderDate());
         $this->assertInternalType('string', $m->getSize());
         $this->assertInternalType('array', $m->getMessage());
         $this->assertEquals('foo@test.com', $m->getTo()[0]);

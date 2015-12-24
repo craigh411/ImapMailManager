@@ -2,101 +2,208 @@
 
 namespace Humps\MailManager\Contracts;
 
+use Carbon\Carbon;
+use Humps\MailManager\Collections\AttachmentCollection;
+use Humps\MailManager\Collections\EmailCollection;
+
 interface Message
 {
     /**
+     * Returns all the message details as an array
+     * @return array
+     */
+    public function getMessage();
+
+    /**
+     * Sets the message details
+     * @param array $message
+     */
+    public function setMessage(array $message);
+
+    /**
      * Returns the message number
-     * @return mixed
+     * @return int
      */
     public function getMessageNo();
 
     /**
-     * Returns the subject of the E-mail
-     * @return mixed
+     * Sets the message number
+     * @param int $messageNo
+     */
+    public function setMessageNo($messageNo);
+
+    /**
+     * Returns the unique message id
+     * @return int
+     */
+    public function getUid();
+
+    /**
+     * Sets the unique message id
+     * @param int $messageNo
+     */
+    public function setUid($uid);
+
+    /**
+     * Returns the subject
+     * @return string
      */
     public function getSubject();
 
     /**
-     * Return the from addresses or an array of from addresses if $asString is false
-     * @param bool|true $asString
-     * @return mixed
+     * Sets the subject
+     * @param string $subject
+     */
+    public function setSubject($subject);
+
+    /**
+     * Returns a collection of EmailsAddress objects for the from field
+     * @return EmailCollection
      */
     public function getFrom();
 
     /**
-     * Return an array of CC addresses
-     * @return array
+     * Sets the collection of Email objects for the from field
+     * @param EmailCollection $from
      */
-    public function getCC();
+    public function setFrom(EmailCollection $from);
 
     /**
-     * Returns an array of to addresses
-     * @return array
+     * Returns a collection of EmailsAddress objects for the to field
+     * @return EmailCollection
      */
     public function getTo();
 
-
     /**
-     * Sets the body of the message
-     * @param $body
-     * @return mixed
+     * Sets the collection of Email objects for the to field
+     * @param EmailCollection $from
      */
-    public function setTextBody($body);
+    public function setTo(EmailCollection $to);
 
     /**
-     * Returns the body of the message
-     * @return mixed
+     * Returns a collection of EmailsAddress objects for the cc field
+     * @return EmailCollection
      */
-    public function getTextBody();
+    public function getCc();
 
     /**
-     * Returns the body of the message
-     * @return mixed
+     * Sets the collection of Email objects for the cc field
+     * @param EmailCollection $from
+     */
+    public function setCc(EmailCollection $cc);
+
+    /**
+     * Returns a collection of EmailsAddress objects for the bcc field
+     * @return EmailCollection
+     */
+    public function getBcc();
+
+    /**
+     * Sets the collection of Email objects for the bcc field
+     * @param EmailCollection $from
+     */
+    public function setBcc(EmailCollection $bcc);
+
+    /**
+     * Returns the html body for the message
+     * @return string
      */
     public function getHtmlBody();
 
     /**
-     * Sets the body of the message
-     * @param $body
-     * @return mixed
+     * Sets the html body for the message
+     * @param string $htmlBody
      */
-    public function setHtmlBody($body);
-
+    public function setHtmlBody($htmlBody);
 
     /**
-     * returns the size of the message
-     * @return float
+     * Returns the text/plain body for the message
+     * @return string
      */
-    public function getSize();
+    public function getTextBody();
 
     /**
-     * A formatted version of the date
-     * @return mixed
+     * Sets the text/plain body for the message
+     * @param string $textBody
      */
-    public function getDate();
+    public function setTextBody($textBody);
 
     /**
-     * The raw date as returned from the server
-     * @return mixed
-     */
-    public function getRawDate();
-
-
-    /**
-     * Sets the attachments
-     * @param $attachments
-     */
-    public function setAttachments($attachments);
-
-    /**
-     * Returns an array of attachments
-     * @return array
+     * Returns a collection of Attachment objects
+     * @return AttachmentCollection
      */
     public function getAttachments();
 
     /**
-     * Get the entire message
-     * @return mixed
+     * Sets the attachments for the message
+     * @param AttachmentCollection $attachments
      */
-    public function getMessage();
+    public function setAttachments(AttachmentCollection $attachments);
+
+    /**
+     * Returns the size of the message
+     * @return int
+     */
+    public function getSize();
+
+    /**
+     * Sets the size of the message
+     * @param int $size
+     */
+    public function setSize($size);
+
+    /**
+     * Returns a Carbon date
+     * @return Carbon
+     */
+    public function getDate();
+
+    /**
+     * Sets the date
+     * @param string $date
+     */
+    public function setDate($date);
+
+    /**
+     * Returns the raw date as set with setDate
+     * @return string
+     */
+    public function getRawDate();
+
+    /**
+     * Returns the important flag
+     * @return bool
+     */
+    public function isImportant();
+
+    /**
+     * Sets the important flag
+     * @param bool $important
+     */
+    public function setImportant($important);
+
+    /**
+     * Returns the seen/read flag
+     * @return bool
+     */
+    public function isRead();
+
+    /**
+     * Sets the seen/read flag
+     * @param bool $read
+     */
+    public function setRead($read);
+
+    /**
+     * Returns the answer flag
+     * @return bool
+     */
+    public function isAnswered();
+
+    /**
+     * Sets the answered flag
+     * @param bool $answered
+     */
+    public function setAnswered($answered);
+
 }

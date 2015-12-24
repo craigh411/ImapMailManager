@@ -21,6 +21,7 @@ class ImapMessageFactory
         $m = new ImapMessage();
         $m->setMessage(static::$headers);
         $m->setMessageNo(static::getAttr('Msgno'));
+        $m->setUid(static::getAttr('message_id'));
         $m->setSubject(static::getAttr('subject'));
         $m->setFrom(static::getEmails(static::getAttr('from', false)));
         $m->setCc(static::getEmails(static::getAttr('cc', false)));
@@ -28,13 +29,15 @@ class ImapMessageFactory
         $m->setTo(static::getEmails(static::getAttr('to', false)));
         $m->setSize(static::getAttr('size'));
         $m->setDate(static::getAttr('MailDate'));
-
+        $m->setRead(!static::getAttr('Unseen'));
+        $m->setImportant(static::getAttr('Flagged'));
+        $m->setAnswered(static::getAttr('Answered'));
         return $m;
     }
 
     /**
      * @param $emails
-     * @return array
+     * @return EmailCollection
      */
     protected static function getEmails($emails)
     {
@@ -43,7 +46,8 @@ class ImapMessageFactory
             foreach ($emails as $key => $email) {
                 $mailbox = EmailDecoder::decodeHeader($email->mailbox);
                 $host = EmailDecoder::decodeHeader($email->host);
-                $emailCollection->add(new EmailAddress($mailbox, $host));
+                $personal = (isset($email->personal)) ? EmailDecoder::decodeHeader($email->personal) : null;
+                $emailCollection->add(new EmailAddress($mailbox, $host, $personal));
             }
         }
         return $emailCollection;

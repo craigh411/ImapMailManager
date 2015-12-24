@@ -6,6 +6,7 @@ namespace Humps\MailManager;
 use Carbon\Carbon;
 use Exception;
 use Humps\MailManager\Collections\FolderCollection;
+use Humps\MailManager\Collections\ImapMessageCollection;
 use Humps\MailManager\Contracts\MailManager;
 use Humps\MailManager\Contracts\Message;
 use Humps\MailManager\Factories\MailboxFactory;
@@ -108,7 +109,7 @@ class ImapMailManager implements MailManager
      * @param int $messageNo The message number
      * @param int $options Any options for fetchBody (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)
      * @param bool $headersOnly Only retrieve header information (essentially excludes fetching the body when set to true)
-     * @return Message The Message object!
+     * @return ImapMessage The Message object!
      */
     public function getMessage($messageNo, $options = 0, $headersOnly = false)
     {
@@ -119,7 +120,7 @@ class ImapMailManager implements MailManager
             $this->setMessageBody($message, $options);
         }
 
-        $message->setAttachments($this->getAttachments($messageNo));
+        //$message->setAttachments($this->getAttachments($messageNo));
         $this->getEmbeddedImages($message);
 
         return $message;
@@ -360,8 +361,6 @@ class ImapMailManager implements MailManager
      */
     public function searchMessages($criteria, $searches = null, $sortBy = SORTDATE, $reverse = true, $messageOptions = 0, $headersOnly = false)
     {
-        $messages = [];
-
         // Convert any string searches to an array
         if (!is_array($searches) && $searches) {
             $searches = [$searches];
@@ -382,9 +381,10 @@ class ImapMailManager implements MailManager
             $messageIds = imap_sort($this->connection, $sortBy, $reverse, 0, $criteria);
         }
 
+        $messages = new ImapMessageCollection();
         // Get the details for each message and store in an array
         foreach ($messageIds as $messageId) {
-            $messages[] = $this->getMessage($messageId, $messageOptions, $headersOnly);
+            $messages->add($this->getMessage($messageId, $messageOptions, $headersOnly));
         }
 
         return $messages;
@@ -780,7 +780,7 @@ class ImapMailManager implements MailManager
         $imapFolders = imap_getmailboxes($this->connection, $mailbox, '*');
         $folders = new FolderCollection();
         foreach ($imapFolders as $folder) {
-           $folders = $folders->addFolder(new Folder($folder));
+            $folders->add(new Folder($folder));
         }
 
         return $folders;
