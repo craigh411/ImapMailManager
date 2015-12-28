@@ -792,7 +792,7 @@ class ImapMailManager implements MailManager
         $imapFolders = imap_getmailboxes($this->connection, $mailbox, '*');
         $folders = new FolderCollection();
         foreach ($imapFolders as $folder) {
-            $folders->add(new Folder($folder));
+            $folders->add(Folder::create((array)$folder));
         }
 
         return $folders;
