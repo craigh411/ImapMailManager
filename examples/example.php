@@ -1,4 +1,9 @@
 <?php
+set_time_limit(0);
+$time_start = microtime(true);
+
+
+use Carbon\Carbon;
 use Humps\MailManager\ImapMailManager;
 
 require_once '../vendor/autoload.php';
@@ -6,7 +11,8 @@ require_once '../vendor/autoload.php';
 $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
 
 $mailManager = new ImapMailManager($folder);
-$messages = $mailManager->getMessagesAfter('23-12-2015', true);
+$messages = $mailManager->getMessagesAfter('2015-12-01', true);
+//$messages = $mailManager->searchMessages('FROM', 'Joyce Li');
 $folders = $mailManager->getAllFolders();
 ?>
 
@@ -100,11 +106,13 @@ $folders = $mailManager->getAllFolders();
                 foreach ($messages as $i => $message):
                     ?>
                     <tr>
-                        <td><?= ($message->getFrom()[0]->getPersonal()) ? $message->getFrom()[0]->getPersonal() : htmlspecialchars($message->getFrom()[0]->getEmailAddress()) ?></td>
-                        <td class="<?= (true) ? 'unread' : '' ?>">
-                            <a href="showMessage.php?mid=<?= $message->getMessageNo() ?>&folder=<?=$mailManager->getFolderName()?>"><?= $message->getSubject() ?></a>
+                        <td><?= ($message->getFrom()->get(0)->getPersonal()) ? $message->getFrom()->get(0)->getPersonal() : htmlspecialchars($message->getFrom()->get(0)->getEmailAddress()) ?></td>
+                        <td class="<?= (!$message->isRead()) ? 'unread' : '' ?>">
+                            <a href="showMessage.php?mid=<?= $message->getMessageNo() ?>&folder=<?= $mailManager->getFolderName() ?>"><?= $message->getSubject() ?> </a>
                         </td>
-                        <td><?= $message->getDate()->diffForHumans(); ?></td>
+                        <td><span
+                                class="glyphicon glyphicon-paperclip" <?= (!$message->hasAttachments()) ? 'style="visibility:hidden;"' : '' ?>></span>
+                            <?= $message->getDate()->diffForHumans(); ?></td>
                     </tr>
                     <?
                 endforeach;
@@ -122,4 +130,13 @@ $folders = $mailManager->getAllFolders();
 </div>
 </body>
 </html>
+<?
+// Script end
+$time_end = microtime(true);
 
+//dividing with 60 will give the execution time in minutes other wise seconds
+$execution_time = ($time_end - $time_start)/60;
+
+//execution time of the script
+echo '<b>Total Execution Time:</b> '.$execution_time.' Mins';
+?>

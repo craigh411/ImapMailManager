@@ -64,7 +64,7 @@ class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
      */
     public function setMessageNo($messageNo)
     {
-        $this->messageNo = $messageNo;
+        $this->messageNo = trim($messageNo);
     }
 
     /**
@@ -230,6 +230,25 @@ class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
     }
 
     /**
+     * Whether or not the Message has attachments
+     * @return int
+     */
+    public function hasAttachments()
+    {
+        return (count($this->attachments)) ? true : false;
+    }
+
+    /**
+     * The number of attachments
+     * @return int
+     */
+    public function attachmentCount()
+    {
+        return count($this->attachments);
+    }
+
+
+    /**
      * Returns the size of the message
      * @return int
      */
@@ -360,16 +379,20 @@ class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
     {
         return [
             'message_no'  => $this->messageNo,
+            'uid'         => $this->uid,
             'subject'     => $this->subject,
             'date'        => $this->getRawDate(),
             'to'          => $this->to,
             'from'        => $this->from,
             'cc'          => $this->cc,
             'bcc'         => $this->bcc,
-            'text_body'   => htmlspecialchars($this->textBody),
-            'html_body'   => htmlspecialchars($this->htmlBody),
+            'text_body'   => $this->textBody,
+            'html_body'   => $this->htmlBody,
             'size'        => $this->size,
-            'attachments' => $this->attachments
+            'attachments' => $this->attachments,
+            'important'   => $this->important,
+            'read'        => $this->read,
+            'answered'    => $this->answered,
         ];
     }
 

@@ -14,6 +14,11 @@ class ImapMessageFactory
 
     protected static $headers;
 
+    /**
+     * Creates an ImapMessage object from the headers returned from `imap_headerinfo()`.
+     * @param $headers
+     * @return ImapMessage
+     */
     public static function create($headers)
     {
         static::$headers = (array)$headers;
@@ -32,10 +37,12 @@ class ImapMessageFactory
         $m->setRead(!static::getAttr('Unseen'));
         $m->setImportant(static::getAttr('Flagged'));
         $m->setAnswered(static::getAttr('Answered'));
+
         return $m;
     }
 
     /**
+     * Returns an EmailCollection from the Email headers
      * @param $emails
      * @return EmailCollection
      */
@@ -66,6 +73,5 @@ class ImapMessageFactory
         }
 
         return (isset(static::$headers[$attribute])) ? static::$headers[$attribute] : null;
-
     }
 }

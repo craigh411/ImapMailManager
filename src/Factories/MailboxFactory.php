@@ -10,6 +10,12 @@ use Humps\MailManager\Mailbox;
 class MailboxFactory
 {
 
+    /**
+     * Creates a Mailbox object from the given config file
+     * @param string $configFile
+     * @return Mailbox
+     * @throws Exception
+     */
     public static function create($configFile = 'imap_config.php')
     {
         if(!file_exists($configFile)){

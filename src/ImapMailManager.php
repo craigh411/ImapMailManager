@@ -1,10 +1,10 @@
 <?php
 
-
 namespace Humps\MailManager;
 
 use Carbon\Carbon;
 use Exception;
+use Humps\MailManager\Collections\AttachmentCollection;
 use Humps\MailManager\Collections\FolderCollection;
 use Humps\MailManager\Collections\ImapMessageCollection;
 use Humps\MailManager\Contracts\MailManager;
@@ -118,10 +118,10 @@ class ImapMailManager implements MailManager
 
         if (!$headersOnly) {
             $this->setMessageBody($message, $options);
+            $this->getEmbeddedImages($message);
         }
 
-        //$message->setAttachments($this->getAttachments($messageNo));
-        $this->getEmbeddedImages($message);
+        $message->setAttachments($this->getAttachments($messageNo));
 
         return $message;
     }
@@ -372,6 +372,7 @@ class ImapMailManager implements MailManager
         if ($searches) {
             $messageIds = [];
             foreach ($searches as $search) {
+
                 if ($found = imap_sort($this->connection, $sortBy, $reverse, 0, $criteria . ' "' . $search . '"')) {
                     $messageIds = array_merge($found, $messageIds);
                 }
@@ -537,17 +538,18 @@ class ImapMailManager implements MailManager
      *
      * @param array $structure The structure retrieved from getStructure();
      * @param array $parts The array being returned.
-     * @param array $sections The current section number
-     * @return array An array of <a href="Contracts/BodyPart.html">BodyPart</a> object
+     * @param array $sections The current section number as array [1,1,1] is '1.1.1'
+     * @return array An array of <a href="Contracts/BodyPart.html">BodyPart</a> objects
      */
-    protected function doFetchBodyParts($structure, $parts = [], $sections = [])
+    protected function flattenBodyParts($structure, array $parts = [], array $sections = [])
     {
+        // Append 1 to the sections array as we are in the next section on each call.
         $sections[] = 1;
         if (isset($structure->parts) && count($structure->parts)) {
             foreach ($structure->parts as $i => $part) {
                 if (isset($part->parts)) {
                     // We have more parts, lets get them
-                    $parts = $this->doFetchBodyParts($part, $parts, $sections);
+                    $parts = $this->flattenBodyParts($part, $parts, $sections);
                 } else {
                     // Make the last element of array the loop number, that's the final section we are in!
                     // e.g. 1.1.2
@@ -555,7 +557,7 @@ class ImapMailManager implements MailManager
                     // Break array in to the main sections
                     $section = implode(".", $sections);
                     $bodyPart = new ImapBodyPart($part->type, $part->encoding, $part->subtype, $section);
-                    $this->setParams($part, $bodyPart, $part->type);
+                    $this->setParams($part, $bodyPart);
                     $this->setDispositionParams($part, $bodyPart);
                     if (isset($part->id)) {
                         $bodyPart->setId($part->id);
@@ -579,9 +581,14 @@ class ImapMailManager implements MailManager
      */
     public function fetchBodyParts($structure)
     {
-        // Essentially encapsulates the recursive function doFetchBodyParts()
+        // Essentially encapsulates the recursive function flattnBodyParts()
         // So the internal params used for each recursion aren't set manually.
-        return $this->doFetchBodyParts($structure);
+        return $this->flattenBodyParts($structure);
+    }
+
+    public function fetchHeader($messageNo)
+    {
+        return imap_fetchheader($this->connection, $messageNo);
     }
 
     /**
@@ -590,7 +597,7 @@ class ImapMailManager implements MailManager
      * @param $bodyPart
      * @return mixed
      */
-    private function setParams($part, &$bodyPart, $type)
+    private function setParams($part, &$bodyPart)
     {
         // Check for charset and embedded files (these will be in parameters)
         if ($part->ifparameters) {
@@ -599,7 +606,7 @@ class ImapMailManager implements MailManager
                     $bodyPart->setCharset($param->value);
                 }
                 if ($param->attribute == 'NAME') {
-                    if ($type == TYPEIMAGE) {
+                    if ($part->type == TYPEIMAGE) {
                         $bodyPart->setEmbedded(true);
                     }
                     $bodyPart->setName($param->value);
@@ -641,14 +648,13 @@ class ImapMailManager implements MailManager
     }
 
     /**
-     * TODO This needs to be changed so an array of Attachment objects are returned
      * Get the E-mail attachment details for the given message number
      * @param int $messageNo The message number
      * @return array
      */
     public function getAttachments($messageNo)
     {
-        $files = [];
+        $attachments = new AttachmentCollection();
         $structure = $this->fetchStructure($messageNo);
 
         // SEE: http://php.net/manual/en/function.imap-fetchstructure.php
@@ -658,19 +664,17 @@ class ImapMailManager implements MailManager
                 if ($part->ifdparameters) {
                     foreach ($part->dparameters as $param) {
                         if ($param->attribute == 'FILENAME') {
-                            $files[] = ['filename' => $param->value, 'part' => $i + 1, // parts are 1 based, not 0 based.
-                                'encoding' => $part->encoding];
+                            $attachments->add(new Attachment($param->value, ($i + 1), $part->encoding, (array)$part));
                         }
                     }
                 }
             }
         }
 
-        return $files;
+        return $attachments;
     }
 
     /**
-     * TODO implement the replace function so it works for non cid messages
      * Gets the embedded images for the given messages and alters the body accordingly
      * Important: This function downloads images to the given path and places them inside an /embedded/{messageNo} folder
      * @param Message $message
@@ -683,19 +687,21 @@ class ImapMailManager implements MailManager
         $structure = $this->fetchStructure($messageNo);
         $bodyParts = $this->fetchBodyParts($structure);
 
+
         if (count($bodyParts)) {
             foreach ($bodyParts as $part) {
                 foreach ($part as $i => $section) {
-                    if ($section->isEmbedded()) {
-                        $image = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection()));
-                        $file = $this->saveFile($path . $messageNo . "/embedded", $image, $section->getName(), false);
+                    $id = preg_quote(preg_replace(['/^</', '/>$/'], '', $section->getId()));
+                    $body = $message->getHtmlBody();
 
-                        // Let's adjust the Email body to point to the image
-                        $body = $message->getHtmlBody();
-                        $id = $section->getId();
-                        // remove any the lt and gt symbols at start and end if they exist.
-                        $id = preg_replace(['/^</', '/>$/'], '', $id);
-                        $body = preg_replace("/cid:$id/", $file, $body);
+                    if ($id && preg_match("/cid:\s?$id/", $body)) {
+                        $image = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection()));
+                        $file = $path . $messageNo . "/embedded/" . $section->getName();
+                        if (!file_exists($file)) {
+                            $file = $this->saveFile($path . $messageNo . "/embedded", $image, $section->getName(), false);
+                        }
+
+                        $body = preg_replace("/cid:\s?$id/", $file, $body);
                         $message->setHtmlBody($body);
                     }
                 }
@@ -719,24 +725,30 @@ class ImapMailManager implements MailManager
      * @param int $messageNo The number of the message
      * @param array $filenames An array of filenames you want to download. Leave empty if you want to download all files
      * @param string $path The download path
-     * @return void
+     * @return string|bool
      */
     public function downloadAttachments($messageNo, $filenames = [], $path = '')
     {
-        $attachments = $this->getAttachments($messageNo);
-        $files = [];
-        if (count($attachments)) {
-            foreach ($attachments as $attachment) {
-                $file = $this->fetchBody($messageNo, $attachment['part']);
-                $decodedAttachment = $this->decode($attachment['encoding'], $file);
-                $files[] = ['decodedFile' => $decodedAttachment, 'filename' => $attachment['filename']];
+        if (!is_array($filenames)) {
+            $filenames = [$filenames];
+        }
 
-                if (in_array($attachment['filename'], $filenames) || empty($filenames)) {
-                    $binary = ($attachment['encoding'] == ENCBINARY) ? true : false;
-                    $this->saveFile($messageNo, $path, $files, $binary);
+        $attachments = $this->getAttachments($messageNo);
+
+        if (count($attachments)) {
+
+            foreach ($attachments as $attachment) {
+                if (in_array($attachment->getFilename(), $filenames)) {
+                    $file = $this->fetchBody($messageNo, $attachment->getPart());
+                    $decodedAttachment = $this->decode($attachment->getEncoding(), $file);
+
+                    $path = $messageNo;
+                    $binary = ($attachment->getEncoding() == ENCBINARY) ? true : false;
+                    return $this->saveFile($path, $decodedAttachment, $attachment->getFilename(), $binary);
                 }
             }
         }
+        return false;
     }
 
     /**
@@ -970,9 +982,11 @@ class ImapMailManager implements MailManager
     {
         // Now lets look for disposition parameters for attachments
         if ($part->ifdparameters) {
-            foreach ($part->dparameters as $param) {
-                if ($param->attribute == 'FILENAME') {
-                    $bodyPart->setName($param->value);
+            if ($part->disposition === "ATTACHMENT") {
+                foreach ($part->dparameters as $param) {
+                    if ($param->attribute == 'FILENAME') {
+                        $bodyPart->setName($param->value);
+                    }
                 }
             }
         }

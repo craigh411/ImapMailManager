@@ -9,29 +9,76 @@ use JsonSerializable;
 
 class Attachment implements Collectable, JsonSerializable
 {
-    function __construct()
-    {
 
+    protected $filename;
+    protected $part;
+    protected $encoding;
+    protected $attachment;
+
+    function __construct($filename, $part, $encoding, array $attachment = [])
+    {
+        $this->filename = $filename;
+        $this->part = $part;
+        $this->encoding = $encoding;
+        $this->attachment = $attachment;
     }
 
-    public function getFileName()
+    /**
+     * @return mixed
+     */
+    public function getFilename()
     {
-
+        return $this->filename;
     }
 
-    public function isEmbedded()
+    /**
+     * @param mixed $filename
+     */
+    public function setFilename($filename)
     {
-
+        $this->filename = $filename;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPart()
+    {
+        return $this->part;
+    }
+
+    /**
+     * @param mixed $part
+     */
+    public function setPart($part)
+    {
+        $this->part = $part;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getEncoding()
     {
-
+        return $this->encoding;
     }
 
-    public function getContent()
+    /**
+     * @param mixed $encoding
+     */
+    public function setEncoding($encoding)
     {
+        $this->encoding = $encoding;
+    }
 
+    public function setAttachment(array $attachment)
+    {
+        $this->attachment = $attachment;
+    }
+
+    public function getAttachment()
+    {
+        return $this->attachment;
     }
 
     /**
@@ -43,6 +90,10 @@ class Attachment implements Collectable, JsonSerializable
      */
     function jsonSerialize()
     {
-        // TODO: Implement jsonSerialize() method.
+        return [
+            'filename' => $this->filename,
+            'part'     => $this->part,
+            'encoding' => $this->encoding
+        ];
     }
 }

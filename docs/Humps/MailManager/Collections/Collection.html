@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>Humps\MailManager\EmailAddress | ImapMailManager Docs</title>
+    <title>Humps\MailManager\Collections\Collection | ImapMailManager Docs</title>
 
-            <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="../../css/sami.css">
-        <script src="../../js/jquery-1.11.1.min.js"></script>
-        <script src="../../js/bootstrap.min.js"></script>
-        <script src="../../js/typeahead.min.js"></script>
-        <script src="../../sami.js"></script>
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
         <meta name="MobileOptimized" content="width">
         <meta name="HandheldFriendly" content="true">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
@@ -19,11 +19,11 @@
     
     </head>
 
-    <body id="class" data-name="class:Humps_MailManager_EmailAddress" data-root-path="../../">
+    <body id="class" data-name="class:Humps_MailManager_Collections_Collection" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
-                <form id="search-form" action="../../search.html" method="GET">
+                <form id="search-form" action="../../../search.html" method="GET">
             <span class="glyphicon glyphicon-search"></span>
             <input name="search"
                    class="typeahead form-control"
@@ -45,16 +45,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../../index.html">ImapMailManager Docs</a>
+                <a class="navbar-brand" href="../../../index.html">ImapMailManager Docs</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-elements">
                 <ul class="nav navbar-nav">
-                    <li><a href="../../classes.html">Classes</a></li>
-                                            <li><a href="../../namespaces.html">Namespaces</a></li>
-                                        <li><a href="../../interfaces.html">Interfaces</a></li>
-                    <li><a href="../../traits.html">Traits</a></li>
-                    <li><a href="../../doc-index.html">Index</a></li>
-                    <li><a href="../../search.html">Search</a></li>
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
                 </ul>
             </div>
         </div>
@@ -63,23 +63,28 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                                                            <li><a href="../../Humps.html">Humps</a></li>
-                                        <li><a href="../../Humps/MailManager.html">MailManager</a></li>
+                                                            <li><a href="../../../Humps.html">Humps</a></li>
+                                        <li><a href="../../../Humps/MailManager.html">MailManager</a></li>
+                                        <li><a href="../../../Humps/MailManager/Collections.html">Collections</a></li>
     
-                <li>EmailAddress</li>
+                <li>Collection</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>EmailAddress</h1>
+        <h1>Collection</h1>
     </div>
 
     <p>    class
-    <strong>EmailAddress</strong>        implements
-        <a href="../../Humps/MailManager/Collections/Collectable.html"><abbr title="Humps\MailManager\Collections\Collectable">Collectable</abbr></a>, <a target="_blank" href="http://php.net/JsonSerializable"><abbr title="JsonSerializable">JsonSerializable</abbr></a>
+    <strong>Collection</strong>        implements
+        <a target="_blank" href="http://php.net/IteratorAggregate"><abbr title="IteratorAggregate">IteratorAggregate</abbr></a>, <a target="_blank" href="http://php.net/ArrayAccess"><abbr title="ArrayAccess">ArrayAccess</abbr></a>, <a target="_blank" href="http://php.net/Countable"><abbr title="Countable">Countable</abbr></a>, <a href="../../../Humps/MailManager/Collections/Jsonable.html"><abbr title="Humps\MailManager\Collections\Jsonable">Jsonable</abbr></a>
 </p>
 
+            <div class="description">
+            <p>A simple abstract class for allowing access to an array of objects. This is not intended to be a comprehensive
+Collection class, but rather, a convenient abstract wrapper for ensuring that the correct object arrays are
+being passed in to functions which type hint child classes.</p>            <p>Class Collection</p>        </div>
     
     
     
@@ -92,7 +97,77 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($mailbox = null, $host = null, $personal = null)
+                    <a href="#method_remove">remove</a>($key)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_get">get</a>($key)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getIterator">getIterator</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_count">count</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetExists">offsetExists</a>($offset)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetGet">offsetGet</a>($offset)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetSet">offsetSet</a>($offset, $value)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetUnset">offsetUnset</a>($offset)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -102,84 +177,18 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMailbox">getMailbox</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_toJson">toJson</a>()
+                                            <p>Converts the current object to JSON</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setMailbox">setMailbox</a>(mixed $mailbox)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getHost">getHost</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="Humps\MailManager\$this">$this</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getEmailAddress">getEmailAddress</a>()
-                                            <p>Returns the Email address as a string by calling __toString()</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setHost">setHost</a>(mixed $host)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    string
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getPersonal">getPersonal</a>()
-                                            <p>Returns the personal information for the E-mail (i.e. real name or company name)</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setPersonal">setPersonal</a>(string $personal)
-                                            <p>Sets the personal information for the E-mail (i.e. real name or company name)</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method___toString">__toString</a>()
-                                            <p>How to convert object to string</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_jsonSerialize">jsonSerialize</a>()
-                                            <p>Specify data which should be serialized to JSON</p>                </div>
+                                            <p class="no-description">No description</p>
+                                    </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -189,10 +198,10 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method___construct">
-        <div class="location">at line 17</div>
+                    <h3 id="method_remove">
+        <div class="location">at line 46</div>
         <code>                    
-    <strong>__construct</strong>($mailbox = null, $host = null, $personal = null)</code>
+    <strong>remove</strong>($key)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -201,19 +210,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$mailbox</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$host</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$personal</td>
+                <td>$key</td>
                 <td>
 </td>
             </tr>
@@ -227,113 +224,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getMailbox">
-        <div class="location">at line 28</div>
-        <code>                    mixed
-    <strong>getMailbox</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_setMailbox">
-        <div class="location">at line 36</div>
-        <code>                    
-    <strong>setMailbox</strong>(mixed $mailbox)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>mixed</td>
-                <td>$mailbox</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getHost">
-        <div class="location">at line 44</div>
-        <code>                    mixed
-    <strong>getHost</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getEmailAddress">
+                    <h3 id="method_get">
         <div class="location">at line 53</div>
-        <code>                    <abbr title="Humps\MailManager\$this">$this</abbr>
-    <strong>getEmailAddress</strong>()</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Returns the Email address as a string by calling __toString()</p>                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="Humps\MailManager\$this">$this</abbr></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_setHost">
-        <div class="location">at line 62</div>
         <code>                    
-    <strong>setHost</strong>(mixed $host)</code>
+    <strong>get</strong>($key)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -341,8 +235,8 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>mixed</td>
-                <td>$host</td>
+                <td></td>
+                <td>$key</td>
                 <td>
 </td>
             </tr>
@@ -356,26 +250,14 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getPersonal">
-        <div class="location">at line 71</div>
-        <code>                    string
-    <strong>getPersonal</strong>()</code>
+                    <h3 id="method_getIterator">
+        <div class="location">at line 58</div>
+        <code>                    
+    <strong>getIterator</strong>()</code>
     </h3>
     <div class="details">
-                    <div class="method-description">
-                                    <p>Returns the personal information for the E-mail (i.e. real name or company name)</p>                                </div>
                 <div class="tags">
             
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>string</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
             
             
                     </div>
@@ -383,27 +265,151 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_setPersonal">
-        <div class="location">at line 80</div>
+                    <h3 id="method_count">
+        <div class="location">at line 63</div>
         <code>                    
-    <strong>setPersonal</strong>(string $personal)</code>
+    <strong>count</strong>()</code>
     </h3>
     <div class="details">
-                    <div class="method-description">
-                                    <p>Sets the personal information for the E-mail (i.e. real name or company name)</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetExists">
+        <div class="location">at line 68</div>
+        <code>                    
+    <strong>offsetExists</strong>($offset)</code>
+    </h3>
+    <div class="details">
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
-                <td>$personal</td>
+                <td></td>
+                <td>$offset</td>
                 <td>
 </td>
             </tr>
             </table>
 
             
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetGet">
+        <div class="location">at line 73</div>
+        <code>                    
+    <strong>offsetGet</strong>($offset)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$offset</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetSet">
+        <div class="location">at line 78</div>
+        <code>                    
+    <strong>offsetSet</strong>($offset, $value)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$offset</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$value</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetUnset">
+        <div class="location">at line 87</div>
+        <code>                    
+    <strong>offsetUnset</strong>($offset)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$offset</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_toJson">
+        <div class="location">at line 92</div>
+        <code>                    mixed
+    <strong>toJson</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Converts the current object to JSON</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -412,52 +418,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at line 89</div>
-        <code>                    string
+        <div class="location">at line 97</div>
+        <code>                    
     <strong>__toString</strong>()</code>
     </h3>
     <div class="details">
-                    <div class="method-description">
-                                    <p>How to convert object to string</p>                                </div>
                 <div class="tags">
             
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>string</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_jsonSerialize">
-        <div class="location">at line 101</div>
-        <code>                    mixed
-    <strong>jsonSerialize</strong>()</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Specify data which should be serialized to JSON</p>                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td>data which can be serialized by <b>json_encode</b>,
-which is a value of any type other than a resource.</td>
-        </tr>
-    </table>
-
             
             
                     </div>

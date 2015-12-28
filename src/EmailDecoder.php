@@ -3,8 +3,6 @@
 
 namespace Humps\MailManager;
 
-use Exception;
-
 /**
  * Attempts to decode Email messages with unknown decoding
  * Class Decoder
@@ -12,7 +10,6 @@ use Exception;
  */
 class EmailDecoder
 {
-
 
     public static function decodeBody($message)
     {
@@ -101,10 +98,4 @@ class EmailDecoder
         }
         return $str;
     }
-
-    public static function guessEncoding($message)
-    {
-        return mb_detect_encoding($message, 'BASE64, 8bit');
-    }
-
 }

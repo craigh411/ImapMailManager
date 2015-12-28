@@ -14,7 +14,8 @@
   "require-dev": {
     "fzaninotto/faker": "^1.5",
     "phpunit/phpunit": "^5.1",
-    "sami/sami": "~3.0.0"
+    "sami/sami": "~3.0.0",
+    "mockery/mockery": "^0.9.4"
   },
   "autoload": {
     "psr-4": {

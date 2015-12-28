@@ -1,4 +1,5 @@
 <?
+set_time_limit(0);
 require_once '../vendor/autoload.php';
 
 $mid = (isset($_REQUEST['mid'])) ? $_REQUEST['mid'] : null;
@@ -51,6 +52,7 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
     if (!is_null($mid)):
         $mailManager = new Humps\MailManager\ImapMailManager($folder);
         $message = $mailManager->getMessage($mid);
+        //var_dump($message->getAttachments()[0]->getAttachment());
         ?>
         <table class="table table-striped">
             <tr>
@@ -64,6 +66,19 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
             <tr>
                 <td>Subject:</td>
                 <td><?= $message->getSubject() ?></td>
+            </tr>
+            <tr>
+                <? if ($message->hasAttachments()): ?>
+                    <td>Attachments:</td>
+                    <td>
+                        <?
+                        foreach ($message->getAttachments() as $attachment):
+                            ?>
+                            <span class="glyphicon glyphicon-paperclip"></span> <?= $attachment->getFilename() ?> <a href="getAttachment.php?mid=<?=$mid?>&filename=<?=urlencode($attachment->getFilename())?>&folder=<?=$folder?>"><span class="glyphicon glyphicon-download"></span></a>
+                        <? endforeach ?>
+
+                    </td>
+                <? endif ?>
             </tr>
         </table>
 

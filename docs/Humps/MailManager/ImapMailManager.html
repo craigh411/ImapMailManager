@@ -98,7 +98,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
+                    <a href="../../Humps/MailManager/ImapMessage.html"><abbr title="Humps\MailManager\ImapMessage">ImapMessage</abbr></a>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getMessage">getMessage</a>(int $messageNo, int $options, bool $headersOnly = false)
@@ -333,6 +333,16 @@ will be at index 0 (<code>$bodyParts[0]</code>), part 2 at index 1 (<code>$bodyP
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchHeader">fetchHeader</a>($messageNo)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     string
                 </div>
                 <div class="col-md-8 type">
@@ -346,8 +356,7 @@ will be at index 0 (<code>$bodyParts[0]</code>), part 2 at index 1 (<code>$bodyP
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getAttachments">getAttachments</a>(int $messageNo)
-                                            <p>TODO This needs to be changed so an array of Attachment objects are returned
-Get the E-mail attachment details for the given message number</p>                </div>
+                                            <p>Get the E-mail attachment details for the given message number</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -356,14 +365,13 @@ Get the E-mail attachment details for the given message number</p>              
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getEmbeddedImages">getEmbeddedImages</a>(<abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr> $message, $path = &#039;&#039;)
-                                            <p>TODO implement the replace function so it works for non cid messages
-Gets the embedded images for the given messages and alters the body accordingly
+                                            <p>Gets the embedded images for the given messages and alters the body accordingly
 Important: This function downloads images to the given path and places them inside an /embedded/{messageNo} folder</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    void
+                    string|bool
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_downloadAttachments">downloadAttachments</a>(int $messageNo, array $filenames = array(), string $path = &#039;&#039;)
@@ -514,7 +522,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 27</div>
+        <div class="location">at line 31</div>
         <code>                    
     <strong>__construct</strong>(string $folder = &#039;INBOX&#039;, string $configFile = &#039;imap_config.php&#039;)</code>
     </h3>
@@ -556,8 +564,8 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessage">
-        <div class="location">at line 110</div>
-        <code>                    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
+        <div class="location">at line 114</div>
+        <code>                    <a href="../../Humps/MailManager/ImapMessage.html"><abbr title="Humps\MailManager\ImapMessage">ImapMessage</abbr></a>
     <strong>getMessage</strong>(int $messageNo, int $options, bool $headersOnly = false)</code>
     </h3>
     <div class="details">
@@ -589,7 +597,7 @@ UTF-8, so this is only required when you want your output to use a different enc
 
                     <table class="table table-condensed">
         <tr>
-            <td><a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a></td>
+            <td><a href="../../Humps/MailManager/ImapMessage.html"><abbr title="Humps\MailManager\ImapMessage">ImapMessage</abbr></a></td>
             <td>The Message object!</td>
         </tr>
     </table>
@@ -602,7 +610,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getAllMessages">
-        <div class="location">at line 129</div>
+        <div class="location">at line 134</div>
         <code>                    array
     <strong>getAllMessages</strong>($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)</code>
     </h3>
@@ -657,7 +665,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getUnreadMessages">
-        <div class="location">at line 139</div>
+        <div class="location">at line 144</div>
         <code>                    array
     <strong>getUnreadMessages</strong>(bool $markAsRead = false)</code>
     </h3>
@@ -693,7 +701,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBySender">
-        <div class="location">at line 153</div>
+        <div class="location">at line 158</div>
         <code>                    array
     <strong>getMessagesBySender</strong>(string $sender, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -749,7 +757,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBySubject">
-        <div class="location">at line 167</div>
+        <div class="location">at line 172</div>
         <code>                    array
     <strong>getMessagesBySubject</strong>(string $subject, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -805,7 +813,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesByCC">
-        <div class="location">at line 181</div>
+        <div class="location">at line 186</div>
         <code>                    array
     <strong>getMessagesByCC</strong>(string $cc, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -861,7 +869,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesByBCC">
-        <div class="location">at line 195</div>
+        <div class="location">at line 200</div>
         <code>                    array
     <strong>getMessagesByBCC</strong>(string $bcc, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -917,7 +925,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesByReceiver">
-        <div class="location">at line 209</div>
+        <div class="location">at line 214</div>
         <code>                    array
     <strong>getMessagesByReceiver</strong>(string $to, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -973,7 +981,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesByDate">
-        <div class="location">at line 223</div>
+        <div class="location">at line 228</div>
         <code>                    array
     <strong>getMessagesByDate</strong>(string $date, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1029,7 +1037,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBefore">
-        <div class="location">at line 238</div>
+        <div class="location">at line 243</div>
         <code>                    array
     <strong>getMessagesBefore</strong>(string $date, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1085,7 +1093,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBetween">
-        <div class="location">at line 255</div>
+        <div class="location">at line 260</div>
         <code>                    array
     <strong>getMessagesBetween</strong>(string $from, string $to, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1156,7 +1164,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesAfter">
-        <div class="location">at line 286</div>
+        <div class="location">at line 291</div>
         <code>                    array
     <strong>getMessagesAfter</strong>(string $date, bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1212,7 +1220,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getReadMessages">
-        <div class="location">at line 299</div>
+        <div class="location">at line 304</div>
         <code>                    array
     <strong>getReadMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1258,7 +1266,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getImportantMessages">
-        <div class="location">at line 313</div>
+        <div class="location">at line 318</div>
         <code>                    array
     <strong>getImportantMessages</strong>(bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1309,7 +1317,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getAnsweredMessages">
-        <div class="location">at line 327</div>
+        <div class="location">at line 332</div>
         <code>                    array
     <strong>getAnsweredMessages</strong>(bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1360,7 +1368,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getUnansweredMessages">
-        <div class="location">at line 340</div>
+        <div class="location">at line 345</div>
         <code>                    array
     <strong>getUnansweredMessages</strong>(bool $markAsRead = false, int $sortBy = SORTDATE, bool $reverse = true, bool $headersOnly = false)</code>
     </h3>
@@ -1411,7 +1419,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_searchMessages">
-        <div class="location">at line 357</div>
+        <div class="location">at line 362</div>
         <code>                    array
     <strong>searchMessages</strong>(string $criteria, string|array $searches = null, int $sortBy = SORTDATE, bool $reverse = true, int $messageOptions, bool $headersOnly = false)</code>
     </h3>
@@ -1472,7 +1480,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageByUid">
-        <div class="location">at line 394</div>
+        <div class="location">at line 399</div>
         <code>                    <a href="../../Humps/MailManager/Contracts/Message.html"><abbr title="Humps\MailManager\Contracts\Message">Message</abbr></a>
     <strong>getMessageByUid</strong>(string $uid)</code>
     </h3>
@@ -1508,7 +1516,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageList">
-        <div class="location">at line 405</div>
+        <div class="location">at line 410</div>
         <code>        static            string
     <strong>getMessageList</strong>(array $messages)</code>
     </h3>
@@ -1554,7 +1562,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageNumbers">
-        <div class="location">at line 416</div>
+        <div class="location">at line 421</div>
         <code>        static            array
     <strong>getMessageNumbers</strong>(array $messages)</code>
     </h3>
@@ -1601,7 +1609,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_flagAsRead">
-        <div class="location">at line 437</div>
+        <div class="location">at line 442</div>
         <code>                    bool
     <strong>flagAsRead</strong>(string $messageList)</code>
     </h3>
@@ -1638,7 +1646,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_flagAsImportant">
-        <div class="location">at line 447</div>
+        <div class="location">at line 452</div>
         <code>                    bool
     <strong>flagAsImportant</strong>(string $messageList)</code>
     </h3>
@@ -1675,7 +1683,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_flagAsAnswered">
-        <div class="location">at line 457</div>
+        <div class="location">at line 462</div>
         <code>                    bool
     <strong>flagAsAnswered</strong>(string $messageList)</code>
     </h3>
@@ -1712,7 +1720,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_setFlag">
-        <div class="location">at line 468</div>
+        <div class="location">at line 473</div>
         <code>                    bool
     <strong>setFlag</strong>(string $messageList, string $flag)</code>
     </h3>
@@ -1754,7 +1762,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchStructure">
-        <div class="location">at line 519</div>
+        <div class="location">at line 524</div>
         <code>                    object
     <strong>fetchStructure</strong>(int $messageNo)</code>
     </h3>
@@ -1790,7 +1798,7 @@ UTF-8, so this is only required when you want your output to use a different enc
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchBodyParts">
-        <div class="location">at line 576</div>
+        <div class="location">at line 582</div>
         <code>                    array
     <strong>fetchBodyParts</strong>(array $structure)</code>
     </h3>
@@ -1826,8 +1834,34 @@ will be at index 0 (<code>$bodyParts[0]</code>), part 2 at index 1 (<code>$bodyP
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_fetchHeader">
+        <div class="location">at line 589</div>
+        <code>                    
+    <strong>fetchHeader</strong>($messageNo)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$messageNo</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_fetchBody">
-        <div class="location">at line 634</div>
+        <div class="location">at line 645</div>
         <code>                    string
     <strong>fetchBody</strong>(int $messageNo, string $part, int $options)</code>
     </h3>
@@ -1874,14 +1908,13 @@ will be at index 0 (<code>$bodyParts[0]</code>), part 2 at index 1 (<code>$bodyP
             </div>
                     <div class="method-item">
                     <h3 id="method_getAttachments">
-        <div class="location">at line 645</div>
+        <div class="location">at line 655</div>
         <code>                    array
     <strong>getAttachments</strong>(int $messageNo)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>TODO This needs to be changed so an array of Attachment objects are returned
-Get the E-mail attachment details for the given message number</p>                                </div>
+                                    <p>Get the E-mail attachment details for the given message number</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1912,14 +1945,13 @@ Get the E-mail attachment details for the given message number</p>              
             </div>
                     <div class="method-item">
                     <h3 id="method_getEmbeddedImages">
-        <div class="location">at line 675</div>
+        <div class="location">at line 683</div>
         <code>                    void
     <strong>getEmbeddedImages</strong>(<abbr title="Humps\MailManager\Humps\MailManager\Contracts\Message">Message</abbr> $message, $path = &#039;&#039;)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>TODO implement the replace function so it works for non cid messages
-Gets the embedded images for the given messages and alters the body accordingly
+                                    <p>Gets the embedded images for the given messages and alters the body accordingly
 Important: This function downloads images to the given path and places them inside an /embedded/{messageNo} folder</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
@@ -1958,8 +1990,8 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_downloadAttachments">
-        <div class="location">at line 720</div>
-        <code>                    void
+        <div class="location">at line 730</div>
+        <code>                    string|bool
     <strong>downloadAttachments</strong>(int $messageNo, array $filenames = array(), string $path = &#039;&#039;)</code>
     </h3>
     <div class="details">
@@ -1991,7 +2023,7 @@ Important: This function downloads images to the given path and places them insi
 
                     <table class="table table-condensed">
         <tr>
-            <td>void</td>
+            <td>string|bool</td>
             <td>
 </td>
         </tr>
@@ -2005,7 +2037,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_getAllFolders">
-        <div class="location">at line 766</div>
+        <div class="location">at line 782</div>
         <code>                    array
     <strong>getAllFolders</strong>(bool $currentFolder = false)</code>
     </h3>
@@ -2041,7 +2073,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageCount">
-        <div class="location">at line 790</div>
+        <div class="location">at line 806</div>
         <code>                    int
     <strong>getMessageCount</strong>()</code>
     </h3>
@@ -2068,7 +2100,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_getMailboxName">
-        <div class="location">at line 799</div>
+        <div class="location">at line 815</div>
         <code>                    string
     <strong>getMailboxName</strong>()</code>
     </h3>
@@ -2095,7 +2127,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolderName">
-        <div class="location">at line 808</div>
+        <div class="location">at line 824</div>
         <code>                    string
     <strong>getFolderName</strong>()</code>
     </h3>
@@ -2122,7 +2154,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_getUnreadMessageCount">
-        <div class="location">at line 832</div>
+        <div class="location">at line 848</div>
         <code>                    int
     <strong>getUnreadMessageCount</strong>()</code>
     </h3>
@@ -2149,7 +2181,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_getConnection">
-        <div class="location">at line 842</div>
+        <div class="location">at line 858</div>
         <code>                    resource
     <strong>getConnection</strong>()</code>
     </h3>
@@ -2176,7 +2208,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_getMailbox">
-        <div class="location">at line 851</div>
+        <div class="location">at line 867</div>
         <code>                    <a href="../../Humps/MailManager/Mailbox.html"><abbr title="Humps\MailManager\Mailbox">Mailbox</abbr></a>
     <strong>getMailbox</strong>()</code>
     </h3>
@@ -2203,7 +2235,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_emptyTrash">
-        <div class="location">at line 862</div>
+        <div class="location">at line 878</div>
         <code>                    void
     <strong>emptyTrash</strong>(string $folder = &#039;trash&#039;)</code>
     </h3>
@@ -2251,7 +2283,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteAllMessages">
-        <div class="location">at line 884</div>
+        <div class="location">at line 900</div>
         <code>                    bool
     <strong>deleteAllMessages</strong>(string $folder)</code>
     </h3>
@@ -2298,7 +2330,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_openFolder">
-        <div class="location">at line 898</div>
+        <div class="location">at line 914</div>
         <code>                    bool
     <strong>openFolder</strong>($folder)</code>
     </h3>
@@ -2336,7 +2368,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_refresh">
-        <div class="location">at line 913</div>
+        <div class="location">at line 929</div>
         <code>                    bool
     <strong>refresh</strong>()</code>
     </h3>
@@ -2363,7 +2395,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteMessages">
-        <div class="location">at line 923</div>
+        <div class="location">at line 939</div>
         <code>                    bool
     <strong>deleteMessages</strong>(string $messageList)</code>
     </h3>
@@ -2400,7 +2432,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_moveToTrash">
-        <div class="location">at line 938</div>
+        <div class="location">at line 954</div>
         <code>                    void
     <strong>moveToTrash</strong>(string $messageList, string $folder = &#039;trash&#039;)</code>
     </h3>
@@ -2442,7 +2474,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_closeConnection">
-        <div class="location">at line 950</div>
+        <div class="location">at line 966</div>
         <code>                    bool
     <strong>closeConnection</strong>(bool $deleteFlaggedEmails = true)</code>
     </h3>
@@ -2479,7 +2511,7 @@ Important: This function downloads images to the given path and places them insi
             </div>
                     <div class="method-item">
                     <h3 id="method_setOutputEncoding">
-        <div class="location">at line 1001</div>
+        <div class="location">at line 1019</div>
         <code>                    void
     <strong>setOutputEncoding</strong>(string $encoding)</code>
     </h3>

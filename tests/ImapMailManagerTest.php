@@ -13,29 +13,43 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @var ImapMailManager
      */
-    protected $mailManager;
+    protected static $mailManager;
+    /**
+     * @var Faker
+     */
     protected $faker;
     protected $createdEmails;
+
+
+    public static function setupBeforeClass()
+    {
+        self::$mailManager = new ImapMailManager();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$mailManager->closeConnection();
+    }
 
     public function setUp()
     {
         $this->faker = Faker\Factory::create();
-        $this->mailManager = new ImapMailManager();
+
         $this->createdEmails = [];
         $this->createEmail();
-        $this->mailManager->refresh();
+        self::$mailManager->refresh();
     }
 
     public function tearDown()
     {
-        $this->mailManager->openFolder('inbox');
-        $messages = $this->mailManager->searchMessages('subject', $this->createdEmails);
+        self::$mailManager->openFolder('inbox');
+        $messages = self::$mailManager->searchMessages('subject', $this->createdEmails);
         // Delete all created messaged
         foreach ($messages as $message) {
-            $this->mailManager->deleteMessages($message->getMessageNo());
+            self::$mailManager->deleteMessages($message->getMessageNo());
         }
 
-        $this->mailManager->closeConnection();
+        self::$mailManager->closeConnection();
     }
 
 
@@ -44,8 +58,8 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_get_the_messages_from_the_mailbox()
     {
-        $this->assertTrue(count($this->mailManager->getAllMessages()) === $this->mailManager->getMessageCount());
-        $this->assertInstanceOf('Humps\MailManager\Contracts\Message', $this->mailManager->getAllMessages()[0]);
+        $this->assertTrue(count(self::$mailManager->getAllMessages()) === self::$mailManager->getMessageCount());
+        $this->assertInstanceOf('Humps\MailManager\Contracts\Message', self::$mailManager->getAllMessages()[0]);
     }
 
 
@@ -55,15 +69,15 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     public function it_flags_the_messages_as_read()
     {
         $this->createEmail();
-        $this->mailManager->refresh();
+        self::$mailManager->refresh();
 
-        $messages = $this->mailManager->searchMessages('subject', $this->createdEmails);
+        $messages = self::$mailManager->searchMessages('subject', $this->createdEmails);
 
         $messageList = ImapMailManager::getMessageList($messages);
-        $this->mailManager->flagAsRead($messageList);
+        self::$mailManager->flagAsRead($messageList);
 
-        $this->assertEquals(2, $this->mailManager->getMessageCount());
-        $this->assertEquals(0, $this->mailManager->getUnreadMessageCount());
+        $this->assertEquals(2, self::$mailManager->getMessageCount());
+        $this->assertEquals(0, self::$mailManager->getUnreadMessageCount());
     }
 
     /**
@@ -71,7 +85,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_returns_the_number_of_unread_messages()
     {
-        $this->assertEquals(1, $this->mailManager->getMessageCount());
+        $this->assertEquals(1, self::$mailManager->getMessageCount());
     }
 
     /**
@@ -79,17 +93,9 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_returns_a_list_of_folder_names()
     {
-        $folders = $this->mailManager->getAllFolders();
+        $folders = self::$mailManager->getAllFolders();
 
         $this->assertInstanceOf('Humps\MailManager\Folder', $folders[0]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_should_connect_to_the_mailbox()
-    {
-        $this->assertNotFalse($this->mailManager->getConnection());
     }
 
 
@@ -104,8 +110,8 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
         $this->createEmail($email);
 
         // Re-connect so we can get the new messages
-        $this->mailManager->refresh();
-        $messages = $this->mailManager->getMessagesBySender($email);
+        self::$mailManager->refresh();
+        $messages = self::$mailManager->getMessagesBySender($email);
 
         $this->assertEquals(2, count($messages));
         $this->assertInstanceOf('Humps\MailManager\Contracts\Message', $messages[0]);
@@ -116,8 +122,8 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_change_to_the_trash_folder()
     {
-        $this->mailManager->openFolder('trash');
-        $this->assertContains('[Gmail]/Trash', $this->mailManager->getMailboxName());
+        self::$mailManager->openFolder('trash');
+        $this->assertContains('[Gmail]/Trash', self::$mailManager->getMailboxName());
     }
 
     /**
@@ -126,15 +132,15 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     public function it_should_move_messages_to_the_trash_folder()
     {
         $this->createEmail();
-        $this->mailManager->refresh();
+        self::$mailManager->refresh();
 
-        $messages = $this->mailManager->searchMessages('subject', $this->createdEmails);
+        $messages = self::$mailManager->searchMessages('subject', $this->createdEmails);
 
         $messageList = ImapMailManager::getMessageList($messages);
-        $this->mailManager->moveToTrash($messageList, 'trash');
+        self::$mailManager->moveToTrash($messageList, 'trash');
 
-        $this->mailManager->openFolder('trash');
-        $this->assertEquals(2, $this->mailManager->getMessageCount());
+        self::$mailManager->openFolder('trash');
+        $this->assertEquals(2, self::$mailManager->getMessageCount());
     }
 
     /**
@@ -142,10 +148,10 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_delete_messages_from_the_trash_folder()
     {
-        $this->mailManager->openFolder('trash');
-        $this->assertTrue($this->mailManager->getMessageCount() > 0);
-        $this->mailManager->emptyTrash();
-        $this->assertEquals(0, $this->mailManager->getMessageCount());
+        self::$mailManager->openFolder('trash');
+        $this->assertTrue(self::$mailManager->getMessageCount() > 0);
+        self::$mailManager->emptyTrash();
+        $this->assertEquals(0, self::$mailManager->getMessageCount());
     }
 
     /**
@@ -153,7 +159,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_get_the_number_of_message_in_the_inbox()
     {
-        $this->assertInternalType('int', $this->mailManager->getMessageCount());
+        $this->assertInternalType('int', self::$mailManager->getMessageCount());
     }
 
 
@@ -178,7 +184,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
 
         $msg = imap_mail_compose($envelope, $body);
 
-        if (imap_append($this->mailManager->getConnection(), $this->mailManager->getMailboxName(), $msg) === false) {
+        if (imap_append(self::$mailManager->getConnection(), self::$mailManager->getMailboxName(), $msg) === false) {
             die("could not append message: " . imap_last_error());
         }
     }

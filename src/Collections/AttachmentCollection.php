@@ -5,8 +5,9 @@ namespace Humps\MailManager\Collections;
 
 
 use Humps\MailManager\Attachment;
+use InvalidArgumentException;
 
-class AttachmentCollection extends Collection
+class AttachmentCollection extends AbstractCollection
 {
 
     function __construct()
@@ -18,8 +19,23 @@ class AttachmentCollection extends Collection
      * Adds an Attachment to the collection
      * @param Attachment $attachment
      */
-    public function add(Attachment $attachment)
+    public function add(Collectable $attachment, $key = null)
     {
-        parent::addCollectable($attachment);
+        if ($attachment instanceof Attachment) {
+            parent::add($attachment, $key);
+        } else {
+            throw new InvalidArgumentException('Attachment object expected');
+        }
+    }
+
+    /**
+     * How this collection will be serialized to json
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'attachments' => $this->collection
+        ];
     }
 }
