@@ -11,8 +11,7 @@ require_once '../vendor/autoload.php';
 $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
 
 $mailManager = new ImapMailManager($folder);
-$messages = $mailManager->getMessagesAfter('2015-12-01', true);
-var_export(imap_sort($mailManager->getConnection(), SORTDATE, true, 0, 'ALL'));
+$messages = $mailManager->getMessagesBetween('2015-12-12','2015-12-15');
 
 //$messages = $mailManager->searchMessages('FROM', 'Joyce Li');
 $folders = $mailManager->getAllFolders();
@@ -114,7 +113,7 @@ $folders = $mailManager->getAllFolders();
                         </td>
                         <td><span
                                 class="glyphicon glyphicon-paperclip" <?= (!$message->hasAttachments()) ? 'style="visibility:hidden;"' : '' ?>></span>
-                            <?= $message->getDate()->diffForHumans(); ?></td>
+                            <?= $message->getDate()->format('d-m-Y'); ?></td>
                     </tr>
                     <?
                 endforeach;
@@ -136,9 +135,8 @@ $folders = $mailManager->getAllFolders();
 // Script end
 $time_end = microtime(true);
 
-//dividing with 60 will give the execution time in minutes other wise seconds
-$execution_time = ($time_end - $time_start) / 60;
+$execution_time = ($time_end - $time_start);
 
 //execution time of the script
-echo '<b>Total Execution Time:</b> ' . $execution_time . ' Mins';
+echo '<b>Total Execution Time:</b> ' . $execution_time . ' Seconds';
 ?>

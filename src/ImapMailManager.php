@@ -133,7 +133,7 @@ class ImapMailManager implements MailManager
      */
     public function getAllMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('ALL', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        return $this->searchMessages('ALL', $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -143,7 +143,7 @@ class ImapMailManager implements MailManager
      */
     public function getUnreadMessages($markAsRead = false)
     {
-        return $this->searchMessages('UNSEEN', null, SORTDATE, true, $this->isMarkAsRead($markAsRead));
+        return $this->searchMessages('UNSEEN', SORTDATE, true, $this->isMarkAsRead($markAsRead));
     }
 
     /**
@@ -157,7 +157,8 @@ class ImapMailManager implements MailManager
      */
     public function getMessagesBySender($sender, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('FROM', $sender, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['from' => $sender];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -171,7 +172,8 @@ class ImapMailManager implements MailManager
      */
     public function getMessagesBySubject($subject, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('SUBJECT', $subject, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['subject' => $subject];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -185,7 +187,8 @@ class ImapMailManager implements MailManager
      */
     public function getMessagesByCC($cc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('CC', $cc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['cc' => $cc];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -199,7 +202,8 @@ class ImapMailManager implements MailManager
      */
     public function getMessagesByBCC($bcc, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('BCC', $bcc, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['bcc' => $bcc];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -213,7 +217,8 @@ class ImapMailManager implements MailManager
      */
     public function getMessagesByReceiver($to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('to', $to, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['to' => $to];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -228,7 +233,8 @@ class ImapMailManager implements MailManager
     public function getMessagesByDate($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
         $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('ON', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['on' => $date];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -243,40 +249,34 @@ class ImapMailManager implements MailManager
     public function getMessagesBefore($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
         $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('before', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['before' => $date];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
      * Gets the messages sent between the specified dates
      * @param string $from The from date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
      * @param string $to The to date. This is run through Carbon::parse(), so can be any date format supported by Carbon (see: <a href="http://carbon.nesbot.com/docs/#api-instantiation">http://carbon.nesbot.com/docs/#api-instantiation</a>)
-     * @param bool $markAsRead Set the fetched messages as read/seen
      * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
      * @param bool $reverse Whether the sort should be in reverse order
+     * @param bool $markAsRead Set the fetched messages as read/seen
      * @param bool $headersOnly Return headers only, don't fetch the message body.
      * @return array An array of Message objects
      * @throws Exception
      */
     public function getMessagesBetween($from, $to, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        $fromTS = Carbon::parse($from)->timestamp;
-        $to = Carbon::parse($to)->addDays(1)->timestamp;
+        $from = Carbon::parse($from);
+        $to = Carbon::parse($to);
 
-        if ($fromTS > $to) {
-            throw new Exception('Invalid Date Range');
+
+        if ($from->timestamp > $to->timestamp) {
+            throw new Exception('Invalid Date Range: \'from\' date must be earlier than \'to\' date.');
         }
 
-        // Get all messages before the upper date range
-        $messages = $this->getMessagesAfter($from, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
-        $filtered = [];
-        foreach ($messages as $message) {
-            $date = $message->getDate();
-            if ($date->timestamp <= $to) {
-                $filtered[] = $message;
-            }
-        }
+        $criteria = ['since' => $from->format('d-M-Y'), 'before' => $to->addDays(1)->format('d-M-Y')];
 
-        return $filtered;
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -291,7 +291,8 @@ class ImapMailManager implements MailManager
     public function getMessagesAfter($date, $markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
         $date = Carbon::parse($date)->format('d-M-Y');
-        return $this->searchMessages('since', $date, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        $criteria = ['since' => $date];
+        return $this->searchMessages($criteria, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -303,7 +304,7 @@ class ImapMailManager implements MailManager
      */
     public function getReadMessages($sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('SEEN', $sortBy, SORTDATE, $reverse, 0, $headersOnly);
+        return $this->searchMessages('SEEN', $sortBy, $reverse, 0, $headersOnly);
     }
 
 
@@ -317,7 +318,7 @@ class ImapMailManager implements MailManager
      */
     public function getImportantMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('FLAGGED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        return $this->searchMessages('FLAGGED', $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
 
@@ -331,7 +332,7 @@ class ImapMailManager implements MailManager
      */
     public function getAnsweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('ANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        return $this->searchMessages('ANSWERED', $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -344,14 +345,18 @@ class ImapMailManager implements MailManager
      */
     public function getUnansweredMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('UNANSWERED', null, $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
+        return $this->searchMessages('UNANSWERED', $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
-     * Search for a message by the given criteria
+     * Search for a message by the given criteria. The criteria can either be a string, such as 'ALL' or an array
+     * Where the key is the criteria and the value is a string or array of search terms.
+     * see imap_search criteria (<a href="http://php.net/manual/en/function.imap-search.php">http://php.net/manual/en/function.imap-search.php</a>)
+     *
+     * It's important to note that this performs a logical 'AND' operation, so ['to' => ['foo@bar.com','bar@baz.com']] would return
+     * emails to all recipients, not any.
      *
      * @param string $criteria The search criteria (e.g. 'FROM' for 'from' email address). see imap_search criteria (<a href="http://php.net/manual/en/function.imap-search.php">http://php.net/manual/en/function.imap-search.php</a>)
-     * @param string|array $searches The search strings, can be passed as a single string, an array of search strings or null if no search string is required.
      * @param int $sortBy The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)
      * @param bool $reverse Whether the sort should be in reverse order
      * @param int $messageOptions Any options to pass through the imap_fetch_body (see: <a href="http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)
@@ -359,36 +364,26 @@ class ImapMailManager implements MailManager
      *
      * @return array An array of Message objects
      */
-    public function searchMessages($criteria, $searches = null, $sortBy = SORTDATE, $reverse = true, $messageOptions = 0, $headersOnly = false)
+    public function searchMessages($criteria, $sortBy = SORTDATE, $reverse = true, $messageOptions = 0, $headersOnly = false)
     {
-        // Convert any string searches to an array
-        if (!is_array($searches) && $searches) {
-            $searches = [$searches];
-        }
-
-        // Convert any string searches to an array
-        if (!is_array($searches) && $searches) {
-            $searches = [$searches];
-        }
-
-        $criteria = strtoupper($criteria);
 
         // Search using the criteria and search terms
-        if ($searches) {
+        if (is_array($criteria)) {
             $messageIds = [];
-            foreach ($searches as $search) {
-                if ($found = $this->sort($criteria . ' "' . $search . '"', $sortBy, $reverse)) {
-                    echo $criteria . ' "' . $search . '"';
-                    $messageIds = array_merge($found, $messageIds);
-                }
+            // Build the search string from the given criteria array.
+            $searchString = $this->buildSearchString($criteria);
+
+            if ($found = $this->sort($searchString, $sortBy, $reverse)) {
+                $messageIds = $found;
             }
         } else {
             // There are no search terms, so just use the criteria (some criteria such as ALL, do not have searches)
+            $criteria = strtoupper($criteria);
             $messageIds = $this->sort($criteria, $sortBy, $reverse);
         }
 
+        // Create the MessageCollection
         $messages = new ImapMessageCollection();
-        // Get the details for each message and store in an array
         foreach ($messageIds as $messageId) {
             $messages->add($this->getMessage($messageId, $messageOptions, $headersOnly));
         }
@@ -1052,5 +1047,29 @@ class ImapMailManager implements MailManager
     public function sort($criteria, $sortBy, $reverse, $options = 0)
     {
         return imap_sort($this->connection, $sortBy, $reverse, $options, $criteria);
+    }
+
+    /**
+     * Builds the search string for imap_sort search criteria.
+     * @param $criteria
+     * @param $searchString
+     * @return string
+     */
+    private function buildSearchString($criteria)
+    {
+        $searchString = '';
+        if (count($criteria)) {
+            // Builds the search string from the array
+            foreach ($criteria as $key => $search) {
+                if (is_array($search)) {
+                    foreach ($search as $searchTerm) {
+                        $searchString .= strtoupper($key) . ' "' . addslashes($searchTerm) . '" ';
+                    }
+                } else {
+                    $searchString .= strtoupper($key) . ' "' . addslashes($search) . '" ';
+                }
+            }
+        }
+        return $searchString;
     }
 }

@@ -196,9 +196,8 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     public function it_returns_a_collection_of_messages_when_search_criteria_is_passed_as_array()
     {
         $mailManager = new ImapMailManagerTestHelper();
-        $messages = $mailManager->searchMessages('FROM', ['foo', 'bar']);
+        $messages = $mailManager->searchMessages(['from' => 'foo']);
         $this->assertInstanceOf('Humps\MailManager\Collections\ImapMessageCollection', $messages);
-        // should be 4 as it will find 2 messages for each search.
-        $this->assertEquals(4, count($messages));
+        $this->assertEquals(2, count($messages));
     }
 }
