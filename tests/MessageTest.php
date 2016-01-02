@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Craig
- * Date: 13/12/15
- * Time: 14:50
- */
 
 namespace Humps\MailManager\Tests;
 
 
-use Carbon\Carbon;
 use Humps\MailManager\ImapMailManager;
 use Humps\MailManager\ImapMessage;
 use Mockery as m;
@@ -21,6 +14,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      * @var ImapMailManager
      */
     protected $mailManager;
+    /**
+     * @var ImapMessage
+     */
+    protected $message;
 
     public function setup()
     {
@@ -41,8 +38,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function it_sets_the_message_number()
     {
-        $this->message->setMessageNo(123);
-        $this->assertEquals($this->message->getMessageNo(), 123);
+        $this->message->setMessageNum(123);
+        $this->assertEquals($this->message->getMessageNum(), 123);
     }
 
     /**
@@ -351,8 +348,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message = $this->getMessage();
         $json = json_encode($message);
         $arr = json_decode($json, true);
-        $this->assertTrue(isset($arr['html_body']));
-        $body = $arr['html_body'];
+        $this->assertTrue(isset($arr['htmlBody']));
+        $body = $arr['htmlBody'];
         $this->assertEquals('<b>foo</b>', $body);
     }
 
@@ -365,8 +362,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $json = json_encode($message);
         $arr = json_decode($json, true);
 
-        $this->assertTrue(isset($arr['text_body']));
-        $body = $arr['text_body'];
+        $this->assertTrue(isset($arr['textBody']));
+        $body = $arr['textBody'];
         $this->assertEquals('foo', $body);
     }
 
@@ -402,8 +399,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message = $this->getMessage();
         $json = json_encode($message);
         $arr = json_decode($json, true);
-        $this->assertTrue(isset($arr['message_no']));
-        $this->assertEquals(1, $arr['message_no']);
+        $this->assertTrue(isset($arr['messageNum']));
+        $this->assertEquals(1, $arr['messageNum']);
     }
 
     /**
@@ -442,6 +439,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $arr['attachments'][0]);
     }
 
+    /**
+     * Creates a Message object
+     * @return ImapMessage
+     */
     protected function getMessage()
     {
         $attachments = m::mock('Humps\MailManager\Collections\AttachmentCollection');
@@ -463,7 +464,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $m->setTextBody('foo');
         $m->setDate('2015-12-28');
         $m->setImportant(true);
-        $m->setMessageNo(1);
+        $m->setMessageNum(1);
         $m->setSize(1000);
         $m->setSubject('foo');
         $m->setUid('foo');

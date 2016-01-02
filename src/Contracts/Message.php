@@ -24,13 +24,13 @@ interface Message
      * Returns the message number
      * @return int
      */
-    public function getMessageNo();
+    public function getMessageNum();
 
     /**
      * Sets the message number
      * @param int $messageNo
      */
-    public function setMessageNo($messageNo);
+    public function setMessageNum($messageNo);
 
     /**
      * Returns the unique message id

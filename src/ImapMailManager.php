@@ -113,7 +113,7 @@ class ImapMailManager implements MailManager
      */
     public function getMessage($messageNo, $options = 0, $headersOnly = false)
     {
-        $headers = imap_headerinfo($this->connection, $messageNo);
+        $headers = $this->getMessageHeaders($messageNo);
         $message = MessageFactory::create($headers);
 
         if (!$headersOnly) {
@@ -366,20 +366,25 @@ class ImapMailManager implements MailManager
             $searches = [$searches];
         }
 
+        // Convert any string searches to an array
+        if (!is_array($searches) && $searches) {
+            $searches = [$searches];
+        }
+
         $criteria = strtoupper($criteria);
 
         // Search using the criteria and search terms
         if ($searches) {
             $messageIds = [];
             foreach ($searches as $search) {
-
-                if ($found = imap_sort($this->connection, $sortBy, $reverse, 0, $criteria . ' "' . $search . '"')) {
+                if ($found = $this->sort($criteria . ' "' . $search . '"', $sortBy, $reverse)) {
+                    echo $criteria . ' "' . $search . '"';
                     $messageIds = array_merge($found, $messageIds);
                 }
             }
         } else {
             // There are no search terms, so just use the criteria (some criteria such as ALL, do not have searches)
-            $messageIds = imap_sort($this->connection, $sortBy, $reverse, 0, $criteria);
+            $messageIds = $this->sort($criteria, $sortBy, $reverse);
         }
 
         $messages = new ImapMessageCollection();
@@ -424,7 +429,7 @@ class ImapMailManager implements MailManager
         if (count($messages)) {
             foreach ($messages as $message) {
                 if ($message instanceof Message) {
-                    $messageNos[] = $message->getMessageNo();
+                    $messageNos[] = $message->getMessageNum();
                 } else {
                     throw new Exception('array of Message objects expected. ' . get_class($message) . ' Received');
                 }
@@ -483,7 +488,7 @@ class ImapMailManager implements MailManager
      */
     private function setMessageBody(Message $message, $options = 0)
     {
-        $messageNo = $message->getMessageNo();
+        $messageNo = $message->getMessageNum();
         $structure = $this->fetchStructure($messageNo);
         $bodyParts = $this->fetchBodyParts($structure);
 
@@ -494,6 +499,7 @@ class ImapMailManager implements MailManager
         if (count($bodyParts)) {
             foreach ($bodyParts as $part) {
                 foreach ($part as $i => $section) {
+
                     if ($section->getSubType() == 'PLAIN') {
                         $hasTextBody = true;
                         $body = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection(), $options));
@@ -505,8 +511,8 @@ class ImapMailManager implements MailManager
                         $hasHtmlBody = true;
                         $body = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection(), $options));
                         $body = $this->encode($section, $body);
+                        $message->setHtmlBody($body);
                     }
-                    $message->setHtmlBody($body);
                 }
             }
         }
@@ -576,13 +582,11 @@ class ImapMailManager implements MailManager
     /**
      * Returns an array of BodyParts . The array is broken down into sections, so all parts from section 1
      * will be at index 0 (`$bodyParts[0]`), part 2 at index 1 (`$bodyParts[0]`) etc.
-     * @param array $structure The structure retrieved from `getStructure()`;
+     * @param object $structure The structure retrieved from `getStructure()`;
      * @return array An array of <a href="Contracts/BodyPart.html">BodyPart</a> objects.
      */
     public function fetchBodyParts($structure)
     {
-        // Essentially encapsulates the recursive function flattnBodyParts()
-        // So the internal params used for each recursion aren't set manually.
         return $this->flattenBodyParts($structure);
     }
 
@@ -650,7 +654,7 @@ class ImapMailManager implements MailManager
     /**
      * Get the E-mail attachment details for the given message number
      * @param int $messageNo The message number
-     * @return array
+     * @return AttachmentCollection
      */
     public function getAttachments($messageNo)
     {
@@ -683,7 +687,7 @@ class ImapMailManager implements MailManager
     public function getEmbeddedImages(Message &$message, $path = "")
     {
         // First get all images
-        $messageNo = $message->getMessageNo();
+        $messageNo = $message->getMessageNum();
         $structure = $this->fetchStructure($messageNo);
         $bodyParts = $this->fetchBodyParts($structure);
 
@@ -727,10 +731,16 @@ class ImapMailManager implements MailManager
      * @param string $path The download path
      * @return string|bool
      */
-    public function downloadAttachments($messageNo, $filenames = [], $path = '')
+    public function downloadAttachments($messageNo, $path = '', $filenames = [])
     {
+        // if filename passed as a string, add it to an array.
         if (!is_array($filenames)) {
             $filenames = [$filenames];
+        }
+
+        // Append '/' to path if it hasn't been already
+        if (substr($path, -1) !== '/') {
+            $path .= '/';
         }
 
         $attachments = $this->getAttachments($messageNo);
@@ -738,11 +748,12 @@ class ImapMailManager implements MailManager
         if (count($attachments)) {
 
             foreach ($attachments as $attachment) {
-                if (in_array($attachment->getFilename(), $filenames)) {
+                if (in_array($attachment->getFilename(), $filenames) || count($filenames) === 0) {
                     $file = $this->fetchBody($messageNo, $attachment->getPart());
                     $decodedAttachment = $this->decode($attachment->getEncoding(), $file);
 
-                    $path = $messageNo;
+                    $mailbox = strtolower($this->getFolderName());
+                    $path .= $mailbox . '/' . $messageNo;
                     $binary = ($attachment->getEncoding() == ENCBINARY) ? true : false;
                     return $this->saveFile($path, $decodedAttachment, $attachment->getFilename(), $binary);
                 }
@@ -1019,5 +1030,27 @@ class ImapMailManager implements MailManager
     public function setOutputEncoding($encoding)
     {
         $this->outputEncoding = $encoding;
+    }
+
+    /**
+     * Returns the message headers
+     * @param $messageNo
+     * @return object
+     */
+    public function getMessageHeaders($messageNo)
+    {
+        return imap_headerinfo($this->connection, $messageNo);
+    }
+
+    /**
+     * Returns the sorted results
+     * @param $criteria
+     * @param $sortBy
+     * @param $reverse
+     * @return array
+     */
+    public function sort($criteria, $sortBy, $reverse, $options = 0)
+    {
+        return imap_sort($this->connection, $sortBy, $reverse, $options, $criteria);
     }
 }

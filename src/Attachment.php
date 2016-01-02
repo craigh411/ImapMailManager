@@ -6,6 +6,7 @@ namespace Humps\MailManager;
 
 use Humps\MailManager\Collections\Collectable;
 use JsonSerializable;
+use stdClass;
 
 class Attachment implements Collectable, JsonSerializable
 {
@@ -24,7 +25,8 @@ class Attachment implements Collectable, JsonSerializable
     }
 
     /**
-     * @return mixed
+     * Returns the name of the file
+     * @return string
      */
     public function getFilename()
     {
@@ -32,7 +34,8 @@ class Attachment implements Collectable, JsonSerializable
     }
 
     /**
-     * @param mixed $filename
+     * Sets the name of the file
+     * @param string $filename
      */
     public function setFilename($filename)
     {
@@ -40,7 +43,8 @@ class Attachment implements Collectable, JsonSerializable
     }
 
     /**
-     * @return mixed
+     * Returns the part number of the attachment
+     * @return string
      */
     public function getPart()
     {
@@ -48,7 +52,8 @@ class Attachment implements Collectable, JsonSerializable
     }
 
     /**
-     * @param mixed $part
+     * Sets the part number of the attachment
+     * @param string $part
      */
     public function setPart($part)
     {
@@ -56,7 +61,9 @@ class Attachment implements Collectable, JsonSerializable
     }
 
     /**
-     * @return mixed
+     * Returns the encoding, see: <a href="http://php.net/manual/en/function.imap-fetchstructure.php">http://php.net/manual/en/function.imap-fetchstructure.php</a>
+     * for constants
+     * @return int
      */
     public function getEncoding()
     {
@@ -64,21 +71,48 @@ class Attachment implements Collectable, JsonSerializable
     }
 
     /**
-     * @param mixed $encoding
+     * Setst the encoding for the attachment
+     * @param int $encoding
      */
     public function setEncoding($encoding)
     {
         $this->encoding = $encoding;
     }
 
+    /**
+     * Sets the attachment array.
+     * @param array $attachment
+     */
     public function setAttachment(array $attachment)
     {
         $this->attachment = $attachment;
     }
 
+    /**
+     * Returns all the attachment details returned from the server as an array.
+     * @return array
+     */
     public function getAttachment()
     {
         return $this->attachment;
+    }
+
+    /**
+     * Factory method for creating a new attachment object
+     * @param array|object $attachment
+     * @return static
+     */
+    public static function create($attachment)
+    {
+        if ($attachment instanceof stdClass) {
+            $attachment = (array)$attachment;
+        }
+
+        $filename = (isset($attachment['filename'])) ? $attachment['filename'] : null;
+        $part = (isset($attachment['part'])) ? $attachment['part'] : null;
+        $encoding = (isset($attachment['encoding'])) ? $attachment['encoding'] : null;
+
+        return new static($filename, $part, $encoding, $attachment);
     }
 
     /**
@@ -86,7 +120,6 @@ class Attachment implements Collectable, JsonSerializable
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
      * @return mixed data which can be serialized by <b>json_encode</b>,
      * which is a value of any type other than a resource.
-     * @since 5.4.0
      */
     function jsonSerialize()
     {

@@ -6,6 +6,7 @@ namespace Humps\MailManager;
 
 use Humps\MailManager\Collections\Collectable;
 use JsonSerializable;
+use stdClass;
 
 class EmailAddress implements Collectable, JsonSerializable
 {
@@ -13,12 +14,14 @@ class EmailAddress implements Collectable, JsonSerializable
     protected $mailbox;
     protected $host;
     protected $personal;
+    protected $email;
 
-    public function __construct($mailbox = null, $host = null, $personal = null)
+    public function __construct($mailbox, $host, $personal, $email)
     {
         $this->mailbox = $mailbox;
         $this->host = $host;
         $this->personal = $personal;
+        $this->email = $email;
     }
 
 
@@ -83,6 +86,43 @@ class EmailAddress implements Collectable, JsonSerializable
     }
 
     /**
+     * Returns the email array
+     * @return array
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Sets the email array
+     * @param array $email
+     */
+    public function setEmail(array $email)
+    {
+        $this->email = $email;
+    }
+
+
+    /**
+     * Factory method for creating an EmailAddress object
+     * @param $email
+     * @return static
+     */
+    public static function create($email)
+    {
+        if ($email instanceof stdClass) {
+            $email = (array)$email;
+        }
+
+        $mailbox = (isset($email['mailbox'])) ? $email['mailbox'] : null;
+        $host = (isset($email['host'])) ? $email['host'] : null;
+        $personal = (isset($email['personal'])) ? $email['personal'] : null;
+
+        return new static($mailbox, $host, $personal, $email);
+    }
+
+    /**
      * How to convert object to string
      * @return string
      */
@@ -102,7 +142,7 @@ class EmailAddress implements Collectable, JsonSerializable
     {
         return [
             'personal' => $this->personal,
-            'email'    => $this->getEmailAddress(),
+            'emailAddress'    => $this->getEmailAddress(),
             'mailbox'  => $this->mailbox,
             'host'     => $this->getHost()
         ];

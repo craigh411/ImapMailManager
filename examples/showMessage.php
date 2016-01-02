@@ -74,7 +74,9 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
                         <?
                         foreach ($message->getAttachments() as $attachment):
                             ?>
-                            <span class="glyphicon glyphicon-paperclip"></span> <?= $attachment->getFilename() ?> <a href="getAttachment.php?mid=<?=$mid?>&filename=<?=urlencode($attachment->getFilename())?>&folder=<?=$folder?>"><span class="glyphicon glyphicon-download"></span></a>
+                            <span class="glyphicon glyphicon-paperclip"></span> <?= $attachment->getFilename() ?> <a
+                            href="getAttachment.php?mid=<?= $mid ?>&filename=<?= urlencode($attachment->getFilename()) ?>&folder=<?= $folder ?>"><span
+                                class="glyphicon glyphicon-download"></span></a>
                         <? endforeach ?>
 
                     </td>
@@ -85,10 +87,15 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
         <div class="body">
             <?= $message->getHtmlBody(); ?>
         </div>
+        <?//var_export($message->getMessage());
+        ?>
+        <?= var_export(imap_fetchBody($mailManager->getConnection(), $message->getMessageNum(),2)) ?>
 
         <?
     endif;
     ?>
+
+
 </div>
 </body>
 </html>

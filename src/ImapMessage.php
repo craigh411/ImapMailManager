@@ -14,7 +14,7 @@ use JsonSerializable;
 class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
 {
     protected $message;
-    protected $messageNo;
+    protected $messageNum;
     protected $uid;
     protected $subject;
     protected $from;
@@ -53,18 +53,18 @@ class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
      * Returns the message number
      * @return int
      */
-    public function getMessageNo()
+    public function getMessageNum()
     {
-        return $this->messageNo;
+        return $this->messageNum;
     }
 
     /**
      * Sets the message number
-     * @param int $messageNo
+     * @param int $messageNum
      */
-    public function setMessageNo($messageNo)
+    public function setMessageNum($messageNum)
     {
-        $this->messageNo = trim($messageNo);
+        $this->messageNum = trim($messageNum);
     }
 
     /**
@@ -378,7 +378,7 @@ class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
     public function jsonSerialize()
     {
         return [
-            'message_no'  => $this->messageNo,
+            'messageNum'  => $this->messageNum,
             'uid'         => $this->uid,
             'subject'     => $this->subject,
             'date'        => $this->getRawDate(),
@@ -386,8 +386,8 @@ class ImapMessage implements Collectable, JsonSerializable, Jsonable, Message
             'from'        => $this->from,
             'cc'          => $this->cc,
             'bcc'         => $this->bcc,
-            'text_body'   => $this->textBody,
-            'html_body'   => $this->htmlBody,
+            'textBody'   => $this->textBody,
+            'htmlBody'   => $this->htmlBody,
             'size'        => $this->size,
             'attachments' => $this->attachments,
             'important'   => $this->important,

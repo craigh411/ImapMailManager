@@ -27,7 +27,6 @@ class EmailDecoder
         // Lets decode manually, but it's probably ASCII!
         return self::decodeQP($message);
 
-
     }
 
     /**

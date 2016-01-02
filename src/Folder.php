@@ -6,6 +6,7 @@ namespace Humps\MailManager;
 
 use Humps\MailManager\Collections\Collectable;
 use JsonSerializable;
+use stdClass;
 
 class Folder implements Collectable, JsonSerializable
 {
@@ -116,14 +117,18 @@ class Folder implements Collectable, JsonSerializable
 
     /**
      * Factory method for creating the Folder object from the returned imap_getmailboxes() response.
-     * @param array $folder
+     * @param array|object $folder
      */
-    public static function create(array $folder)
+    public static function create($folder)
     {
-        $mailboxName = $folder['name'];
-        $name = explode("}", $folder['name'])[1];
-        $attributes = $folder['attributes'];
-        $delimiter = $folder['delimiter'];
+        if ($folder instanceof stdClass) {
+            $folder = (array)$folder;
+        }
+
+        $mailboxName = (isset($folder['name'])) ? $folder['name'] : null;
+        $name = (isset($folder['name'])) ? explode("}", $folder['name'])[1] : null;
+        $attributes = (isset($folder['attributes'])) ? $folder['attributes'] : null;
+        $delimiter = (isset($folder['name'])) ? $folder['delimiter'] : null;
 
         return new static($name, $mailboxName, $attributes, $delimiter, $folder);
     }

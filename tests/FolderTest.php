@@ -14,11 +14,29 @@ class FolderTest extends PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->folder = new Folder((object)[
-            'name' => "{imap.example.com}INBOX.Trash",
-            'attributes' => 'foo',
-            'delimiter' => "/"
+        $this->folder = Folder::create([
+            'name'       => "{imap.example.com}INBOX.Trash",
+            'attributes' => [1, 2, 3],
+            'delimiter'  => "/"
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_creates_a_folder_from_an_object()
+    {
+        $folder = Folder::create((object)[
+            'name'       => "{imap.example.com}INBOX.Trash",
+            'attributes' => [1, 2, 3],
+            'delimiter'  => "/"
+        ]);
+
+        $this->assertEquals([
+            'name'       => "{imap.example.com}INBOX.Trash",
+            'attributes' => [1, 2, 3],
+            'delimiter'  => "/"
+        ], $folder->getFolder());
     }
 
     /**
@@ -27,6 +45,15 @@ class FolderTest extends PHPUnit_Framework_TestCase
     public function it_gets_the_name_of_the_mailbox()
     {
         $this->assertEquals('{imap.example.com}INBOX.Trash', $this->folder->getMailboxName());
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_the_name_of_the_mailbox()
+    {
+        $this->folder->setMailboxName('{imap.example.com}INBOX');
+        $this->assertEquals('{imap.example.com}INBOX', $this->folder->getMailboxName());
     }
 
     /**
@@ -42,7 +69,16 @@ class FolderTest extends PHPUnit_Framework_TestCase
      */
     public function it_gets_the_attributes()
     {
-        $this->assertEquals('foo', $this->folder->getAttributes());
+        $this->assertEquals([1, 2, 3], $this->folder->getAttributes());
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_the_attributes()
+    {
+        $this->folder->setAttributes([4, 5, 6]);
+        $this->assertEquals([4, 5, 6], $this->folder->getAttributes());
     }
 
     /**
@@ -56,10 +92,24 @@ class FolderTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_returns_an_array_of_all_folder_details()
+    public function it_sets_the_delimiter()
     {
-        $details = $this->folder->getDetails();
-        $this->assertInternalType('array', $details);
-        $this->assertTrue(count($details) === 3);
+        $this->folder->setDelimiter('-');
+        $this->assertEquals('-', $this->folder->getDelimiter());
+    }
+
+    /**
+     * @test
+     */
+    public function it_serializes_to_json()
+    {
+        $json = json_encode($this->folder);
+        $arr = json_decode($json, true);
+
+        $this->assertEquals('{imap.example.com}INBOX.Trash', $arr['mailboxName']);
+        $this->assertEquals('INBOX.Trash', $arr['name']);
+        $this->assertEquals([1,2,3], $arr['attributes']);
+        $this->assertEquals('/', $arr['delimiter']);
+        $this->assertFalse(isset($arr['folder']));
     }
 }

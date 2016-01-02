@@ -25,7 +25,7 @@ class ImapMessageFactory
 
         $m = new ImapMessage();
         $m->setMessage(static::$headers);
-        $m->setMessageNo(static::getAttr('Msgno'));
+        $m->setMessageNum(static::getAttr('Msgno'));
         $m->setUid(static::getAttr('message_id'));
         $m->setSubject(static::getAttr('subject'));
         $m->setFrom(static::getEmails(static::getAttr('from', false)));
@@ -54,7 +54,7 @@ class ImapMessageFactory
                 $mailbox = EmailDecoder::decodeHeader($email->mailbox);
                 $host = EmailDecoder::decodeHeader($email->host);
                 $personal = (isset($email->personal)) ? EmailDecoder::decodeHeader($email->personal) : null;
-                $emailCollection->add(new EmailAddress($mailbox, $host, $personal));
+                $emailCollection->add(new EmailAddress($mailbox, $host, $personal, $email));
             }
         }
         return $emailCollection;

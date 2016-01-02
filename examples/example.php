@@ -12,6 +12,8 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
 
 $mailManager = new ImapMailManager($folder);
 $messages = $mailManager->getMessagesAfter('2015-12-01', true);
+var_export(imap_sort($mailManager->getConnection(), SORTDATE, true, 0, 'ALL'));
+
 //$messages = $mailManager->searchMessages('FROM', 'Joyce Li');
 $folders = $mailManager->getAllFolders();
 ?>
@@ -108,7 +110,7 @@ $folders = $mailManager->getAllFolders();
                     <tr>
                         <td><?= ($message->getFrom()->get(0)->getPersonal()) ? $message->getFrom()->get(0)->getPersonal() : htmlspecialchars($message->getFrom()->get(0)->getEmailAddress()) ?></td>
                         <td class="<?= (!$message->isRead()) ? 'unread' : '' ?>">
-                            <a href="showMessage.php?mid=<?= $message->getMessageNo() ?>&folder=<?= $mailManager->getFolderName() ?>"><?= $message->getSubject() ?> </a>
+                            <a href="showMessage.php?mid=<?= $message->getMessageNum() ?>&folder=<?= $mailManager->getFolderName() ?>"><?= $message->getSubject() ?> </a>
                         </td>
                         <td><span
                                 class="glyphicon glyphicon-paperclip" <?= (!$message->hasAttachments()) ? 'style="visibility:hidden;"' : '' ?>></span>
@@ -135,8 +137,8 @@ $folders = $mailManager->getAllFolders();
 $time_end = microtime(true);
 
 //dividing with 60 will give the execution time in minutes other wise seconds
-$execution_time = ($time_end - $time_start)/60;
+$execution_time = ($time_end - $time_start) / 60;
 
 //execution time of the script
-echo '<b>Total Execution Time:</b> '.$execution_time.' Mins';
+echo '<b>Total Execution Time:</b> ' . $execution_time . ' Mins';
 ?>

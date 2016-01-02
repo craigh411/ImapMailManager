@@ -1,8 +1,8 @@
 <?php
 namespace Humps\MailManager\Tests;
 
-use Humps\MailManager\ImapMailManager;
-
+use Humps\MailManager\Tests\Helpers\ImapMailManagerTestHelper;
+use Mockery as m;
 use Faker;
 use PHPUnit_Framework_TestCase;
 
@@ -11,182 +11,194 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var ImapMailManager
-     */
-    protected static $mailManager;
-    /**
-     * @var Faker
-     */
-    protected $faker;
-    protected $createdEmails;
-
-
-    public static function setupBeforeClass()
-    {
-        self::$mailManager = new ImapMailManager();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$mailManager->closeConnection();
-    }
-
-    public function setUp()
-    {
-        $this->faker = Faker\Factory::create();
-
-        $this->createdEmails = [];
-        $this->createEmail();
-        self::$mailManager->refresh();
-    }
-
-    public function tearDown()
-    {
-        self::$mailManager->openFolder('inbox');
-        $messages = self::$mailManager->searchMessages('subject', $this->createdEmails);
-        // Delete all created messaged
-        foreach ($messages as $message) {
-            self::$mailManager->deleteMessages($message->getMessageNo());
-        }
-
-        self::$mailManager->closeConnection();
-    }
-
-
-    /**
      * @test
      */
-    public function it_should_get_the_messages_from_the_mailbox()
+    public function it_loads_the_config_file_into_the_config_array()
     {
-        $this->assertTrue(count(self::$mailManager->getAllMessages()) === self::$mailManager->getMessageCount());
-        $this->assertInstanceOf('Humps\MailManager\Contracts\Message', self::$mailManager->getAllMessages()[0]);
-    }
-
-
-    /**
-     * @test
-     */
-    public function it_flags_the_messages_as_read()
-    {
-        $this->createEmail();
-        self::$mailManager->refresh();
-
-        $messages = self::$mailManager->searchMessages('subject', $this->createdEmails);
-
-        $messageList = ImapMailManager::getMessageList($messages);
-        self::$mailManager->flagAsRead($messageList);
-
-        $this->assertEquals(2, self::$mailManager->getMessageCount());
-        $this->assertEquals(0, self::$mailManager->getUnreadMessageCount());
+        $mailManager = new ImapMailManagerTestHelper();
+        $this->assertTrue(is_array($mailManager->getConfig()));
+        $this->assertTrue(count($mailManager->getConfig()) !== false);
     }
 
     /**
      * @test
      */
-    public function it_returns_the_number_of_unread_messages()
+    public function it_throws_an_error_on_failed_connection()
     {
-        $this->assertEquals(1, self::$mailManager->getMessageCount());
+        $this->setExpectedException('Exception', 'Unable to connect to to mailbox: {imap.example.com:993/imap/ssl}INBOX');
+        new ImapMailManagerTestHelper(false);
     }
 
     /**
      * @test
      */
-    public function it_returns_a_list_of_folder_names()
+    public function it_should_return_a_mailbox_object()
     {
-        $folders = self::$mailManager->getAllFolders();
-
-        $this->assertInstanceOf('Humps\MailManager\Folder', $folders[0]);
+        $mailManager = new ImapMailManagerTestHelper();
+        $this->assertInstanceOf('Humps\MailManager\Mailbox', $mailManager->getMailbox());
     }
-
 
     /**
      * @test
      */
-    public function it_should_get_emails_by_email_address()
+    public function it_should_return_the_mailbox_name()
     {
-        $email = $this->faker->email;
+        $mailManager = new ImapMailManagerTestHelper();
+        $this->assertEquals('{imap.example.com:993/imap/ssl}INBOX', $mailManager->getMailboxName());
+    }
 
-        $this->createEmail($email);
-        $this->createEmail($email);
+    /**
+     * @test
+     */
+    public function it_should_return_the_mailbox_name_with_no_cert()
+    {
+        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', 'config/imap_config_no_cert.php');
+        $this->assertEquals('{imap.example.com:993/imap/ssl/novalidate-cert}INBOX', $mailManager->getMailboxName());
+    }
 
-        // Re-connect so we can get the new messages
-        self::$mailManager->refresh();
-        $messages = self::$mailManager->getMessagesBySender($email);
+    /**
+     * @test
+     */
+    public function it_should_return_the_mailbox_name_with_no_ssl()
+    {
+        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', 'config/imap_config_no_ssl.php');
+        $this->assertEquals('{imap.example.com:143}INBOX', $mailManager->getMailboxName());
+    }
 
+    /**
+     * @test
+     */
+    public function it_returns_a_message_objects_headers_only()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $message = $mailManager->getMessage(1, 0, true);
+        $this->assertInstanceOf('Humps\MailManager\ImapMessage', $message);
+        $this->assertNull($message->getHtmlBody());
+        $this->assertNull($message->getTextBody());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_a_message_object()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $message = $mailManager->getMessage(1);
+        $this->assertInstanceOf('Humps\MailManager\ImapMessage', $message);
+        $this->assertNotNull($message->getHtmlBody());
+        $this->assertNotNull($message->getTextBody());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_an_attachment()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $attachments = $mailManager->getAttachments(1);
+
+        $this->assertInstanceOf('Humps\MailManager\Collections\AttachmentCollection', $attachments);
+        $this->assertEquals(1, count($attachments));
+        $this->assertEquals('apple.png', $attachments->get(0)->getFilename());
+    }
+
+    /**
+     * @test
+     */
+    public function it_saves_the_message_attachment()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $mailManager->downloadAttachments(1, 'attachments');
+        $this->assertFileExists('attachments/inbox/1/apple.png');
+        // Clean up
+        unlink('attachments/inbox/1/apple.png');
+        rmdir('attachments/inbox/1');
+        rmdir('attachments/inbox');
+        rmdir('attachments');
+    }
+
+    /**
+     * @test
+     */
+    public function it_saves_the_message_attachment_when_the_name_is_passed_as_a_string()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $mailManager->downloadAttachments(1, 'attachments', 'apple.png');
+        $this->assertFileExists('attachments/inbox/1/apple.png');
+        // Clean up
+        unlink('attachments/inbox/1/apple.png');
+        rmdir('attachments/inbox/1');
+        rmdir('attachments/inbox');
+        rmdir('attachments');
+    }
+
+    /**
+     * @test
+     */
+    public function it_saves_the_message_attachment_when_the_name_is_passed_as_an_array()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $mailManager->downloadAttachments(1, 'attachments', ['apple.png']);
+        $this->assertFileExists('attachments/inbox/1/apple.png');
+        // Clean up
+        unlink('attachments/inbox/1/apple.png');
+        rmdir('attachments/inbox/1');
+        rmdir('attachments/inbox');
+        rmdir('attachments');
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_save_the_attachment_when_a_different_filename_is_passed()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $mailManager->downloadAttachments(1, 'attachments', ['foo.png']);
+        $this->assertFileNotExists('attachments/inbox/1/apple.png');
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_an_array_of_body_parts()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $bodyParts = $mailManager->fetchBodyParts($mailManager->fetchStructure(1));
+        $this->assertEquals(2, count($bodyParts));
+        $this->assertInstanceOf('Humps\MailManager\ImapBodyPart', $bodyParts[0][0]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_a_collection_of_messages()
+    {
+        $mailManager = new ImapMailManagerTestHelper();
+        $messages = $mailManager->searchMessages('ALL');
+        $this->assertInstanceOf('Humps\MailManager\Collections\ImapMessageCollection', $messages);
         $this->assertEquals(2, count($messages));
-        $this->assertInstanceOf('Humps\MailManager\Contracts\Message', $messages[0]);
     }
 
     /**
      * @test
      */
-    public function it_should_change_to_the_trash_folder()
+    public function it_returns_a_collection_of_messages_when_search_criteria_is_passed_as_string()
     {
-        self::$mailManager->openFolder('trash');
-        $this->assertContains('[Gmail]/Trash', self::$mailManager->getMailboxName());
+        $mailManager = new ImapMailManagerTestHelper();
+        $messages = $mailManager->searchMessages('FROM', 'foo');
+        $this->assertInstanceOf('Humps\MailManager\Collections\ImapMessageCollection', $messages);
+        $this->assertEquals(2, count($messages));
     }
 
     /**
      * @test
      */
-    public function it_should_move_messages_to_the_trash_folder()
+    public function it_returns_a_collection_of_messages_when_search_criteria_is_passed_as_array()
     {
-        $this->createEmail();
-        self::$mailManager->refresh();
-
-        $messages = self::$mailManager->searchMessages('subject', $this->createdEmails);
-
-        $messageList = ImapMailManager::getMessageList($messages);
-        self::$mailManager->moveToTrash($messageList, 'trash');
-
-        self::$mailManager->openFolder('trash');
-        $this->assertEquals(2, self::$mailManager->getMessageCount());
+        $mailManager = new ImapMailManagerTestHelper();
+        $messages = $mailManager->searchMessages('FROM', ['foo', 'bar']);
+        $this->assertInstanceOf('Humps\MailManager\Collections\ImapMessageCollection', $messages);
+        // should be 4 as it will find 2 messages for each search.
+        $this->assertEquals(4, count($messages));
     }
-
-    /**
-     * @test
-     */
-    public function it_should_delete_messages_from_the_trash_folder()
-    {
-        self::$mailManager->openFolder('trash');
-        $this->assertTrue(self::$mailManager->getMessageCount() > 0);
-        self::$mailManager->emptyTrash();
-        $this->assertEquals(0, self::$mailManager->getMessageCount());
-    }
-
-    /**
-     * @test
-     */
-    public function it_should_get_the_number_of_message_in_the_inbox()
-    {
-        $this->assertInternalType('int', self::$mailManager->getMessageCount());
-    }
-
-
-    /**
-     * Creates an E-mail for the account
-     */
-    protected function createEmail($from = 'test@test.com')
-    {
-        $subject = "Test " . $this->faker->text(20);
-        $this->createdEmails[] = $subject;
-
-        $envelope["to"] = "foo@test.com";
-        $envelope["subject"] = $subject;
-        $envelope["from"] = $from;
-
-        $part["type"] = TYPETEXT;
-        $part["subtype"] = "plain";
-        $part["description"] = "part description";
-        $part["contents.data"] = "Testing Content";
-
-        $body[1] = $part;
-
-        $msg = imap_mail_compose($envelope, $body);
-
-        if (imap_append(self::$mailManager->getConnection(), self::$mailManager->getMailboxName(), $msg) === false) {
-            die("could not append message: " . imap_last_error());
-        }
-    }
-
 }
