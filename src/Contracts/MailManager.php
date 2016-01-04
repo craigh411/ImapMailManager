@@ -3,6 +3,7 @@
 namespace Humps\MailManager\Contracts;
 
 use Exception;
+use Humps\MailManager\Collections\ImapMessageCollection;
 
 interface MailManager
 {
@@ -89,14 +90,6 @@ interface MailManager
      * Closes the connection to the mail server
      */
     public function closeConnection();
-
-    /**
-     * Returns the message numbers for the given messages
-     * @param array $messages - Expects an array of Message objects
-     * @return array
-     * @throws Exception
-     */
-    public static function getMessageNumbers(array $messages);
 
 
 }

@@ -39,7 +39,7 @@ class ImapMailManagerTestHelper extends ImapMailManager
     }
 
     /**
-     * A stub for fetchStructure
+     * A mock for fetchStructure
      * @param int $messageNumber
      */
     public function fetchStructure($messageNumber = 1)
@@ -227,5 +227,10 @@ class ImapMailManagerTestHelper extends ImapMailManager
             'Size'            => '7553',
             'udate'           => 1450022720,
         ];
+    }
+
+    public function getMessageNumber($uid)
+    {
+        return 1;
     }
 }

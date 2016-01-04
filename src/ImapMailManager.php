@@ -7,6 +7,7 @@ use Exception;
 use Humps\MailManager\Collections\AttachmentCollection;
 use Humps\MailManager\Collections\FolderCollection;
 use Humps\MailManager\Collections\ImapMessageCollection;
+use Humps\MailManager\Collections\MessageCollection;
 use Humps\MailManager\Contracts\MailManager;
 use Humps\MailManager\Contracts\Message;
 use Humps\MailManager\Factories\MailboxFactory;
@@ -102,6 +103,7 @@ class ImapMailManager implements MailManager
         } else {
             $this->config = [];
         }
+
     }
 
     /**
@@ -140,10 +142,10 @@ class ImapMailManager implements MailManager
      * Returns all unread messages
      * @param bool $markAsRead Marks the fetched messages as read when set to true
      * @return array An array of Message objects
-     */
-    public function getUnreadMessages($markAsRead = false)
+     */#
+    public function getUnreadMessages($markAsRead = false, $sortBy = SORTDATE, $reverse = true, $headersOnly = false)
     {
-        return $this->searchMessages('UNSEEN', SORTDATE, true, $this->isMarkAsRead($markAsRead));
+        return $this->searchMessages('UNSEEN', $sortBy, $reverse, $this->isMarkAsRead($markAsRead), $headersOnly);
     }
 
     /**
@@ -361,8 +363,7 @@ class ImapMailManager implements MailManager
      * @param bool $reverse Whether the sort should be in reverse order
      * @param int $messageOptions Any options to pass through the imap_fetch_body (see: <a href="http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)
      * @param bool $headersOnly Return headers only, don't fetch the message body.
-     *
-     * @return array An array of Message objects
+     * @return ImapMessageCollection A collection of ImapMessage objects
      */
     public function searchMessages($criteria, $sortBy = SORTDATE, $reverse = true, $messageOptions = 0, $headersOnly = false)
     {
@@ -384,8 +385,10 @@ class ImapMailManager implements MailManager
 
         // Create the MessageCollection
         $messages = new ImapMessageCollection();
-        foreach ($messageIds as $messageId) {
-            $messages->add($this->getMessage($messageId, $messageOptions, $headersOnly));
+        if (count($messageIds)) {
+            foreach ($messageIds as $messageId) {
+                $messages->add($this->getMessage($messageId, $messageOptions, $headersOnly));
+            }
         }
 
         return $messages;
@@ -398,27 +401,27 @@ class ImapMailManager implements MailManager
      */
     public function getMessageByUid($uid)
     {
-        return $this->getMessage(imap_msgno($this->connection, $uid));
+        return $this->getMessage($this->getMessageNumber($uid));
     }
 
     /**
      * Returns a comma delimited message list from the given array.
-     * @param array $messages An array of Message objects.
+     * @param MessageCollection $messages An array of Message objects.
      * @return string The message list.
      * @throws Exception
      */
-    public static function getMessageList(array $messages)
+    public static function getMessageList(MessageCollection $messages)
     {
         return implode(',', self::getMessageNumbers($messages));
     }
 
     /**
      * Returns an array of message numbers for the given messages.
-     * @param array $messages An array of Message objects
+     * @param MessageCollection $messages An array of Message objects
      * @return array
      * @throws Exception
      */
-    public static function getMessageNumbers(array $messages)
+    public static function getMessageNumbers(MessageCollection $messages)
     {
         $messageNos = [];
         if (count($messages)) {
@@ -577,7 +580,7 @@ class ImapMailManager implements MailManager
     /**
      * Returns an array of BodyParts . The array is broken down into sections, so all parts from section 1
      * will be at index 0 (`$bodyParts[0]`), part 2 at index 1 (`$bodyParts[0]`) etc.
-     * @param object $structure The structure retrieved from `getStructure()`;
+     * @param array $structure The structure retrieved from `getStructure()`;
      * @return array An array of <a href="Contracts/BodyPart.html">BodyPart</a> objects.
      */
     public function fetchBodyParts($structure)
@@ -585,6 +588,11 @@ class ImapMailManager implements MailManager
         return $this->flattenBodyParts($structure);
     }
 
+    /**
+     * Returns the headers for a given message
+     * @param $messageNo
+     * @return string
+     */
     public function fetchHeader($messageNo)
     {
         return imap_fetchheader($this->connection, $messageNo);
@@ -620,7 +628,7 @@ class ImapMailManager implements MailManager
      * @param string $body
      * @return string The decoded body
      */
-    private function decode($encoding, $body)
+    protected function decode($encoding, $body)
     {
         switch ($encoding) {
             case ENCBASE64:
@@ -656,8 +664,6 @@ class ImapMailManager implements MailManager
         $attachments = new AttachmentCollection();
         $structure = $this->fetchStructure($messageNo);
 
-        // SEE: http://php.net/manual/en/function.imap-fetchstructure.php
-        // For what all these attributes are.
         if (isset($structure->parts) && count($structure->parts)) {
             foreach ($structure->parts as $i => $part) {
                 if ($part->ifdparameters) {
@@ -795,10 +801,10 @@ class ImapMailManager implements MailManager
             $mailbox = $this->mailboxName;
         }
 
-        $imapFolders = imap_getmailboxes($this->connection, $mailbox, '*');
+        $imapFolders = $this->getMailboxFolders($mailbox);
         $folders = new FolderCollection();
         foreach ($imapFolders as $folder) {
-            $folders->add(Folder::create((array)$folder));
+            $folders->add(Folder::create($folder));
         }
 
         return $folders;
@@ -1071,5 +1077,25 @@ class ImapMailManager implements MailManager
             }
         }
         return $searchString;
+    }
+
+    /**
+     * @param $mailbox
+     * @return array
+     */
+    public function getMailboxFolders($mailbox, $pattern = '*')
+    {
+        $imapFolders = imap_getmailboxes($this->connection, $mailbox, $pattern);
+        return $imapFolders;
+    }
+
+    /**
+     * Get the message number for the uid.
+     * @param $uid
+     * @return int
+     */
+    public function getMessageNumber($uid)
+    {
+        return imap_msgno($this->connection, $uid);
     }
 }

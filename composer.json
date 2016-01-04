@@ -1,5 +1,5 @@
 {
-  "name": "craig/imap-mail-manager",
+  "name": "craigh/imap-mail-manager",
   "description": "Wrapper for PHP imap",
   "license": "MIT",
   "authors": [
@@ -12,7 +12,6 @@
     "nesbot/carbon": "^1.21"
   },
   "require-dev": {
-    "fzaninotto/faker": "^1.5",
     "phpunit/phpunit": "^5.1",
     "sami/sami": "~3.0.0",
     "mockery/mockery": "^0.9.4"

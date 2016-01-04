@@ -5,10 +5,9 @@ namespace Humps\MailManager\Collections;
 
 
 use Humps\MailManager\Contracts\Message;
-use Humps\MailManager\ImapMessage;
 use InvalidArgumentException;
 
-class ImapMessageCollection extends MessageCollection
+abstract class MessageCollection extends AbstractCollection
 {
     function __construct()
     {
@@ -17,17 +16,10 @@ class ImapMessageCollection extends MessageCollection
 
     public function add(Collectable $message, $key = null)
     {
-        if ($message instanceof ImapMessage) {
+        if ($message instanceof Message) {
             parent::add($message, $key);
         } else {
-            throw new InvalidArgumentException('ImapMessage object expected');
+            throw new InvalidArgumentException('Message object expected');
         }
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'messages' => $this->collection
-        ];
     }
 }
