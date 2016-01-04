@@ -53,7 +53,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_return_the_mailbox_name_with_no_cert()
     {
-        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', 'config/imap_config_no_cert.php');
+        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', __DIR__.'/config/imap_config_no_cert.php');
         $this->assertEquals('{imap.example.com:993/imap/ssl/novalidate-cert}INBOX', $mailManager->getMailboxName());
     }
 
@@ -62,7 +62,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_return_the_mailbox_name_with_no_ssl()
     {
-        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', 'config/imap_config_no_ssl.php');
+        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', __DIR__.'/config/imap_config_no_ssl.php');
         $this->assertEquals('{imap.example.com:143}INBOX', $mailManager->getMailboxName());
     }
 

@@ -15,7 +15,7 @@ class ImapMailManagerTestHelper extends ImapMailManager
 
     protected $connection;
 
-    function __construct($connection = true, $folder = 'INBOX', $configFile = 'config/imap_config.php')
+    function __construct($connection = true, $folder = 'INBOX', $configFile = __DIR__.'/../config/imap_config.php')
     {
         $this->connection = $connection;
         parent::__construct($folder, $configFile);
