@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpunit bootstrap="../vendor/autoload.php">
     <testsuites>
-        <testsuite name="MailRetriever Test Suite">
-            <directory>tests</directory>
+        <testsuite name="ImapMailManager Test Suite">
+            <directory>./</directory>
         </testsuite>
     </testsuites>
 </phpunit>
