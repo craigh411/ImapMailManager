@@ -13,4 +13,4 @@ php:
 
 install: composer install
 script:
--  vendor\bin\phpunit tests -c tests/phpunit.xml
+-  vendor/bin/phpunit tests -c tests/phpunit.xml
