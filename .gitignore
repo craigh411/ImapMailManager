@@ -2,6 +2,7 @@
 /vendor/
 /examples/imap_config.php
 /examples/*[0-9]
+/examples/images
 tests/imap_config.php
 .idea
 .sami-cache

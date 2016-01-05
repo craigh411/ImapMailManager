@@ -62,7 +62,7 @@
 
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
-                <li><span class="label label-default">class</span></li>
+                <li><span class="label label-default">interface</span></li>
                                                             <li><a href="../../../Humps.html">Humps</a></li>
                                         <li><a href="../../../Humps/MailManager.html">MailManager</a></li>
                                         <li><a href="../../../Humps/MailManager/Collections.html">Collections</a></li>
@@ -76,15 +76,10 @@
         <h1>Collection</h1>
     </div>
 
-    <p>    class
-    <strong>Collection</strong>        implements
-        <a target="_blank" href="http://php.net/IteratorAggregate"><abbr title="IteratorAggregate">IteratorAggregate</abbr></a>, <a target="_blank" href="http://php.net/ArrayAccess"><abbr title="ArrayAccess">ArrayAccess</abbr></a>, <a target="_blank" href="http://php.net/Countable"><abbr title="Countable">Countable</abbr></a>, <a href="../../../Humps/MailManager/Collections/Jsonable.html"><abbr title="Humps\MailManager\Collections\Jsonable">Jsonable</abbr></a>
+    <p>    interface
+    <strong>Collection</strong>
 </p>
 
-            <div class="description">
-            <p>A simple abstract class for allowing access to an array of objects. This is not intended to be a comprehensive
-Collection class, but rather, a convenient abstract wrapper for ensuring that the correct object arrays are
-being passed in to functions which type hint child classes.</p>            <p>Class Collection</p>        </div>
     
     
     
@@ -92,6 +87,16 @@ being passed in to functions which type hint child classes.</p>            <p>Cl
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_add">add</a>(<abbr title="Humps\MailManager\Collections\Humps\MailManager\Collections\Collectable">Collectable</abbr> $item, null $key = null)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
@@ -112,85 +117,6 @@ being passed in to functions which type hint child classes.</p>            <p>Cl
                                     </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getIterator">getIterator</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_count">count</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetExists">offsetExists</a>($offset)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetGet">offsetGet</a>($offset)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetSet">offsetSet</a>($offset, $value)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetUnset">offsetUnset</a>($offset)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_toJson">toJson</a>()
-                                            <p>Converts the current object to JSON</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method___toString">__toString</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -198,8 +124,40 @@ being passed in to functions which type hint child classes.</p>            <p>Cl
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method_add">
+        <div class="location">at line 15</div>
+        <code>                    
+    <strong>add</strong>(<abbr title="Humps\MailManager\Collections\Humps\MailManager\Collections\Collectable">Collectable</abbr> $item, null $key = null)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Humps\MailManager\Collections\Humps\MailManager\Collections\Collectable">Collectable</abbr></td>
+                <td>$item</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>null</td>
+                <td>$key</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_remove">
-        <div class="location">at line 46</div>
+        <div class="location">at line 17</div>
         <code>                    
     <strong>remove</strong>($key)</code>
     </h3>
@@ -225,7 +183,7 @@ being passed in to functions which type hint child classes.</p>            <p>Cl
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">at line 53</div>
+        <div class="location">at line 19</div>
         <code>                    
     <strong>get</strong>($key)</code>
     </h3>
@@ -242,188 +200,6 @@ being passed in to functions which type hint child classes.</p>            <p>Cl
             </tr>
             </table>
 
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getIterator">
-        <div class="location">at line 58</div>
-        <code>                    
-    <strong>getIterator</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_count">
-        <div class="location">at line 63</div>
-        <code>                    
-    <strong>count</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetExists">
-        <div class="location">at line 68</div>
-        <code>                    
-    <strong>offsetExists</strong>($offset)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetGet">
-        <div class="location">at line 73</div>
-        <code>                    
-    <strong>offsetGet</strong>($offset)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetSet">
-        <div class="location">at line 78</div>
-        <code>                    
-    <strong>offsetSet</strong>($offset, $value)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$value</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetUnset">
-        <div class="location">at line 87</div>
-        <code>                    
-    <strong>offsetUnset</strong>($offset)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_toJson">
-        <div class="location">at line 92</div>
-        <code>                    mixed
-    <strong>toJson</strong>()</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Converts the current object to JSON</p>                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method___toString">
-        <div class="location">at line 97</div>
-        <code>                    
-    <strong>__toString</strong>()</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
             
             
             

@@ -30,7 +30,8 @@
     "post-install-cmd": [
       "php -f installer.php"
     ],
-    "docs" : "vendor\\bin\\sami.php.bat update sami.php -v"
+    "docs": "vendor\\bin\\sami.php.bat update sami.php -v",
+    "tests": "vendor\\bin\\phpunit tests -c tests/phpunit.xml"
   },
   "prefer-stable": true
 }

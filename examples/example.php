@@ -83,6 +83,7 @@ $folders = $mailManager->getAllFolders();
     <h2><?= $mailManager->getMailbox()->getFolder() ?></h2>
     <div class="panel panel-default pull-left col-md-2 mailboxes ">
         <ul class=" folders">
+
             <? if (count($folders)): ?>
                 <? foreach ($folders as $folder): ?>
                     <li><span class="glyphicon glyphicon-inbox folder-glyph"></span><a

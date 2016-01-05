@@ -7,7 +7,7 @@ use Humps\MailManager\ImapMailManager;
 use Humps\MailManager\ImapMessage;
 use Mockery as m;
 
-class MessageTest extends \PHPUnit_Framework_TestCase
+class ImapMessageTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -228,28 +228,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    /*    public function it_creates_a_deep_copy_of_attachments()
-        {
-            $attachments = m::mock('Humps\MailManager\Collections\AttachmentCollection');
-            $attachments->shouldReceive('get')->andReturn('foo');
-
-            $message = $this->getMessage();
-            $message->setAttachments($attachments);
-
-            $clone = clone $message;
-
-            $clonedAttachments = m::mock('Humps\MailManager\Collections\AttachmentCollection');
-            $clonedAttachments->shouldReceive('get')->andReturn('bar');
-            $clone->setAttachments($clonedAttachments);
-
-            $this->assertEquals('foo', $message->getAttachments()->get(0));
-            $this->assertEquals('bar', $clone->getAttachments()->get(0));
-        }*/
-
-    /**
-     * @test
-     */
-    public function it_does_not_get_the_message_when_converted_to_json()
+    public function it_does_not_return_the_message_when_converted_to_json()
     {
         $message = $this->getMessage();
         $json = json_encode($message);

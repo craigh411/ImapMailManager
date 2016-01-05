@@ -87,10 +87,7 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
         <div class="body">
             <?= $message->getHtmlBody(); ?>
         </div>
-        <?//var_export($message->getMessage());
-        ?>
-        <?= var_export(imap_fetchBody($mailManager->getConnection(), $message->getMessageNum(),2)) ?>
-
+        <?var_dump(imap_fetchstructure($mailManager->getConnection(),1))?>
         <?
     endif;
     ?>

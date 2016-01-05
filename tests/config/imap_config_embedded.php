@@ -8,8 +8,11 @@ return [
     'username' => 'USERNAME',
     'password' => 'PASSWORD',
     'port' => 993,
+    'main_folder' => 'INBOX',
     'ssl' => true,
     'validate_cert' => true,
+    'download_embedded_images' => true,
+    'embedded_image_path' => 'images',
     'alias' => [
         'inbox' => 'INBOX',
         'trash' => 'INBOX.Trash',

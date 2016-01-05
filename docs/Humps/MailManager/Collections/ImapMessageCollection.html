@@ -77,7 +77,7 @@
     </div>
 
     <p>    class
-    <strong>ImapMessageCollection</strong>        extends <a href="../../../Humps/MailManager/Collections/Collection.html"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a>
+    <strong>ImapMessageCollection</strong>        extends <a href="../../../Humps/MailManager/Collections/MessageCollection.html"><abbr title="Humps\MailManager\Collections\MessageCollection">MessageCollection</abbr></a>
 </p>
 
     
@@ -92,80 +92,55 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_remove">remove</a>($key)
+                    <a href="#method___construct">__construct</a>()
                                             <p class="no-description">No description</p>
                                     </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_remove"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method___construct"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_add">add</a>(<abbr title="Humps\MailManager\Collections\Humps\MailManager\Collections\Collectable">Collectable</abbr> $message, null $key = null)
+                                            <p>Adds a Collectable to the collection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_remove">remove</a>($key)
+                                            <p>Removes the Collectable from the collection at the given position</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_remove"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_get">get</a>($key)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_get"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
+                                            <p>Gets the collectable for the given key</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_get"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    <a target="_blank" href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getIterator">getIterator</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_getIterator"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
+                                            <p>Retrieve an external iterator</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_getIterator"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    int
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_count">count</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_count"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetExists">offsetExists</a>($offset)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetExists"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetGet">offsetGet</a>($offset)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetGet"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetSet">offsetSet</a>($offset, $value)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetSet"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_offsetUnset">offsetUnset</a>($offset)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetUnset"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
+                                            <p>Count elements of an object</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_count"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -173,25 +148,33 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_toJson">toJson</a>()
-                                            <p>Converts the current object to JSON</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method_toJson"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
+                                            <p>Returns the json representation of the collection</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_toJson"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method___toString">__toString</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/Collection.html#method___toString"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a></small></div>
+                                            <p>Returns the json representation of the collection</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method___toString"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_add">add</a>(<abbr title="Humps\MailManager\Collections\Humps\MailManager\ImapMessage">ImapMessage</abbr> $message, $key = null)
+                    <a href="#method___clone">__clone</a>()
+                                            <p>Clone each object in the collection</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method___clone"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_jsonSerialize">jsonSerialize</a>()
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -203,12 +186,63 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method___construct"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 23</div>
+        <code>                    
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_add">
+        <div class="location">at line 18</div>
+        <code>                    
+    <strong>add</strong>(<abbr title="Humps\MailManager\Collections\Humps\MailManager\Collections\Collectable">Collectable</abbr> $message, null $key = null)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Adds a Collectable to the collection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Humps\MailManager\Collections\Humps\MailManager\Collections\Collectable">Collectable</abbr></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>null</td>
+                <td>$key</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_remove">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_remove"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 46</div>
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_remove"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 47</div>
         <code>                    
     <strong>remove</strong>($key)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Removes the Collectable from the collection at the given position</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -230,11 +264,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_get"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 53</div>
-        <code>                    
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_get"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 60</div>
+        <code>                    mixed
     <strong>get</strong>($key)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Gets the collectable for the given key</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -248,6 +284,16 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -256,13 +302,25 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIterator">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_getIterator"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 58</div>
-        <code>                    
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_getIterator"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 71</div>
+        <code>                    <a target="_blank" href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a>
     <strong>getIterator</strong>()</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Retrieve an external iterator</p>                                </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a target="_blank" href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+            <td>An instance of an object implementing <b>Iterator</b> or
+<b>Traversable</b></td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -271,123 +329,25 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_count">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_count"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 63</div>
-        <code>                    
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_count"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 82</div>
+        <code>                    int
     <strong>count</strong>()</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Count elements of an object</p>                                </div>
                 <div class="tags">
             
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetExists">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetExists"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 68</div>
-        <code>                    
-    <strong>offsetExists</strong>($offset)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
+                            <h4>Return Value</h4>
 
                     <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-            </table>
+        <tr>
+            <td>int</td>
+            <td>The custom count as an integer.
+The return value is cast to an integer.</td>
+        </tr>
+    </table>
 
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetGet">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetGet"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 73</div>
-        <code>                    
-    <strong>offsetGet</strong>($offset)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetSet">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetSet"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 78</div>
-        <code>                    
-    <strong>offsetSet</strong>($offset, $value)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$value</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_offsetUnset">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_offsetUnset"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 87</div>
-        <code>                    
-    <strong>offsetUnset</strong>($offset)</code>
-    </h3>
-    <div class="details">
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$offset</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
             
             
                     </div>
@@ -396,13 +356,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_toJson">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method_toJson"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 92</div>
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method_toJson"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 91</div>
         <code>                    mixed
     <strong>toJson</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Converts the current object to JSON</p>                                </div>
+                                    <p>Returns the json representation of the collection</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -423,11 +383,40 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">in <a href="../../../Humps/MailManager/Collections/Collection.html#method___toString"><abbr title="Humps\MailManager\Collections\Collection">Collection</abbr></a> at line 97</div>
-        <code>                    
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method___toString"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 100</div>
+        <code>                    string
     <strong>__toString</strong>()</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the json representation of the collection</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___clone">
+        <div class="location">in <a href="../../../Humps/MailManager/Collections/AbstractCollection.html#method___clone"><abbr title="Humps\MailManager\Collections\AbstractCollection">AbstractCollection</abbr></a> at line 108</div>
+        <code>                    
+    <strong>__clone</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Clone each object in the collection</p>                                </div>
                 <div class="tags">
             
             
@@ -437,30 +426,13 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_add">
-        <div class="location">at line 16</div>
+                    <h3 id="method_jsonSerialize">
+        <div class="location">at line 27</div>
         <code>                    
-    <strong>add</strong>(<abbr title="Humps\MailManager\Collections\Humps\MailManager\ImapMessage">ImapMessage</abbr> $message, $key = null)</code>
+    <strong>jsonSerialize</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="Humps\MailManager\Collections\Humps\MailManager\ImapMessage">ImapMessage</abbr></td>
-                <td>$message</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$key</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
             
             
             

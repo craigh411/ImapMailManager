@@ -89,12 +89,11 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getFilename">getFilename</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Returns the name of the file</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -102,19 +101,17 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setFilename">setFilename</a>(mixed $filename)
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_setFilename">setFilename</a>(string $filename)
+                                            <p>Sets the name of the file</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getPart">getPart</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Returns the part number of the attachment</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -122,19 +119,18 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setPart">setPart</a>(mixed $part)
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_setPart">setPart</a>(string $part)
+                                            <p>Sets the part number of the attachment</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    int
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getEncoding">getEncoding</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Returns the encoding, see: <a href="http://php.net/manual/en/function.imap-fetchstructure.php">http://php.net/manual/en/function.imap-fetchstructure.php</a>
+for constants</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -142,9 +138,8 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setEncoding">setEncoding</a>(mixed $encoding)
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_setEncoding">setEncoding</a>(int $encoding)
+                                            <p>Setst the encoding for the attachment</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -153,18 +148,25 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_setAttachment">setAttachment</a>(array $attachment)
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Sets the attachment array.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    array
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getAttachment">getAttachment</a>()
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Returns all the attachment details returned from the server as an array.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;<a href="../../Humps/MailManager/Attachment.html"><abbr title="Humps\MailManager\Attachment">Attachment</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_create">create</a>(array|object $attachment)
+                                            <p>Factory method for creating a new attachment object</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -175,18 +177,20 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_getFilename">
-        <div class="location">at line 29</div>
-        <code>                    mixed
+        <div class="location">at line 31</div>
+        <code>                    string
     <strong>getFilename</strong>()</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the name of the file</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -200,17 +204,19 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setFilename">
-        <div class="location">at line 37</div>
+        <div class="location">at line 40</div>
         <code>                    
-    <strong>setFilename</strong>(mixed $filename)</code>
+    <strong>setFilename</strong>(string $filename)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the name of the file</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>mixed</td>
+                <td>string</td>
                 <td>$filename</td>
                 <td>
 </td>
@@ -226,18 +232,20 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getPart">
-        <div class="location">at line 45</div>
-        <code>                    mixed
+        <div class="location">at line 49</div>
+        <code>                    string
     <strong>getPart</strong>()</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the part number of the attachment</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>string</td>
             <td>
 </td>
         </tr>
@@ -251,17 +259,19 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setPart">
-        <div class="location">at line 53</div>
+        <div class="location">at line 58</div>
         <code>                    
-    <strong>setPart</strong>(mixed $part)</code>
+    <strong>setPart</strong>(string $part)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the part number of the attachment</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>mixed</td>
+                <td>string</td>
                 <td>$part</td>
                 <td>
 </td>
@@ -277,18 +287,21 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getEncoding">
-        <div class="location">at line 61</div>
-        <code>                    mixed
+        <div class="location">at line 68</div>
+        <code>                    int
     <strong>getEncoding</strong>()</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the encoding, see: <a href="http://php.net/manual/en/function.imap-fetchstructure.php">http://php.net/manual/en/function.imap-fetchstructure.php</a>
+for constants</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>int</td>
             <td>
 </td>
         </tr>
@@ -302,17 +315,19 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setEncoding">
-        <div class="location">at line 69</div>
+        <div class="location">at line 77</div>
         <code>                    
-    <strong>setEncoding</strong>(mixed $encoding)</code>
+    <strong>setEncoding</strong>(int $encoding)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Setst the encoding for the attachment</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>mixed</td>
+                <td>int</td>
                 <td>$encoding</td>
                 <td>
 </td>
@@ -328,11 +343,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setAttachment">
-        <div class="location">at line 74</div>
+        <div class="location">at line 86</div>
         <code>                    
     <strong>setAttachment</strong>(array $attachment)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the attachment array.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -354,13 +371,63 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getAttachment">
-        <div class="location">at line 79</div>
-        <code>                    
+        <div class="location">at line 95</div>
+        <code>                    array
     <strong>getAttachment</strong>()</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all the attachment details returned from the server as an array.</p>                                </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_create">
+        <div class="location">at line 105</div>
+        <code>        static            <a href="../../Humps/MailManager/Attachment.html"><abbr title="Humps\MailManager\Attachment">Attachment</abbr></a>
+    <strong>create</strong>(array|object $attachment)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Factory method for creating a new attachment object</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|object</td>
+                <td>$attachment</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../Humps/MailManager/Attachment.html"><abbr title="Humps\MailManager\Attachment">Attachment</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>

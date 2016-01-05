@@ -2,6 +2,7 @@
 namespace Humps\MailManager\Tests;
 
 use Humps\MailManager\ImapMailManager;
+use Humps\MailManager\Tests\Helpers\ImapMailManagerEmbeddedImageHelper;
 use Humps\MailManager\Tests\Helpers\ImapMailManagerTestHelper;
 use Mockery as m;
 use PHPUnit_Framework_TestCase;
@@ -53,7 +54,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_return_the_mailbox_name_with_no_cert()
     {
-        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', __DIR__.'/config/imap_config_no_cert.php');
+        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', __DIR__ . '/config/imap_config_no_cert.php');
         $this->assertEquals('{imap.example.com:993/imap/ssl/novalidate-cert}INBOX', $mailManager->getMailboxName());
     }
 
@@ -62,7 +63,7 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_return_the_mailbox_name_with_no_ssl()
     {
-        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', __DIR__.'/config/imap_config_no_ssl.php');
+        $mailManager = new ImapMailManagerTestHelper(true, 'INBOX', __DIR__ . '/config/imap_config_no_ssl.php');
         $this->assertEquals('{imap.example.com:143}INBOX', $mailManager->getMailboxName());
     }
 
@@ -441,8 +442,39 @@ class ImapMailManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_gets_a_list_of_folders()
+    public function it_gets_a_list_of_all_folders()
     {
+        $mailManager = new ImapMailManagerTestHelper();
+        $folders = $mailManager->getAllFolders();
 
+        $this->assertInstanceOf('Humps\MailManager\Collections\FolderCollection', $folders);
+        $this->assertEquals(10, count($folders));
+        $this->assertEquals('INBOX', $folders->get(0)->getName());
+        $this->assertEquals('/', $folders->get(0)->getDelimiter());
+        $this->assertEquals(64, $folders->get(0)->getAttributes());
+    }
+
+    /**
+     * @test
+     */
+    public function it_downloads_the_embedded_images()
+    {
+        $mailManager = new ImapMailManagerEmbeddedImageHelper(__DIR__.'/config/imap_config_embedded.php');
+        $message = $mailManager->getMessage(1);
+
+        // It's saved the images to the correct location
+        $this->assertFileExists('images/INBOX/2/google_logo.png');
+        $this->assertFileExists('images/INBOX/2/wrench.png');
+        // It has replaced the img src with the saved image path.
+        $this->assertContains('images/INBOX/2/wrench.png"', $message->getHtmlBody());
+        $this->assertContains('images/INBOX/2/google_logo.png"', $message->getHtmlBody());
+        $this->assertNotContains('cid:', $message->getHtmlBody());
+
+        //Cleanup
+        unlink('images/INBOX/2/wrench.png');
+        unlink('images/INBOX/2/google_logo.png');
+        rmdir('images/INBOX/2');
+        rmdir('images/INBOX');
+        rmdir('images');
     }
 }

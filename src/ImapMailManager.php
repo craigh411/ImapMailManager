@@ -25,7 +25,7 @@ class ImapMailManager implements MailManager
 
     /**
      * MailManager constructor.
-     * @param string $folder The name of the mailbox folder to open (defaults to 'INBOX')
+     * @param string $folder The name of the mailbox folder to open or it's alias (defaults to 'INBOX')
      * @param string $configFile The path to the config file (defaults to 'imap_config.php' in current dir)
      * @throws Exception
      */
@@ -33,7 +33,7 @@ class ImapMailManager implements MailManager
     {
         try {
             $this->mailbox = MailboxFactory::create($configFile);
-            $this->mailbox->setFolder($folder);
+            $this->mailbox->setFolder($this->getFolderNameByAlias($folder));
             $this->mailboxName = $this->createImapMailbox($this->mailbox);
             if ($this->connection = $this->connect()) {
                 $this->loadConfig($configFile);
@@ -571,6 +571,7 @@ class ImapMailManager implements MailManager
                 }
             }
         } elseif (isset($structure) && count($structure)) {
+            // We only have 1 part, so add all the sections.
             $parts[0][] = new ImapBodyPart($structure->type, $structure->encoding, $structure->subtype, 1);
         }
 
@@ -685,29 +686,30 @@ class ImapMailManager implements MailManager
      * @param Message $message
      * @return void
      */
-    public function getEmbeddedImages(Message &$message, $path = "")
+    public function getEmbeddedImages(Message &$message)
     {
-        // First get all images
-        $messageNo = $message->getMessageNum();
-        $structure = $this->fetchStructure($messageNo);
-        $bodyParts = $this->fetchBodyParts($structure);
+
+        // Only do this if download_embedded_images is set to true
+        if (isset($this->config['download_embedded_images']) && $this->config['download_embedded_images']) {
+
+            // First get all images
+            $messageNo = $message->getMessageNum();
+            $structure = $this->fetchStructure($messageNo);
+            $bodyParts = $this->fetchBodyParts($structure);
+
+            if (count($bodyParts)) {
+                foreach ($bodyParts as $part) {
+                    foreach ($part as $i => $section) {
+                        $cid = $this->getCid($section);
+                        $body = $message->getHtmlBody();
 
 
-        if (count($bodyParts)) {
-            foreach ($bodyParts as $part) {
-                foreach ($part as $i => $section) {
-                    $id = preg_quote(preg_replace(['/^</', '/>$/'], '', $section->getId()));
-                    $body = $message->getHtmlBody();
-
-                    if ($id && preg_match("/cid:\s?$id/", $body)) {
-                        $image = $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection()));
-                        $file = $path . $messageNo . "/embedded/" . $section->getName();
-                        if (!file_exists($file)) {
-                            $file = $this->saveFile($path . $messageNo . "/embedded", $image, $section->getName(), false);
+                        if ($this->cidFoundInEmailBody($cid, $body)) {
+                            $file = $this->downloadEmbeddedImage($section, $messageNo);
+                            // Update the html body
+                            $body = preg_replace("/cid:\s?$cid/", $file, $body);
+                            $message->setHtmlBody($body);
                         }
-
-                        $body = preg_replace("/cid:\s?$id/", $file, $body);
-                        $message->setHtmlBody($body);
                     }
                 }
             }
@@ -843,7 +845,7 @@ class ImapMailManager implements MailManager
      * @param $mailboxName
      * @return mixed|string
      */
-    private function decodeMailboxName($mailboxName)
+    protected function decodeMailboxName($mailboxName)
     {
         // Check for non-printable ascii characters
         if ($this->encoded) {
@@ -920,8 +922,8 @@ class ImapMailManager implements MailManager
 
     /**
      * Opens a connection to the given folder
-     * @param $folder
-     * @return bool
+     * @param string $folder The name or alias of the folder to open
+     * @return bool Returns true on success, false on failure
      */
     public function openFolder($folder)
     {
@@ -960,7 +962,7 @@ class ImapMailManager implements MailManager
     /**
      * Moves the given messages to the trash folder
      * @param string $messageList A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)
-     * @param string $folder The name of the folder or it's alias
+     * @param string $folder The name of the trash folder or it's alias
      * @return void
      */
     public function moveToTrash($messageList, $folder = 'trash')
@@ -1097,5 +1099,65 @@ class ImapMailManager implements MailManager
     public function getMessageNumber($uid)
     {
         return imap_msgno($this->connection, $uid);
+    }
+
+    /**
+     * Returns the email id to match against a cid in an email body
+     * @param $section
+     * @return string
+     */
+    private function getCid($section)
+    {
+        return preg_quote(preg_replace(['/^</', '/>$/'], '', $section->getId()));
+    }
+
+    /**
+     * Returns true if there is a cid (id) AND it's cid reference can be found in the email.
+     * @param $id
+     * @param $body
+     * @return bool
+     */
+    private function cidFoundInEmailBody($cid, $body)
+    {
+        return $cid && preg_match("/cid:\s?$cid/", $body);
+    }
+
+    /**
+     * @param $section
+     * @param $messageNo
+     * @return string
+     */
+    private function getEmbeddedImage($section, $messageNo)
+    {
+        return $this->decode($section->getEncoding(), $this->fetchBody($messageNo, $section->getSection()));
+    }
+
+    /**
+     * @param $section
+     * @param $messageNo
+     * @param $path
+     * @return string
+     */
+    private function downloadEmbeddedImage($section, $messageNo)
+    {
+        $path = (isset($this->config['embedded_image_path'])) ? $this->config['embedded_image_path'] . '/' : '';
+
+        $image = $this->getEmbeddedImage($section, $messageNo);
+        $downloadPath = $path . $this->getFolderName() . '/' . $messageNo;
+        $file = $downloadPath . '/' . $section->getName();
+
+        if (!file_exists($file)) {
+
+            $file = $this->saveFile($downloadPath, $image, $section->getName(), false);
+            return $file;
+
+
+        }
+        return $file;
+    }
+
+    public function setConfig($key, $value)
+    {
+        $this->config[$key] = $value;
     }
 }

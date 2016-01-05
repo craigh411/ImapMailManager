@@ -15,7 +15,7 @@ class ImapMailManagerTestHelper extends ImapMailManager
 
     protected $connection;
 
-    function __construct($connection = true, $folder = 'INBOX', $configFile = __DIR__.'/../config/imap_config.php')
+    function __construct($connection = true, $folder = 'INBOX', $configFile = __DIR__ . '/../config/imap_config.php')
     {
         $this->connection = $connection;
         parent::__construct($folder, $configFile);
@@ -232,5 +232,67 @@ class ImapMailManagerTestHelper extends ImapMailManager
     public function getMessageNumber($uid)
     {
         return 1;
+    }
+
+    /**
+     * A mock for retrieving mailbox folders
+     * @param $mailbox
+     * @param string $pattern
+     * @return array
+     */
+    public function getMailboxFolders($mailbox, $pattern = '*')
+    {
+        return [
+            0 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}INBOX',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            1 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}Keep',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            2 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]',
+                'attributes' => 34,
+                'delimiter'  => '/',
+            ],
+            3 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]/All Mail',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            4 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]/Drafts',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            5 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]/Important',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            6 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            7 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]/Spam',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            8 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]/Starred',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+            9 => (object)[
+                'name'       => '{imap.gmail.com:993/imap/ssl}[Gmail]/Trash',
+                'attributes' => 64,
+                'delimiter'  => '/',
+            ],
+        ];
     }
 }
