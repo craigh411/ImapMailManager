@@ -8,5 +8,4 @@ php:
 
 install: composer install
 script:
-- cd tests
-- sh ../vendor/bin/phpunit -c phpunit.xml
+-  vendor/bin/phpunit tests -c tests/phpunit.xml
