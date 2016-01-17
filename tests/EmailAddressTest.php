@@ -9,12 +9,12 @@
 namespace Humps\MailManager\Tests;
 
 
-use Humps\MailManager\EmailAddress;
+use Humps\MailManager\Components\EmailAddress;
 
 class EmailAddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var EmailAddress
+     * @var \Humps\MailManager\Components\EmailAddress
      */
     protected $email;
 
@@ -118,5 +118,13 @@ class EmailAddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo@bar.com', $arr['emailAddress']);
         $this->assertEquals('Tom Jones', $arr['personal']);
         $this->assertFalse(isset($arr['email']));
+    }
+
+    /**
+     * @test
+     */
+    public function it_outputs_the_email_address_with_toString()
+    {
+        $this->assertEquals('foo@bar.com',$this->email->__toString());
     }
 }

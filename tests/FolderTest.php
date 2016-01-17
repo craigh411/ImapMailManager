@@ -1,7 +1,7 @@
 <?php
 namespace Humps\MailManager\Tests;
 
-use Humps\MailManager\Folder;
+use Humps\MailManager\Components\Folder;
 use PHPUnit_Framework_TestCase;
 
 class FolderTest extends PHPUnit_Framework_TestCase
@@ -42,6 +42,22 @@ class FolderTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_sets_the_folder_object()
+    {
+        $folder = [
+            'name'       => "{imap.example.com}INBOX.Trash",
+            'attributes' => [1, 2, 3],
+            'delimiter'  => "/"
+        ];
+
+        $this->folder->setFolder($folder);
+
+        $this->assertEquals($folder, $this->folder->getFolder());
+    }
+
+    /**
+     * @test
+     */
     public function it_gets_the_name_of_the_mailbox()
     {
         $this->assertEquals('{imap.example.com}INBOX.Trash', $this->folder->getMailboxName());
@@ -54,6 +70,15 @@ class FolderTest extends PHPUnit_Framework_TestCase
     {
         $this->folder->setMailboxName('{imap.example.com}INBOX');
         $this->assertEquals('{imap.example.com}INBOX', $this->folder->getMailboxName());
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_the_name_of_the_folder()
+    {
+        $this->folder->setName('SENT');
+        $this->assertEquals('SENT', $this->folder->getName());
     }
 
     /**

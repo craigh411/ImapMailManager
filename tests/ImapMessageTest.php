@@ -3,13 +3,13 @@
 namespace Humps\MailManager\Tests;
 
 
+use Humps\MailManager\Components\ImapBodyPart;
 use Humps\MailManager\ImapMailManager;
-use Humps\MailManager\ImapMessage;
+use Humps\MailManager\Components\ImapMessage;
 use Mockery as m;
 
 class ImapMessageTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ImapMailManager
      */
@@ -24,15 +24,7 @@ class ImapMessageTest extends \PHPUnit_Framework_TestCase
         $this->message = new ImapMessage();
     }
 
-    /**
-     * @test
-     */
-    public function it_sets_the_message()
-    {
-        $this->message->setMessage(['foo' => 'bar']);
-        $this->assertEquals($this->message->getMessage()['foo'], 'bar');
-    }
-
+    
     /**
      * @test
      */
@@ -170,9 +162,9 @@ class ImapMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function it_sets_the_attachments()
     {
-        $attachments = m::mock('Humps\MailManager\Collections\AttachmentCollection');
+        $attachments = m::mock('Humps\MailManager\Collections\ImapAttachmentCollection');
         $this->message->setAttachments($attachments);
-        $this->assertInstanceOf('Humps\MailManager\Collections\AttachmentCollection', $this->message->getAttachments());
+        $this->assertInstanceOf('Humps\MailManager\Collections\ImapAttachmentCollection', $this->message->getAttachments());
     }
 
     /**
@@ -180,7 +172,7 @@ class ImapMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function it_returns_true_when_has_attachments()
     {
-        $attachments = m::mock('Humps\MailManager\Collections\AttachmentCollection');
+        $attachments = m::mock('Humps\MailManager\Collections\ImapAttachmentCollection');
         $attachments->shouldReceive('count')->andReturn(1);
 
         $this->message->setAttachments($attachments);
@@ -192,7 +184,7 @@ class ImapMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function it_returns_the_number_of_attachments()
     {
-        $attachments = m::mock('Humps\MailManager\Collections\AttachmentCollection');
+        $attachments = m::mock('Humps\MailManager\Collections\ImapAttachmentCollection');
         $attachments->shouldReceive('count')->andReturn(3);
 
         $this->message->setAttachments($attachments);
@@ -205,6 +197,24 @@ class ImapMessageTest extends \PHPUnit_Framework_TestCase
     public function it_returns_false_when_it_doesnt_have_attachments()
     {
         $this->assertFalse($this->message->hasAttachments());
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_the_body_parts()
+    {
+        $bodyPart = m::mock('Humps\MailManager\Collections\ImapBodyParts');
+        $this->message->setBodyParts([$bodyPart]);
+        $this->assertEquals([$bodyPart], $this->message->getBodyParts());
+    }
+
+    /**
+     * @test
+     */
+    public function it_converts_the_message_to_json_when_converting_to_string()
+    {
+        $this->assertJSon($this->message->__toString());
     }
 
     /**
@@ -424,14 +434,13 @@ class ImapMessageTest extends \PHPUnit_Framework_TestCase
      */
     protected function getMessage()
     {
-        $attachments = m::mock('Humps\MailManager\Collections\AttachmentCollection');
+        $attachments = m::mock('Humps\MailManager\Collections\ImapAttachmentCollection');
         $attachments->shouldReceive(['jsonSerialize' => ['foo']]);
 
         $emails = m::mock('Humps\MailManager\Collections\EmailCollection');
         $emails->shouldReceive(['jsonSerialize' => ['foo']]);
 
         $m = new ImapMessage();
-        $m->setMessage(['foo' => 'bar']);
         $m->setRead(true);
         $m->setAnswered(true);
         $m->setAttachments($attachments);

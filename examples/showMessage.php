@@ -1,11 +1,13 @@
 <?
+use Humps\MailManager\Factories\ImapFactory as Imap;
+use Humps\MailManager\Factories\ImapMessageFactory as ImapMessage;
+use Humps\MailManager\ImapMessageService;
+
 set_time_limit(0);
 require_once '../vendor/autoload.php';
 
 $mid = (isset($_REQUEST['mid'])) ? $_REQUEST['mid'] : null;
 $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
-
-// $mid = 9194;
 ?>
 
 <html>
@@ -50,9 +52,10 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
 <div class="message">
     <?
     if (!is_null($mid)):
-        $mailManager = new Humps\MailManager\ImapMailManager($folder);
-        $message = $mailManager->getMessage($mid);
-        //var_dump($message->getAttachments()[0]->getAttachment());
+        $imap = Imap::create($folder);
+        $message = ImapMessage::create($mid, $imap);
+        $messageService = new ImapMessageService($message, $imap);
+        $messageService->downloadEmbeddedImages('images');
         ?>
         <table class="table table-striped">
             <tr>
@@ -87,10 +90,7 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
         <div class="body">
             <?= $message->getHtmlBody(); ?>
         </div>
-        <?var_dump(imap_fetchstructure($mailManager->getConnection(),1))?>
-        <?
-    endif;
-    ?>
+    <? endif ?>
 
 
 </div>

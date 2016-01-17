@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Humps\MailManager\ImapMailboxService | ImapMailManager Docs</title>
+
+            <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../css/sami.css">
+        <script src="../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/typeahead.min.js"></script>
+        <script src="../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:Humps_MailManager_ImapMailboxService" data-root-path="../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <form id="search-form" action="../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../index.html">ImapMailManager Docs</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../classes.html">Classes</a></li>
+                                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../traits.html">Traits</a></li>
+                    <li><a href="../../doc-index.html">Index</a></li>
+                    <li><a href="../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                                                            <li><a href="../../Humps.html">Humps</a></li>
+                                        <li><a href="../../Humps/MailManager.html">MailManager</a></li>
+    
+                <li>ImapMailboxService</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>ImapMailboxService</h1>
+    </div>
+
+    <p>    class
+    <strong>ImapMailboxService</strong>
+</p>
+
+            <div class="description">
+            <p>Handles tasks on the Mailbox itself.</p>            <p>Class MailboxManager</p>        </div>
+    
+            <h2>Traits</h2>
+
+        <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../Humps/MailManager/Traits/ImapConnectionHelper.html"><abbr title="Humps\MailManager\Traits\ImapConnectionHelper">Humps\MailManager\Traits\ImapConnectionHelper</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+            </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAliases">getAliases</a>()
+                                            <p>Returns the current config</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFolderByAlias">getFolderByAlias</a>($alias)
+                                            <p>Gets the folder by it's alias, if the folder cannot be found it returns the passed parameter</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAllMessages">getAllMessages</a>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getUnreadMessages">getUnreadMessages</a>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all unread messages for the current imap connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesBySender">getMessagesBySender</a>(array|string $sender, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages by the given sender(s) for the current imap connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesBySubject">getMessagesBySubject</a>(array|string $search, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection with the given search in their subject.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesByCc">getMessagesByCc</a>(array|string $cc, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection with the given cc.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesByBcc">getMessagesByBcc</a>(array|string $bcc, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection with the given bcc.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesByReceiver">getMessagesByReceiver</a>(array|string $to, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection with the given receiver.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesOn">getMessagesOn</a>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection sent on the given date.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesBefore">getMessagesBefore</a>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection sent before the given date.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesAfter">getMessagesAfter</a>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection sent after the given date.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessagesBetween">getMessagesBetween</a>(string $from, string $to, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages for the current imap connection sent between the given dates.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getReadMessages">getReadMessages</a>(int $sortBy = SORTDATE, bool $reverse = true)
+                                            <p>Returns all read messages for the current imap connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getImportantMessages">getImportantMessages</a>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages marked as important for the current imap connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAnsweredMessages">getAnsweredMessages</a>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages marked as answered for the current imap connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getUnansweredMessages">getUnansweredMessages</a>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)
+                                            <p>Returns all messages marked as unanswered for the current imap connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_searchMessages">searchMessages</a>(string|array $criteria, int $sortBy = SORTDATE, bool $reverse = true, int $options)
+                                            <p>Search for a message by the given criteria. The criteria can either be a string, such as 'ALL' or an array
+Where the key is the criteria and the value is a string or array of search terms.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flagAsRead">flagAsRead</a>(string $messageList)
+                                            <p>Flags the given messages as read</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flagAsImportant">flagAsImportant</a>(string $messageList)
+                                            <p>Flags the given messages as important</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flagAsAnswered">flagAsAnswered</a>(string $messageList)
+                                            <p>Flags the given messages as answered</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getUnreadMessageCount">getUnreadMessageCount</a>()
+                                            <p>Returns the number of unread messages</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteAllMessages">deleteAllMessages</a>(string $folder)
+                                            <p>Deletes all messages from the given folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteMessages">deleteMessages</a>($folder, $messageList)
+                                            <p>Deletes the given messages from the given folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_openFolder">openFolder</a>(string $folder)
+                                            <p>Opens a connection to the given folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getChildFolders">getChildFolders</a>($folder)
+                                            <p>Returns all child folders in the given folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAllFolders">getAllFolders</a>()
+                                            <p>Returns all the folders for the current mailbox</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_searchFolders">searchFolders</a>(string $mailboxName, string $pattern = &#039;*&#039;)
+                                            <p>Searches for folders based on the given pattern</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_moveToTrash">moveToTrash</a>(string $messageList, string $folder = &#039;trash&#039;)
+                                            <p>Moves the given messages to the trash folder.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_emptyTrash">emptyTrash</a>(string $folder = &#039;trash&#039;)
+                                            <p>Empties the trash folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_moveMessages">moveMessages</a>($messageList, $folder)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createFolder">createFolder</a>(string $folder, bool|null $parent = null, string $delimiter = &#039;.&#039;)
+                                            <p>Creates a new folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteFolder">deleteFolder</a>(string $folder, bool|null $parent = null, string $delimiter = &#039;.&#039;)
+                                            <p>Deletes the given folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_folderExists">folderExists</a>(string $folder)
+                                            <p>Returns true if the folder exists, false if not</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessageList">getMessageList</a>(array $messageNumbers)
+                                            <p>Returns a comma delimited message list from the given array.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_getAliases">
+        <div class="location">at line 37</div>
+        <code>                    array
+    <strong>getAliases</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the current config</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFolderByAlias">
+        <div class="location">at line 47</div>
+        <code>                    null
+    <strong>getFolderByAlias</strong>($alias)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Gets the folder by it's alias, if the folder cannot be found it returns the passed parameter</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$alias</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>null</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAllMessages">
+        <div class="location">at line 59</div>
+        <code>                    array
+    <strong>getAllMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getUnreadMessages">
+        <div class="location">at line 71</div>
+        <code>                    array
+    <strong>getUnreadMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all unread messages for the current imap connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesBySender">
+        <div class="location">at line 84</div>
+        <code>                    array
+    <strong>getMessagesBySender</strong>(array|string $sender, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages by the given sender(s) for the current imap connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|string</td>
+                <td>$sender</td>
+                <td>The name or Email of the sender</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesBySubject">
+        <div class="location">at line 98</div>
+        <code>                    array
+    <strong>getMessagesBySubject</strong>(array|string $search, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection with the given search in their subject.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|string</td>
+                <td>$search</td>
+                <td>The search for the subject</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesByCc">
+        <div class="location">at line 112</div>
+        <code>                    array
+    <strong>getMessagesByCc</strong>(array|string $cc, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection with the given cc.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|string</td>
+                <td>$cc</td>
+                <td>The name or Email of the sender</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesByBcc">
+        <div class="location">at line 126</div>
+        <code>                    array
+    <strong>getMessagesByBcc</strong>(array|string $bcc, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection with the given bcc.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|string</td>
+                <td>$bcc</td>
+                <td>The name or Email of the sender</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesByReceiver">
+        <div class="location">at line 140</div>
+        <code>                    array
+    <strong>getMessagesByReceiver</strong>(array|string $to, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection with the given receiver.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|string</td>
+                <td>$to</td>
+                <td>The name or Email of the receiver(s)</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesOn">
+        <div class="location">at line 154</div>
+        <code>                    array
+    <strong>getMessagesOn</strong>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection sent on the given date.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$date</td>
+                <td>The date to search for</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesBefore">
+        <div class="location">at line 169</div>
+        <code>                    array
+    <strong>getMessagesBefore</strong>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection sent before the given date.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$date</td>
+                <td>The date to search for</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesAfter">
+        <div class="location">at line 184</div>
+        <code>                    array
+    <strong>getMessagesAfter</strong>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection sent after the given date.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$date</td>
+                <td>The date to search for</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessagesBetween">
+        <div class="location">at line 201</div>
+        <code>                    array
+    <strong>getMessagesBetween</strong>(string $from, string $to, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages for the current imap connection sent between the given dates.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$from</td>
+                <td>The from date to search for</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$to</td>
+                <td>The to date to search for</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception"><abbr title="Exception">Exception</abbr></a></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getReadMessages">
+        <div class="location">at line 222</div>
+        <code>                    array
+    <strong>getReadMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all read messages for the current imap connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getImportantMessages">
+        <div class="location">at line 235</div>
+        <code>                    array
+    <strong>getImportantMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages marked as important for the current imap connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAnsweredMessages">
+        <div class="location">at line 247</div>
+        <code>                    array
+    <strong>getAnsweredMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages marked as answered for the current imap connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getUnansweredMessages">
+        <div class="location">at line 259</div>
+        <code>                    array
+    <strong>getUnansweredMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all messages marked as unanswered for the current imap connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort the messages by</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$peek</td>
+                <td>Whether to mark the message as read. true to peek false to mark as read.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array of message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_searchMessages">
+        <div class="location">at line 279</div>
+        <code>                    array
+    <strong>searchMessages</strong>(string|array $criteria, int $sortBy = SORTDATE, bool $reverse = true, int $options)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Search for a message by the given criteria. The criteria can either be a string, such as 'ALL' or an array
+Where the key is the criteria and the value is a string or array of search terms.</p>                    <p>see imap_search criteria (<a href="http://php.net/manual/en/function.imap-search.php">http://php.net/manual/en/function.imap-search.php</a>)</p>
+
+<p>It's important to note that this performs a logical 'AND' operation, so ['to' => ['foo@bar.com','bar@baz.com']] would return
+emails to all listed recipients, not any.</p>            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|array</td>
+                <td>$criteria</td>
+                <td>The search criteria (e.g. 'FROM' for 'from' email address). see imap_search criteria (<a href="http://php.net/manual/en/function.imap-search.php">http://php.net/manual/en/function.imap-search.php</a>)
+This parameter can also be passed as an array for criteria with arguments e.g ['from' => 'me@example.com', 'to' => 'you@example.com'] and each key can also be passed as an array (e.g. ['to' => ['me@example.com', 'you@example.com']]).</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$sortBy</td>
+                <td>The criteria to sort by (see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$reverse</td>
+                <td>Whether the sort should be in reverse order</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$options</td>
+                <td>Any options to pass through the imap_sort(see: <a href="http://php.net/manual/en/function.imap-sort.php">http://php.net/manual/en/function.imap-sort.php</a>)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array or message numbers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_flagAsRead">
+        <div class="location">at line 299</div>
+        <code>                    bool
+    <strong>flagAsRead</strong>(string $messageList)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Flags the given messages as read</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$messageList</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_flagAsImportant">
+        <div class="location">at line 309</div>
+        <code>                    bool
+    <strong>flagAsImportant</strong>(string $messageList)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Flags the given messages as important</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$messageList</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_flagAsAnswered">
+        <div class="location">at line 319</div>
+        <code>                    bool
+    <strong>flagAsAnswered</strong>(string $messageList)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Flags the given messages as answered</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$messageList</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getUnreadMessageCount">
+        <div class="location">at line 328</div>
+        <code>                    int
+    <strong>getUnreadMessageCount</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the number of unread messages</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteAllMessages">
+        <div class="location">at line 338</div>
+        <code>                    bool
+    <strong>deleteAllMessages</strong>(string $folder)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Deletes all messages from the given folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>The folder name</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteMessages">
+        <div class="location">at line 350</div>
+        <code>                    bool
+    <strong>deleteMessages</strong>($folder, $messageList)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Deletes the given messages from the given folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$folder</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$messageList</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception"><abbr title="Exception">Exception</abbr></a></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_openFolder">
+        <div class="location">at line 378</div>
+        <code>                    bool
+    <strong>openFolder</strong>(string $folder)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Opens a connection to the given folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>The name or alias of the folder to open</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Returns true on success, false on failure</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getChildFolders">
+        <div class="location">at line 393</div>
+        <code>                    array
+    <strong>getChildFolders</strong>($folder)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all child folders in the given folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$folder</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAllFolders">
+        <div class="location">at line 404</div>
+        <code>                    array
+    <strong>getAllFolders</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all the folders for the current mailbox</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_searchFolders">
+        <div class="location">at line 415</div>
+        <code>                    array
+    <strong>searchFolders</strong>(string $mailboxName, string $pattern = &#039;*&#039;)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Searches for folders based on the given pattern</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$mailboxName</td>
+                <td>The mailbox name</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$pattern</td>
+                <td>The pattern to search the folders for</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_moveToTrash">
+        <div class="location">at line 426</div>
+        <code>                    bool
+    <strong>moveToTrash</strong>(string $messageList, string $folder = &#039;trash&#039;)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Moves the given messages to the trash folder.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$messageList</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>The name of the trash folder or it's alias</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_emptyTrash">
+        <div class="location">at line 436</div>
+        <code>                    bool
+    <strong>emptyTrash</strong>(string $folder = &#039;trash&#039;)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Empties the trash folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_moveMessages">
+        <div class="location">at line 447</div>
+        <code>                    mixed
+    <strong>moveMessages</strong>($messageList, $folder)</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$messageList</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$folder</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createFolder">
+        <div class="location">at line 461</div>
+        <code>                    bool
+    <strong>createFolder</strong>(string $folder, bool|null $parent = null, string $delimiter = &#039;.&#039;)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Creates a new folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>The name of the folder to create</td>
+            </tr>
+                    <tr>
+                <td>bool|null</td>
+                <td>$parent</td>
+                <td>The name of the parent folder</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$delimiter</td>
+                <td>The delimiter used to separate parent/child folders</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>true on success, false on failure</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteFolder">
+        <div class="location">at line 476</div>
+        <code>                    bool
+    <strong>deleteFolder</strong>(string $folder, bool|null $parent = null, string $delimiter = &#039;.&#039;)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Deletes the given folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>The name of the folder to create</td>
+            </tr>
+                    <tr>
+                <td>bool|null</td>
+                <td>$parent</td>
+                <td>The name of the parent folder</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$delimiter</td>
+                <td>The delimiter used to separate parent/child folders</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>true on success, false on failure</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_folderExists">
+        <div class="location">at line 487</div>
+        <code>                    bool
+    <strong>folderExists</strong>(string $folder)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns true if the folder exists, false if not</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>The name of the folder to create</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>true on success, false on failure</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessageList">
+        <div class="location">at line 550</div>
+        <code>        static            string
+    <strong>getMessageList</strong>(array $messageNumbers)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a comma delimited message list from the given array.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$messageNumbers</td>
+                <td>An array of message Numbers.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>The message list.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

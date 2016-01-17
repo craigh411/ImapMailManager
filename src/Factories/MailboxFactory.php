@@ -5,7 +5,8 @@ namespace Humps\MailManager\Factories;
 
 
 use Exception;
-use Humps\MailManager\Mailbox;
+use Humps\MailManager\Components\Mailbox;
+
 
 class MailboxFactory
 {
@@ -16,7 +17,7 @@ class MailboxFactory
      * @return Mailbox
      * @throws Exception
      */
-    public static function create($configFile = 'imap_config.php')
+    public static function create($folder = 'INBOX', $configFile = 'imap_config/config.php')
     {
         if(!file_exists($configFile)){
             throw new Exception('Unable to find config file '. $configFile);
@@ -29,7 +30,7 @@ class MailboxFactory
             $config['username'],
             $config['password'],
             $config['port'],
-            $config['main_folder'],
+            $folder,
             $config['ssl'],
             $config['validate_cert']
         );

@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Humps\MailManager\Components\ImapMessage | ImapMailManager Docs</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:Humps_MailManager_Components_ImapMessage" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">ImapMailManager Docs</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                                                            <li><a href="../../../Humps.html">Humps</a></li>
+                                        <li><a href="../../../Humps/MailManager.html">MailManager</a></li>
+                                        <li><a href="../../../Humps/MailManager/Components.html">Components</a></li>
+    
+                <li>ImapMessage</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>ImapMessage</h1>
+    </div>
+
+    <p>    class
+    <strong>ImapMessage</strong>        implements
+        <a href="../../../Humps/MailManager/Collections/Contracts/Collectable.html"><abbr title="Humps\MailManager\Collections\Contracts\Collectable">Collectable</abbr></a>, <a target="_blank" href="http://php.net/JsonSerializable"><abbr title="JsonSerializable">JsonSerializable</abbr></a>, <a href="../../../Humps/MailManager/Contracts/Jsonable.html"><abbr title="Humps\MailManager\Contracts\Jsonable">Jsonable</abbr></a>, <a href="../../../Humps/MailManager/Components/Contracts/Message.html"><abbr title="Humps\MailManager\Components\Contracts\Message">Message</abbr></a>
+</p>
+
+    
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessageNum">getMessageNum</a>()
+                                            <p>Returns the message number</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setMessageNum">setMessageNum</a>(int $messageNum)
+                                            <p>Sets the message number</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getUid">getUid</a>()
+                                            <p>Returns the unique message id</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setUid">setUid</a>(string $uid)
+                                            <p>Sets the unique message id</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getSubject">getSubject</a>()
+                                            <p>Returns the subject</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setSubject">setSubject</a>(string $subject)
+                                            <p>Sets the subject</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFrom">getFrom</a>()
+                                            <p>Returns a collection of EmailsAddress objects for the from field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setFrom">setFrom</a>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $from)
+                                            <p>Sets the collection of Email objects for the from field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getTo">getTo</a>()
+                                            <p>Returns a collection of EmailsAddress objects for the to field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setTo">setTo</a>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $to)
+                                            <p>Sets the collection of Email objects for the to field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCc">getCc</a>()
+                                            <p>Returns a collection of EmailsAddress objects for the cc field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setCc">setCc</a>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $cc)
+                                            <p>Sets the collection of Email objects for the cc field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBcc">getBcc</a>()
+                                            <p>Returns a collection of EmailsAddress objects for the bcc field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setBcc">setBcc</a>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $bcc)
+                                            <p>Sets the collection of Email objects for the bcc field</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getHtmlBody">getHtmlBody</a>()
+                                            <p>Returns the html body for the message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setHtmlBody">setHtmlBody</a>(string $htmlBody)
+                                            <p>Sets the html body for the message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getTextBody">getTextBody</a>()
+                                            <p>Returns the text/plain body for the message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setTextBody">setTextBody</a>(string $textBody)
+                                            <p>Sets the text/plain body for the message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Humps/MailManager/Collections/ImapAttachmentCollection.html"><abbr title="Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAttachments">getAttachments</a>()
+                                            <p>Returns a collection of Attachment objects</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setAttachments">setAttachments</a>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr> $attachments)
+                                            <p>Sets the attachments for the message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_hasAttachments">hasAttachments</a>()
+                                            <p>Whether or not the Message has attachments</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_attachmentCount">attachmentCount</a>()
+                                            <p>The number of attachments</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getSize">getSize</a>()
+                                            <p>Returns the size of the message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setSize">setSize</a>(int $size)
+                                            <p>Sets the size of the message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Carbon\Carbon">Carbon</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getDate">getDate</a>()
+                                            <p>Returns a Carbon date</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setDate">setDate</a>(string $date)
+                                            <p>Sets the date</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getRawDate">getRawDate</a>()
+                                            <p>Returns the raw date as set with setDate</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isImportant">isImportant</a>()
+                                            <p>Returns the important flag</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setImportant">setImportant</a>(bool $important)
+                                            <p>Sets the important flag</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isRead">isRead</a>()
+                                            <p>Returns the seen/read flag</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setRead">setRead</a>(bool $read)
+                                            <p>Sets the seen/read flag</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isAnswered">isAnswered</a>()
+                                            <p>Returns the answer flag</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setAnswered">setAnswered</a>(bool $answered)
+                                            <p>Sets the answered flag</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getStructure">getStructure</a>()
+                                            <p>Returns the Message structure</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setStructure">setStructure</a>(array $structure)
+                                            <p>Sets the Message structure</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getHeaders">getHeaders</a>()
+                                            <p>Returns the Message headers</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setHeaders">setHeaders</a>(array $headers)
+                                            <p>Sets the Message headers</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBodyParts">getBodyParts</a>()
+                                            <p>Returns the Message body parts</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setBodyParts">setBodyParts</a>(array $bodyParts)
+                                            <p>Sets the Message body parts</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___toString">__toString</a>()
+                                            <p>Returns a string representation of this object. In this case JSON.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___clone">__clone</a>()
+                                            <p>Makes a deep copy when cloned</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_jsonSerialize">jsonSerialize</a>()
+                                            <p>Specify data which should be serialized to JSON</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_toJson">toJson</a>()
+                                            <p>Converts the current object to JSON</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_getMessageNum">
+        <div class="location">at line 40</div>
+        <code>                    int
+    <strong>getMessageNum</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the message number</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setMessageNum">
+        <div class="location">at line 50</div>
+        <code>                    void
+    <strong>setMessageNum</strong>(int $messageNum)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the message number</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$messageNum</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getUid">
+        <div class="location">at line 59</div>
+        <code>                    string
+    <strong>getUid</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the unique message id</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setUid">
+        <div class="location">at line 69</div>
+        <code>                    void
+    <strong>setUid</strong>(string $uid)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the unique message id</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$uid</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getSubject">
+        <div class="location">at line 78</div>
+        <code>                    string
+    <strong>getSubject</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the subject</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setSubject">
+        <div class="location">at line 88</div>
+        <code>                    void
+    <strong>setSubject</strong>(string $subject)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the subject</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$subject</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFrom">
+        <div class="location">at line 97</div>
+        <code>                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+    <strong>getFrom</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a collection of EmailsAddress objects for the from field</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setFrom">
+        <div class="location">at line 107</div>
+        <code>                    void
+    <strong>setFrom</strong>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $from)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the collection of Email objects for the from field</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></td>
+                <td>$from</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getTo">
+        <div class="location">at line 116</div>
+        <code>                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+    <strong>getTo</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a collection of EmailsAddress objects for the to field</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setTo">
+        <div class="location">at line 126</div>
+        <code>                    void
+    <strong>setTo</strong>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $to)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the collection of Email objects for the to field</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></td>
+                <td>$to</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCc">
+        <div class="location">at line 135</div>
+        <code>                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+    <strong>getCc</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a collection of EmailsAddress objects for the cc field</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setCc">
+        <div class="location">at line 145</div>
+        <code>                    void
+    <strong>setCc</strong>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $cc)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the collection of Email objects for the cc field</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></td>
+                <td>$cc</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getBcc">
+        <div class="location">at line 154</div>
+        <code>                    <a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a>
+    <strong>getBcc</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a collection of EmailsAddress objects for the bcc field</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Humps/MailManager/Collections/EmailCollection.html"><abbr title="Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setBcc">
+        <div class="location">at line 164</div>
+        <code>                    void
+    <strong>setBcc</strong>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr> $bcc)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the collection of Email objects for the bcc field</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\EmailCollection">EmailCollection</abbr></td>
+                <td>$bcc</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getHtmlBody">
+        <div class="location">at line 173</div>
+        <code>                    string
+    <strong>getHtmlBody</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the html body for the message</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setHtmlBody">
+        <div class="location">at line 183</div>
+        <code>                    void
+    <strong>setHtmlBody</strong>(string $htmlBody)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the html body for the message</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$htmlBody</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getTextBody">
+        <div class="location">at line 192</div>
+        <code>                    string
+    <strong>getTextBody</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the text/plain body for the message</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setTextBody">
+        <div class="location">at line 202</div>
+        <code>                    void
+    <strong>setTextBody</strong>(string $textBody)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the text/plain body for the message</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$textBody</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAttachments">
+        <div class="location">at line 212</div>
+        <code>                    <a href="../../../Humps/MailManager/Collections/ImapAttachmentCollection.html"><abbr title="Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></a>
+    <strong>getAttachments</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a collection of Attachment objects</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Humps/MailManager/Collections/ImapAttachmentCollection.html"><abbr title="Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setAttachments">
+        <div class="location">at line 222</div>
+        <code>                    void
+    <strong>setAttachments</strong>(<abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr> $attachments)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the attachments for the message</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Humps\MailManager\Components\Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></td>
+                <td>$attachments</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_hasAttachments">
+        <div class="location">at line 231</div>
+        <code>                    bool
+    <strong>hasAttachments</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Whether or not the Message has attachments</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_attachmentCount">
+        <div class="location">at line 240</div>
+        <code>                    int
+    <strong>attachmentCount</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>The number of attachments</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getSize">
+        <div class="location">at line 250</div>
+        <code>                    int
+    <strong>getSize</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the size of the message</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setSize">
+        <div class="location">at line 260</div>
+        <code>                    void
+    <strong>setSize</strong>(int $size)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the size of the message</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$size</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getDate">
+        <div class="location">at line 270</div>
+        <code>                    <abbr title="Carbon\Carbon">Carbon</abbr>
+    <strong>getDate</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a Carbon date</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Carbon\Carbon">Carbon</abbr></td>
+            <td>the carbon parsed date</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setDate">
+        <div class="location">at line 280</div>
+        <code>                    void
+    <strong>setDate</strong>(string $date)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the date</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$date</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getRawDate">
+        <div class="location">at line 290</div>
+        <code>                    string
+    <strong>getRawDate</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the raw date as set with setDate</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isImportant">
+        <div class="location">at line 299</div>
+        <code>                    bool
+    <strong>isImportant</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the important flag</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setImportant">
+        <div class="location">at line 309</div>
+        <code>                    void
+    <strong>setImportant</strong>(bool $important)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the important flag</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$important</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isRead">
+        <div class="location">at line 318</div>
+        <code>                    bool
+    <strong>isRead</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the seen/read flag</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setRead">
+        <div class="location">at line 328</div>
+        <code>                    void
+    <strong>setRead</strong>(bool $read)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the seen/read flag</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$read</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isAnswered">
+        <div class="location">at line 337</div>
+        <code>                    bool
+    <strong>isAnswered</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the answer flag</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setAnswered">
+        <div class="location">at line 347</div>
+        <code>                    void
+    <strong>setAnswered</strong>(bool $answered)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the answered flag</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$answered</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getStructure">
+        <div class="location">at line 356</div>
+        <code>                    array
+    <strong>getStructure</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the Message structure</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>$structure</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setStructure">
+        <div class="location">at line 365</div>
+        <code>                    
+    <strong>setStructure</strong>(array $structure)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the Message structure</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$structure</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getHeaders">
+        <div class="location">at line 374</div>
+        <code>                    array
+    <strong>getHeaders</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the Message headers</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>$headers</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setHeaders">
+        <div class="location">at line 384</div>
+        <code>                    void
+    <strong>setHeaders</strong>(array $headers)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the Message headers</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$headers</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getBodyParts">
+        <div class="location">at line 393</div>
+        <code>                    array
+    <strong>getBodyParts</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the Message body parts</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>$bodyParts</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setBodyParts">
+        <div class="location">at line 403</div>
+        <code>                    void
+    <strong>setBodyParts</strong>(array $bodyParts)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the Message body parts</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$bodyParts</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___toString">
+        <div class="location">at line 413</div>
+        <code>                    string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns a string representation of this object. In this case JSON.</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___clone">
+        <div class="location">at line 421</div>
+        <code>                    
+    <strong>__clone</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Makes a deep copy when cloned</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_jsonSerialize">
+        <div class="location">at line 436</div>
+        <code>                    array
+    <strong>jsonSerialize</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Specify data which should be serialized to JSON</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>data which can be serialized by <b>json_encode</b>,
+which is a value of any type other than a resource.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_toJson">
+        <div class="location">at line 461</div>
+        <code>                    string
+    <strong>toJson</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Converts the current object to JSON</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

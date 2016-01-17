@@ -3,6 +3,8 @@
 namespace Humps\MailManager\Tests;
 
 
+use Humps\MailManager\Collections\Contracts\Collectable;
+
 class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -12,7 +14,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->collection = $this->getMockForAbstractClass('Humps\MailManager\Collections\AbstractCollection');
-        $this->collectable = $this->getMock('Humps\MailManager\Collections\Collectable');
+        $this->collectable = new MyCollectable();
     }
 
     /**
@@ -89,4 +91,38 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $arr = json_decode($json, true);
         $this->assertTrue(isset($arr['collection']));
     }
+
+    /**
+     * @test
+     */
+    public function it_serializes_the_collection_to_json_when_converted_to_string()
+    {
+        $this->collection->add($this->collectable);
+        $this->collection->add($this->collectable);
+        $json = $this->collection->__toString();
+        $arr = json_decode($json, true);
+        $this->assertTrue(isset($arr['collection']));
+    }
+
+    /**
+     * @test
+     */
+    public function it_clones_the_collection()
+    {
+        $this->collection->add($this->collectable);
+        $this->collection->add($this->collectable);
+        $clone = clone $this->collection;
+
+        $collectable = new MyCollectable();
+        $collectable->value = 'bar';
+        $clone->add($collectable, 0);
+
+        $this->assertEquals('foo', $this->collection->get(0)->value);
+        $this->assertEquals('bar', $clone->get(0)->value);
+    }
+}
+
+class MyCollectable implements Collectable{
+
+    public $value = 'foo';
 }

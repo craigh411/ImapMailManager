@@ -89,11 +89,21 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;<a href="../../../Humps/MailManager/ImapMessage.html"><abbr title="Humps\MailManager\ImapMessage">ImapMessage</abbr></a>
+                    static&nbsp;
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_create">create</a>($headers)
-                                            <p>Creates an ImapMessage object from the headers returned from <code>imap_headerinfo()</code>.</p>                </div>
+                    <a href="#method_create">create</a>($messageNum, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, $excludeBody = false, $peek = false, $outputEncoding = &#039;UTF-8&#039;)
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Humps/MailManager/Collections/ImapAttachmentCollection.html"><abbr title="Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAttachments">getAttachments</a>()
+                                            <p>Get the E-mail attachment details for the given message number</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -104,31 +114,70 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_create">
-        <div class="location">at line 22</div>
-        <code>        static            <a href="../../../Humps/MailManager/ImapMessage.html"><abbr title="Humps\MailManager\ImapMessage">ImapMessage</abbr></a>
-    <strong>create</strong>($headers)</code>
+        <div class="location">at line 26</div>
+        <code>        static            
+    <strong>create</strong>($messageNum, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, $excludeBody = false, $peek = false, $outputEncoding = &#039;UTF-8&#039;)</code>
     </h3>
     <div class="details">
-                    <div class="method-description">
-                                    <p>Creates an ImapMessage object from the headers returned from <code>imap_headerinfo()</code>.</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$headers</td>
+                <td>$messageNum</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr></td>
+                <td>$imap</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$excludeBody</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$peek</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$outputEncoding</td>
                 <td>
 </td>
             </tr>
             </table>
 
             
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAttachments">
+        <div class="location">at line 259</div>
+        <code>                    <a href="../../../Humps/MailManager/Collections/ImapAttachmentCollection.html"><abbr title="Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></a>
+    <strong>getAttachments</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the E-mail attachment details for the given message number</p>                                </div>
+                <div class="tags">
+            
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td><a href="../../../Humps/MailManager/ImapMessage.html"><abbr title="Humps\MailManager\ImapMessage">ImapMessage</abbr></a></td>
+            <td><a href="../../../Humps/MailManager/Collections/ImapAttachmentCollection.html"><abbr title="Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></a></td>
             <td>
 </td>
         </tr>

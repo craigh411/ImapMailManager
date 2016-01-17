@@ -4,9 +4,15 @@
 namespace Humps\MailManager\Collections;
 
 
-use Humps\MailManager\Folder;
+use Humps\MailManager\Collections\Contracts\Collectable;
+use Humps\MailManager\Components\Folder;
 use InvalidArgumentException;
 
+/**
+ * A collection of Folder objects
+ *
+ * @package Humps\MailManager\Collections
+ */
 class FolderCollection extends AbstractCollection
 {
     function __construct()
@@ -14,6 +20,13 @@ class FolderCollection extends AbstractCollection
         parent::__construct();
     }
 
+    /**
+     * Adds a Folder object to the collection
+     * @param Collectable $folder
+     * @param string $key
+     * @throws InvalidArgumentException
+     * @return void
+     */
     public function add(Collectable $folder, $key = null)
     {
         if ($folder instanceof Folder) {
@@ -21,12 +34,5 @@ class FolderCollection extends AbstractCollection
         } else {
             throw new InvalidArgumentException('Folder object expected');
         }
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'folders' => $this->collection
-        ];
     }
 }

@@ -31,7 +31,8 @@
       "php -f installer.php"
     ],
     "docs": "vendor\\bin\\sami.php.bat update sami.php -v",
-    "tests": "vendor\\bin\\phpunit tests -c tests/phpunit.xml"
+    "tests": "vendor\\bin\\phpunit tests -c tests/phpunit.xml",
+    "coverage": "vendor\\bin\\phpunit tests --coverage-html tests/coverage --coverage-clover tests/coverage/coverage.xml -c tests/phpunit.xml"
   },
   "prefer-stable": true
 }

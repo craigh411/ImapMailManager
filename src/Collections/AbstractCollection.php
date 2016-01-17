@@ -4,6 +4,9 @@ namespace Humps\MailManager\Collections;
 
 use ArrayIterator;
 use Countable;
+use Humps\MailManager\Collections\Contracts\Collectable;
+use Humps\MailManager\Collections\Contracts\Collection;
+use Humps\MailManager\Contracts\Jsonable;
 use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
@@ -29,10 +32,11 @@ abstract class AbstractCollection implements IteratorAggregate, Countable, Jsona
      * Adds a Collectable to the collection
      * @param Collectable $item
      * @param null $key
+     * @return void
      */
     public function add(Collectable $item, $key = null)
     {
-        if ($key) {
+        if (!is_null($key)) {
             $this->collection[$key] = $item;
         } else {
             $this->collection[] = $item;
@@ -43,19 +47,19 @@ abstract class AbstractCollection implements IteratorAggregate, Countable, Jsona
     /**
      * Removes the Collectable from the collection at the given position
      * @param $key
+     * @return void
      */
     public function remove($key)
     {
-        $this->collection = [];
         if (array_key_exists($key, $this->collection)) {
             unset($this->collection[$key]);
         }
     }
 
     /**
-     * Gets the collectable for the given key
+     * Gets the Collectable for the given key
      * @param $key
-     * @return mixed
+     * @return Collectable
      */
     public function get($key)
     {
@@ -90,7 +94,7 @@ abstract class AbstractCollection implements IteratorAggregate, Countable, Jsona
      */
     public function toJson()
     {
-        return json_encode($this->collection);
+        return json_encode($this);
     }
 
     /**
@@ -109,14 +113,15 @@ abstract class AbstractCollection implements IteratorAggregate, Countable, Jsona
     {
         if (count($this->collection)) {
             foreach ($this->collection as $key => &$collectable) {
-                $collectable[$key] = clone $collectable;
+                $this->collection[$key] = clone $collectable;
             }
         }
     }
 
-    public function jsonSerialize(){
+    public function jsonSerialize()
+    {
         return [
-          'collection' => $this->collection
+            'collection' => $this->collection
         ];
     }
 

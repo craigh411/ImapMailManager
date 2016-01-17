@@ -3,19 +3,19 @@
 namespace Humps\MailManager\Tests;
 
 
-use Humps\MailManager\Attachment;
+use Humps\MailManager\Components\ImapAttachment;
 
 class AttachmentTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Attachment
+     * @var \Humps\MailManager\Components\ImapAttachment
      */
     protected $attachment;
 
     public function setUp()
     {
-        $this->attachment = Attachment::create(['filename' => 'foo', 'part' => '1.1.1', 'encoding' => 1]);
+        $this->attachment = ImapAttachment::create(['filename' => 'foo', 'part' => '1.1.1', 'encoding' => 1]);
     }
 
     /**
@@ -23,7 +23,7 @@ class AttachmentTest extends \PHPUnit_Framework_TestCase
      */
     public function it_creates_an_attachment_from_an_object()
     {
-        $attachment = Attachment::create((object)['filename' => 'foo', 'part' => '1.1.1', 'encoding' => 1]);
+        $attachment = ImapAttachment::create((object)['filename' => 'foo', 'part' => '1.1.1', 'encoding' => 1]);
         $this->assertEquals(['filename' => 'foo', 'part' => '1.1.1', 'encoding' => 1], $attachment->getAttachment());
     }
 

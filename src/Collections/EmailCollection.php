@@ -2,12 +2,12 @@
 
 namespace Humps\MailManager\Collections;
 
+use Humps\MailManager\Collections\Contracts\Collectable;
 use InvalidArgumentException;
-use Humps\MailManager\EmailAddress;
+use Humps\MailManager\Components\EmailAddress;
 
 /**
- * A Collection of EmailAddress objects. This Collection can be accessed in exactly the same way as
- * a standard array.
+ * A Collection of EmailAddress objects.
  *
  * Class EmailCollection
  * @package Humps\MailManager\Collections
@@ -21,10 +21,11 @@ class EmailCollection extends AbstractCollection
     }
 
     /**
-     * Adds an email address to the collection
-     *
-     * @param EmailAddress $email
-     * @param null $key
+     * Adds an EmailAddress object to the collection
+     * @param Collectable $email
+     * @param string $key
+     * @throws InvalidArgumentException
+     * @return void
      */
     public function add(Collectable $email, $key = null)
     {
@@ -45,12 +46,5 @@ class EmailCollection extends AbstractCollection
         return implode($delimiter, array_map(function ($collection) {
             return $collection->getEmailAddress();
         }, $this->collection));
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'emails' => $this->collection
-        ];
     }
 }

@@ -4,17 +4,25 @@ $time_start = microtime(true);
 
 
 use Carbon\Carbon;
+use Humps\MailManager\Factories\ImapFactory;
+use Humps\MailManager\Factories\ImapFolderCollectionFactory;
+use Humps\MailManager\Factories\ImapMailManagerFactory;
+use Humps\MailManager\Factories\ImapMessageCollectionFactory;
+use Humps\MailManager\ImapMailboxService;
 use Humps\MailManager\ImapMailManager;
 
 require_once '../vendor/autoload.php';
 
 $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
 
-$mailManager = new ImapMailManager($folder);
-$messages = $mailManager->getMessagesBetween('2015-12-12','2015-12-15');
+$imap = ImapFactory::create($folder);
+$mailboxService = new ImapMailboxService($imap);
 
-//$messages = $mailManager->searchMessages('FROM', 'Joyce Li');
-$folders = $mailManager->getAllFolders();
+$messageNumbers = $mailboxService->getMessagesAfter('2015-12-12');
+$messages = ImapMessageCollectionFactory::create($messageNumbers, $imap);
+
+$folders = ImapFolderCollectionFactory::create($mailboxService->getAllFolders());
+$currentFolder = $imap->getConnection()->getMailbox()->getFolder();
 ?>
 
 <html>
@@ -80,7 +88,7 @@ $folders = $mailManager->getAllFolders();
 <body>
 
 <div class="col-md-12">
-    <h2><?= $mailManager->getMailbox()->getFolder() ?></h2>
+    <h2><?= $currentFolder ?></h2>
     <div class="panel panel-default pull-left col-md-2 mailboxes ">
         <ul class=" folders">
 
@@ -110,7 +118,7 @@ $folders = $mailManager->getAllFolders();
                     <tr>
                         <td><?= ($message->getFrom()->get(0)->getPersonal()) ? $message->getFrom()->get(0)->getPersonal() : htmlspecialchars($message->getFrom()->get(0)->getEmailAddress()) ?></td>
                         <td class="<?= (!$message->isRead()) ? 'unread' : '' ?>">
-                            <a href="showMessage.php?mid=<?= $message->getMessageNum() ?>&folder=<?= $mailManager->getFolderName() ?>"><?= $message->getSubject() ?> </a>
+                            <a href="showMessage.php?mid=<?= $message->getMessageNum() ?>&folder=<?= $currentFolder ?>"><?= $message->getSubject() ?> </a>
                         </td>
                         <td><span
                                 class="glyphicon glyphicon-paperclip" <?= (!$message->hasAttachments()) ? 'style="visibility:hidden;"' : '' ?>></span>
@@ -135,9 +143,7 @@ $folders = $mailManager->getAllFolders();
 <?
 // Script end
 $time_end = microtime(true);
-
 $execution_time = ($time_end - $time_start);
-
 //execution time of the script
 echo '<b>Total Execution Time:</b> ' . $execution_time . ' Seconds';
 ?>

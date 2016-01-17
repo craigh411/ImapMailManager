@@ -6,3 +6,4 @@
 tests/imap_config.php
 .idea
 .sami-cache
+/legacy/

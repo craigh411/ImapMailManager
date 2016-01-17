@@ -1,6 +1,7 @@
 <?php
 namespace Humps\MailManager\Tests\Helpers;
 
+use Humps\MailManager\ImapHandler;
 use Humps\MailManager\ImapMailManager;
 use stdClass;
 
@@ -10,39 +11,19 @@ use stdClass;
  * Class ImapMailManagerTestHelper
  * @package Humps\MailManager\Tests\Helpers
  */
-class ImapMailManagerTestHelper extends ImapMailManager
+class ImapMailManagerTestHelper
 {
 
     protected $connection;
 
-    function __construct($connection = true, $folder = 'INBOX', $configFile = __DIR__ . '/../config/imap_config.php')
-    {
-        $this->connection = $connection;
-        parent::__construct($folder, $configFile);
-    }
 
-    /**
-     * Mocks the connection to the imap server
-     * @return bool
-     */
-    protected function connect()
-    {
-        return $this->connection;
-    }
 
-    /**
-     * Returns the config array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
 
     /**
      * A mock for fetchStructure
      * @param int $messageNumber
      */
-    public function fetchStructure($messageNumber = 1)
+    public static function fetchStructure()
     {
         return (object)[
             'type'          => 1,
@@ -147,7 +128,7 @@ class ImapMailManagerTestHelper extends ImapMailManager
         ];
     }
 
-    public function fetchBody($messageNo = 1, $part = 1, $options = 0)
+    public static function fetchBody($part = 1)
     {
         // Lets mock getting body parts based on mocked fetchStructure
         switch ($part) {
@@ -177,7 +158,7 @@ class ImapMailManagerTestHelper extends ImapMailManager
      * A mock for retrieving headers. It's essentially a real emails headers dumped with var_export();
      * @param int $messageNumber
      */
-    public function getMessageHeaders($messageNumber = 1)
+    public static function getMessageHeaders()
     {
         return (object)[
             'date'            => 'Sun, 20 Dec 2015 16:05:20 +0000',
@@ -240,7 +221,7 @@ class ImapMailManagerTestHelper extends ImapMailManager
      * @param string $pattern
      * @return array
      */
-    public function getMailboxFolders($mailbox, $pattern = '*')
+    public static function getMailboxFolders()
     {
         return [
             0 => (object)[

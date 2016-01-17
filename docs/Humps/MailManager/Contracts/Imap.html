@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Humps\MailManager\Contracts\Imap | ImapMailManager Docs</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:Humps_MailManager_Contracts_Imap" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">ImapMailManager Docs</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">interface</span></li>
+                                                            <li><a href="../../../Humps.html">Humps</a></li>
+                                        <li><a href="../../../Humps/MailManager.html">MailManager</a></li>
+                                        <li><a href="../../../Humps/MailManager/Contracts.html">Contracts</a></li>
+    
+                <li>Imap</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>Imap</h1>
+    </div>
+
+    <p>    interface
+    <strong>Imap</strong>
+</p>
+
+            <div class="description">
+            <p>Wraps the native php imap functions.</p>            <p>Class Imap</p>        </div>
+    
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setFlag">setFlag</a>(string $messageList, string $flag)
+                                            <p>Sets the given flag on the given messages</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchStructure">fetchStructure</a>(int $messageNo)
+                                            <p>Fetches the structure of the E-mail (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchHeader">fetchHeader</a>($messageNo)
+                                            <p>Returns the headers for a given message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchBody">fetchBody</a>(int $messageNo, string $part, int $options)
+                                            <p>Fetches the given body part (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    object
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getStatus">getStatus</a>($options = SA_ALL)
+                                            <p>Returns status information on the current mailbox. see: imap_status() (http://php.net/manual/en/function.imap-status.php)</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessageCount">getMessageCount</a>()
+                                            <p>Returns the number of messages in the mailbox</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setMessagesForDeletion">setMessagesForDeletion</a>(string $messageList)
+                                            <p>Sets the given messages for deletion</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_moveMessages">moveMessages</a>(string $messageList, string $folder)
+                                            <p>Moves the messages to the given folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteMessages">deleteMessages</a>()
+                                            <p>Deletes all messages set for deletion</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    object
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessageHeaders">getMessageHeaders</a>($messageNo)
+                                            <p>Returns the message headers</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_sort">sort</a>($criteria, $sortBy, $reverse, $options)
+                                            <p>Returns the sorted results</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFolders">getFolders</a>($mailbox, $pattern)
+                                            <p>Gets the folders matching the given pattern</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_renameFolder">renameFolder</a>($oldName, $newName)
+                                            <p>Renames the current folder</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMessageNumber">getMessageNumber</a>($uid)
+                                            <p>Get the message number for the uid.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createMailbox">createMailbox</a>($mailbox)
+                                            <p>Wrapper for imap_createmailbox() function.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteMailbox">deleteMailbox</a>($mailbox)
+                                            <p>Wrapper for imap_deletemailbox().</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_utf7Encode">utf7Encode</a>(string $mailbox)
+                                            <p>Wrapper for imap<em>utf7</em>encode().</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_utf7Decode">utf7Decode</a>(string $mailbox)
+                                            <p>Wrapper for imap<em>utf7</em>encode().</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addMessage">addMessage</a>(string $message, int $options = null, string $internalDate = null)
+                                            <p>Adds the given message to the current folder. see: imap_append() (http://php.net/manual/en/function.imap-append.php)</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getErrors">getErrors</a>()
+                                            <p>Returns all the imap error messages that have occurred</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAlerts">getAlerts</a>()
+                                            <p>Returns all the imap alert messages that have occurred</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Humps/MailManager/ImapConnection.html"><abbr title="Humps\MailManager\ImapConnection">ImapConnection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getConnection">getConnection</a>()
+                                            <p>Returns the current ImapConnection object</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_setFlag">
+        <div class="location">at line 22</div>
+        <code>                    bool
+    <strong>setFlag</strong>(string $messageList, string $flag)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the given flag on the given messages</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$messageList</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$flag</td>
+                <td>Either \Seen, \Answered, \Flagged, \Deleted, or \Draft</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchStructure">
+        <div class="location">at line 29</div>
+        <code>                    array
+    <strong>fetchStructure</strong>(int $messageNo)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Fetches the structure of the E-mail (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$messageNo</td>
+                <td>The message number</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchHeader">
+        <div class="location">at line 36</div>
+        <code>                    string
+    <strong>fetchHeader</strong>($messageNo)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the headers for a given message</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$messageNo</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchBody">
+        <div class="location">at line 45</div>
+        <code>                    string
+    <strong>fetchBody</strong>(int $messageNo, string $part, int $options)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Fetches the given body part (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>)</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$messageNo</td>
+                <td>The message number</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$part</td>
+                <td>The part (e.g. 1.2). This will be returned from <a href="#method_fetchBodyParts">fetchBodyParts()</a></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$options</td>
+                <td>Any options to pass to imap_fetchbody (see: <a href=" http://php.net/manual/en/function.imap-fetchbody.php">http://php.net/manual/en/function.imap-fetchbody.php</a>);</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getStatus">
+        <div class="location">at line 51</div>
+        <code>                    object
+    <strong>getStatus</strong>($options = SA_ALL)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns status information on the current mailbox. see: imap_status() (http://php.net/manual/en/function.imap-status.php)</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessageCount">
+        <div class="location">at line 57</div>
+        <code>                    int
+    <strong>getMessageCount</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the number of messages in the mailbox</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setMessagesForDeletion">
+        <div class="location">at line 65</div>
+        <code>                    bool
+    <strong>setMessagesForDeletion</strong>(string $messageList)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets the given messages for deletion</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$messageList</td>
+                <td>A comma delimited list of message numbers (see: <a href="#method_getMessageList">getMessageList()</a>)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_moveMessages">
+        <div class="location">at line 72</div>
+        <code>                    
+    <strong>moveMessages</strong>(string $messageList, string $folder)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Moves the messages to the given folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$messageList</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$folder</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteMessages">
+        <div class="location">at line 78</div>
+        <code>                    bool
+    <strong>deleteMessages</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Deletes all messages set for deletion</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessageHeaders">
+        <div class="location">at line 86</div>
+        <code>                    object
+    <strong>getMessageHeaders</strong>($messageNo)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the message headers</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$messageNo</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_sort">
+        <div class="location">at line 95</div>
+        <code>                    array
+    <strong>sort</strong>($criteria, $sortBy, $reverse, $options)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the sorted results</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$criteria</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$sortBy</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$reverse</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFolders">
+        <div class="location">at line 103</div>
+        <code>                    array
+    <strong>getFolders</strong>($mailbox, $pattern)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Gets the folders matching the given pattern</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$mailbox</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$pattern</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_renameFolder">
+        <div class="location">at line 110</div>
+        <code>                    bool
+    <strong>renameFolder</strong>($oldName, $newName)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Renames the current folder</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$oldName</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$newName</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMessageNumber">
+        <div class="location">at line 117</div>
+        <code>                    int
+    <strong>getMessageNumber</strong>($uid)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the message number for the uid.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$uid</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createMailbox">
+        <div class="location">at line 124</div>
+        <code>                    bool
+    <strong>createMailbox</strong>($mailbox)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Wrapper for imap_createmailbox() function.</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$mailbox</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteMailbox">
+        <div class="location">at line 131</div>
+        <code>                    bool
+    <strong>deleteMailbox</strong>($mailbox)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Wrapper for imap_deletemailbox().</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$mailbox</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_utf7Encode">
+        <div class="location">at line 138</div>
+        <code>                    string
+    <strong>utf7Encode</strong>(string $mailbox)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Wrapper for imap<em>utf7</em>encode().</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$mailbox</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_utf7Decode">
+        <div class="location">at line 145</div>
+        <code>                    string
+    <strong>utf7Decode</strong>(string $mailbox)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Wrapper for imap<em>utf7</em>encode().</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$mailbox</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addMessage">
+        <div class="location">at line 154</div>
+        <code>                    bool
+    <strong>addMessage</strong>(string $message, int $options = null, string $internalDate = null)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Adds the given message to the current folder. see: imap_append() (http://php.net/manual/en/function.imap-append.php)</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$internalDate</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getErrors">
+        <div class="location">at line 160</div>
+        <code>                    array
+    <strong>getErrors</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all the imap error messages that have occurred</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAlerts">
+        <div class="location">at line 166</div>
+        <code>                    array
+    <strong>getAlerts</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns all the imap alert messages that have occurred</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getConnection">
+        <div class="location">at line 173</div>
+        <code>                    <a href="../../../Humps/MailManager/ImapConnection.html"><abbr title="Humps\MailManager\ImapConnection">ImapConnection</abbr></a>
+    <strong>getConnection</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the current ImapConnection object</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Humps/MailManager/ImapConnection.html"><abbr title="Humps\MailManager\ImapConnection">ImapConnection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>
