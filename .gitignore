@@ -1,9 +1,9 @@
 
 /vendor/
-/examples/imap_config.php
+/examples/imap_config
 /examples/*[0-9]
 /examples/images
-tests/imap_config.php
 .idea
 .sami-cache
 /legacy/
+/tests/coverage
