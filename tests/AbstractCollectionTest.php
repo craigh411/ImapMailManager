@@ -29,6 +29,16 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_adds_a_collectable_to_a_collection_by_index()
+    {
+        $this->collection[] = $this->collectable;
+        $this->assertEquals(1, count($this->collection));
+    }
+
+
+    /**
+     * @test
+     */
     public function it_adds_a_collectable_for_a_given_key()
     {
         $this->collection->add($this->collectable, 'foo');
@@ -46,6 +56,16 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->collectable, $this->collection->get(0));
     }
 
+    /**
+     * @test
+     */
+    public function it_retrieves_an_item_from_the_collection_by_index()
+    {
+        $this->collection->add($this->collectable, 'bar');
+        $this->assertEquals($this->collectable, $this->collection['bar']);
+        $this->collection->add($this->collectable);
+        $this->assertEquals($this->collectable, $this->collection[0]);
+    }
 
     /**
      * @test
@@ -65,6 +85,25 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->collection->add($this->collectable);
         $this->collection->remove(0);
         $this->assertEquals(0, count($this->collection));
+    }
+
+    /**
+     * @test
+     */
+    public function it_removes_a_collectable_from_the_collection_by_index()
+    {
+        $this->collection->add($this->collectable);
+        unset($this->collection[0]);
+        $this->assertEquals(0, count($this->collection));
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_if_the_index_exists()
+    {
+        $this->collection->add($this->collectable);
+        $this->assertTrue(isset($this->collection[0]));
     }
 
     /**

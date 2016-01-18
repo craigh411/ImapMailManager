@@ -31,7 +31,7 @@ class EmailCollection extends AbstractCollection
     {
         if ($email instanceof EmailAddress) {
             parent::add($email, $key);
-        }else {
+        } else {
             throw new InvalidArgumentException('EmailAddress object expected');
         }
     }
