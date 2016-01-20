@@ -167,22 +167,23 @@ $mailboxService = new MailboxService($imap);
 
 ## Documentation
 
-There's a lot more that can be done with `ImapMailManager` than just these examples. You can the full list of methods and descriptions in the docs folder, provided as HTML. I hope to have these online soon.
+There's a lot more that can be done with `ImapMailManager` than just these examples. You can find the full list of methods and descriptions in the `docs` folder, provided as HTML. I hope to have these online soon.
 
+## Notes
 
-### A Note About Collections
+#### A Note About Collections
 
-`ImapMailMainager` returns collections as Collection objects, for the most part you can treat these exactly as you would a normal php array, so you can still use `count` and `foreach` on them as well as access them via their array index `MessageCollection[0]`
+`ImapMailMainager` returns collections as Collection objects. You can treat these exactly as you would a normal php array, so you can still use `count` and `foreach` on them as well as access them via their array index `MessageCollection[0]`
 
-### A Note on JSON Encoding
+#### A Note on JSON Encoding
 
 All value objects and collections are designed to be easily json encodable (and provide a `toJson()` method), however, you may find that some parts of an object are not included when json encoded, these are generally the raw responses from php's imap functions which could cause `json_encode()` to fail if they are not `UTF-8` encoded.
 
-### A Note on echoing
+#### A Note on echoing
 
 All value objects and collections have a `__toString()` method that will automatically display their json representations if echoed or printed to the screen, so you don't need to `var_dump()`. You should be aware that json is not the actual returned value when creating an object, but it's string represntation, so all methods can be used on the object as normal. 
 
-### A Note About Cloning
+#### A Note About Cloning
 
 Classes that contain properties that are objects are deep cloned, so those object properties are thmeselves clones.
 
