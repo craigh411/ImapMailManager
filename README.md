@@ -105,8 +105,11 @@ You should look at the docs for the `ImapMessage` class to see what methods are 
 
 ### Handling Attachments
 
-#### Downloading all  attachments
-`ImapMailManager` takes all the pain out of downloading attachments. In order to retreive attachments for the message you can use the the `getAttachments()` method, which will return an `AttachmentCollection` which can then be passed in to the `downloadAttachments()` as follows:
+`ImapMailManager` takes all the pain out of downloading attachments by extracting the attachment information, decoding and saving the attachment to the relevant folder.
+
+#### Downloading all attachments
+
+To download all attachments for a message you simply need the following:
 
 ```php
 $messageNum = $_REQUEST['messageNum'];
@@ -121,7 +124,7 @@ $message->downloadAttachments('path/to/download/to');
 
 #### Downloading A Single Attachment
 
-You will often want to download a single attachment, in order to do this `ImapMailManager` provides a few convenience methods: `downloadAttachmentByFilename()`, `downloadAttachmentByPart()` and `downloadAttachment()`:
+You will often want to download a single attachment, in order to do this `ImapMailManager` provides a few convenience methods: `downloadAttachmentByFilename()`, `downloadAttachmentByPart()` and `downloadAttachment()`. You can use the `getAttachments()` method on the returned message to retrieve a collection of `Attachment` objects which provide `getFilename()` and `getPart()` methods:
 
 **Downloading attachment by filename**
 ```php
