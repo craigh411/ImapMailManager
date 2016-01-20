@@ -35,7 +35,7 @@ return [
 
 By default `ImapMailManager` classes looks for your config folder in `imap_config/config.php`, you can change this by passing the config location directly in class constructors or factory methods.
 
-## Aliases
+#### Aliases
 
 Alieses provide a convenient way to reference inbox folders, for example if you use different `config` files to connect to multiple mailboxes you can provide folder aliases in the config itself, which means you can avoid writing a list of if statements depending on what mailbox you are connecting to. To do this, you can simply add an `aliases` array to your `config` file and `ImapMailManger` which can then be passed to functions that request a folder name:
 
