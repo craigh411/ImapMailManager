@@ -37,7 +37,7 @@ By default `ImapMailManager` classes looks for your config folder in `imap_confi
 
 #### Aliases
 
-Alieses provide a convenient way to reference inbox folders, for example if you use different `config` files to connect to multiple mailboxes you can provide folder aliases in the config itself, which means you can avoid writing a list of if statements depending on what mailbox you are connecting to. To do this, you can simply add an `aliases` array to your `config` file and `ImapMailManger` which can then be passed to functions that request a folder name:
+Aliases provide a convenient way to reference mailbox folders, for example if you use different `config` files to connect to multiple mailboxes you can provide folder aliases in the config itself. This means you can avoid hardcoding folder names, and using if statements to detect which mailbox you are connected to to get the correct folder name. To create an alias, you simply need to add an `aliases` array to your `config` file, these aliases can then be passed to methods that request a folder name, e.g. `moveToFolder('spam')`:
 
 ```
 return [
@@ -49,12 +49,12 @@ return [
     'validate_cert' => true,
     'aliases' => [
       'trash' => 'INBOX.Trash',
-      'starred' => INBOX.Starred
+      'spam' => 'INBOX.Spam'
     ]
 ];
 ```
 
-It's a good idea to add the `trash` alias, as this is the alias that is automatically used by the `moveToTrash()` and `emptyTrash()` methods. Otherwise you woill need to pass the folder in as a parameter: e.g. `moveToTrash('INBOX.Trash')`
+It's a good idea to add the `trash` alias, as this is the alias that is automatically used by the `moveToTrash()` and `emptyTrash()` methods. Otherwise you will need to pass the folder name in as a parameter: e.g. `moveToTrash('INBOX.Trash')`
 
 ### Listing Emails
 
