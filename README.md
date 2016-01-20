@@ -35,6 +35,26 @@ return [
 
 By default `ImapMailManager` classes looks for your config folder in `imap_config/config.php`, you can change this by passing the config location directly in class constructors or factory methods.
 
+## Aliases
+
+Alieses provide a convenient way to reference inbox folders, for example if you use different `config` files to connect to multiple mailboxes you can provide folder aliases in the config itself, which means you can avoid writing a list of if statements depending on what mailbox you are connecting to. To do this, you can simply add an `aliases` array to your `config` file and `ImapMailManger` which can then be passed to functions that request a folder name:
+
+```
+return [
+    'server' => 'imap.example.com',
+    'username' => 'USERNAME',
+    'password' => 'PASSWORD',
+    'port' => 993,
+    'ssl' => true,
+    'validate_cert' => true,
+    'aliases' => [
+      'trash' => 'INBOX.Trash',
+      'starred' => INBOX.Starred
+    ]
+];
+```
+
+It's a good idea to add the `trash` alias, as this is the alias that is automatically used by the `moveToTrash()` and `emptyTrash()` methods. Otherwise you woill need to pass the folder in as a parameter: e.g. `moveToTrash('INBOX.Trash')`
 
 ### Listing Emails
 
