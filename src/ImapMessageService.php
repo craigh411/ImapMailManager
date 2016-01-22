@@ -6,6 +6,7 @@ namespace Humps\MailManager;
 use Humps\MailManager\Collections\ImapAttachmentCollection;
 use Humps\MailManager\Components\Contracts\Attachment;
 use Humps\MailManager\Components\ImapBodyPart;
+use Humps\MailManager\Contracts\Decoder;
 use Humps\MailManager\Contracts\Imap;
 use Humps\MailManager\Components\Contracts\Message;
 use Humps\MailManager\Traits\ImapConnectionHelper;
@@ -16,9 +17,11 @@ class ImapMessageService
 
     protected $imap;
     protected $message;
+    protected $decoder;
 
-    function __construct(Message $message, Imap $imap)
+    function __construct(Message $message, Imap $imap, Decoder $decoder = null)
     {
+        $this->decoder = (!$decoder) ? new MessageDecoder() : $decoder;
         $this->message = $message;
         $this->imap = $imap;
     }
@@ -49,7 +52,7 @@ class ImapMessageService
      */
     protected function getEmbeddedImage(ImapBodyPart $section, $messageNo)
     {
-        return $this->decode($this->imap->fetchBody($messageNo, $section->getSection()), $section->getEncoding());
+        return $this->decoder->decodeBody($this->imap->fetchBody($messageNo, $section->getSection()), $section->getEncoding());
     }
 
     /**
@@ -131,7 +134,10 @@ class ImapMessageService
         $path = $this->appendSlash($path);
 
         $file = $this->imap->fetchBody($this->message->getMessageNum(), $attachment->getPart());
-        $decodedAttachment = $this->decode($attachment->getEncoding(), $file);
+
+
+        $decodedAttachment = $this->decoder->decodeBody($file,$attachment->getEncoding());
+
 
         $mailbox = strtolower($this->getMailbox()->getFolder());
         $path .= $mailbox . '/' . $this->message->getMessageNum();
@@ -142,12 +148,50 @@ class ImapMessageService
 
 
     /**
-     * Downloads the given attachment collection
-     * @param ImapAttachmentCollection $attachments
+     * Downloads the attachment at the given part
+     * @param string $part
+     * @param string $path
+     * @return bool|string Returns path on success, false if no attachment was found.
+     */
+    public function downloadAttachmentByPart($part, $path = '')
+    {
+        $attachments = $this->message->getAttachments();
+        if (count($attachments)) {
+            foreach ($attachments as $attachment) {
+                if ($attachment->getPart() == $part) {
+                    return $this->downloadAttachment($attachment, $path);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Downloads the attachment by the given filename
+     * @param $filename
+     * @param string $path
+     * @return bool|string Returns path on success, false if no attachment was found.
+     */
+    public function downloadAttachmentByFilename($filename, $path = '')
+    {
+        $attachments = $this->message->getAttachments();
+        if (count($attachments)) {
+            foreach ($attachments as $attachment) {
+                if ($attachment->getFilename() == $filename) {
+                    return $this->downloadAttachment($attachment, $path);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Downloads all attachments for the message
      * @param string $path
      */
-    public function downloadAttachments(ImapAttachmentCollection $attachments, $path = '')
+    public function downloadAttachments($path = '')
     {
+        $attachments = $this->message->getAttachments();
         if (count($attachments)) {
             foreach ($attachments as $attachment) {
                 $this->downloadAttachment($attachment, $path);
@@ -155,11 +199,6 @@ class ImapMessageService
         }
     }
 
-
-    protected function decode($message, $encoding)
-    {
-        return MessageDecoder::decodeBody($message, $encoding);
-    }
 
     /**
      * Saves the file to the given path

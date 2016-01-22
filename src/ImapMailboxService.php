@@ -22,11 +22,14 @@ class ImapMailboxService
     protected $imap;
     protected $aliases;
 
-    function __construct(Imap $imap, $aliasFile = 'imap_config/aliases.php')
+    function __construct(Imap $imap, $configFile = 'imap_config/config.php')
     {
         $this->imap = $imap;
-        if (file_exists($aliasFile)) {
-            $this->aliases = include $aliasFile;
+        if (file_exists($configFile)) {
+            $config = include $configFile;
+            if (isset($config['aliases'])) {
+                $this->aliases = $config['aliases'];
+            }
         }
     }
 

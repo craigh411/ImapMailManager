@@ -18,11 +18,13 @@ $folder = (isset($_REQUEST['folder'])) ? $_REQUEST['folder'] : 'INBOX';
 $imap = ImapFactory::create($folder);
 $mailboxService = new ImapMailboxService($imap);
 
-$messageNumbers = $mailboxService->getMessagesAfter('2015-12-12');
+//$messageNumbers = $mailboxService->getMessagesAfter('2015-12-10');
+$messageNumbers = $mailboxService->getMessagesBetween('2016-01-16','2016-01-18');
 $messages = ImapMessageCollectionFactory::create($messageNumbers, $imap);
 
 $folders = ImapFolderCollectionFactory::create($mailboxService->getAllFolders());
-$currentFolder = $imap->getConnection()->getMailbox()->getFolder();
+// Uses getMailbox() method from the ImapConnection helper trait, or you can do: $imap->getConnection()->getMailbox()->getFolder();
+$currentFolder  = $mailboxService->getMailbox()->getFolder();
 ?>
 
 <html>
@@ -95,7 +97,7 @@ $currentFolder = $imap->getConnection()->getMailbox()->getFolder();
             <? if (count($folders)): ?>
                 <? foreach ($folders as $folder): ?>
                     <li><span class="glyphicon glyphicon-inbox folder-glyph"></span><a
-                            href="example.php?folder=<?= $folder->getName() ?>"><?= $folder->getName() ?></a></li>
+                            href="index.php?folder=<?= $folder->getName() ?>"><?= $folder->getName() ?></a></li>
                 <? endforeach; ?>
 
             <? endif; ?>

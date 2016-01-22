@@ -7,6 +7,7 @@ namespace Humps\MailManager\Factories;
 use Humps\MailManager\Components\ImapAttachment;
 use Humps\MailManager\Collections\ImapAttachmentCollection;
 use Humps\MailManager\Collections\EmailCollection;
+use Humps\MailManager\Contracts\Decoder;
 use Humps\MailManager\Contracts\Imap;
 use Humps\MailManager\Components\EmailAddress;
 use Humps\MailManager\MessageDecoder;
@@ -23,9 +24,9 @@ class ImapMessageFactory
     protected $messageNum;
     protected $outputEncoding;
 
-    public static function create($messageNum, Imap $imap, $excludeBody = false, $peek = false, $outputEncoding = "UTF-8")
+    public static function create($messageNum, Imap $imap, $excludeBody = false, $peek = false, Decoder $decoder = null, $outputEncoding = "UTF-8")
     {
-        $factory = new static($messageNum, $imap, $peek, $excludeBody, $outputEncoding);
+        $factory = new static($messageNum, $imap, $peek, $excludeBody, $decoder, $outputEncoding);
         return $factory->getMessage();
     }
 
@@ -35,10 +36,11 @@ class ImapMessageFactory
      * @param $messageNum
      * @param $imap
      */
-    protected function __construct($messageNum, $imap, $peek, $excludeBody, $outputEncoding)
+    protected function __construct($messageNum, $imap, $peek, $excludeBody, Decoder $decoder = null, $outputEncoding)
     {
         $this->imap = $imap;
         $this->messageNum = $messageNum;
+        $this->decoder = (!$decoder) ? new MessageDecoder() : $decoder;
         $this->outputEncoding = $outputEncoding;
 
         $this->structure = $imap->fetchStructure($messageNum);
@@ -192,14 +194,14 @@ class ImapMessageFactory
                 foreach ($part as $i => $section) {
                     if ($section->getSubType() == 'PLAIN') {
                         $hasTextBody = true;
-                        $body = $this->decodeBody($this->imap->fetchBody($this->messageNum, $section->getSection(), $options), $section->getEncoding());
+                        $body = $this->decoder->decodeBody($this->imap->fetchBody($this->messageNum, $section->getSection(), $options), $section->getEncoding());
                         $body = $this->encode($section, $body);
                         $this->message->setTextBody($body);
                     }
 
                     if ($section->getSubType() == 'HTML') {
                         $hasHtmlBody = true;
-                        $body = $this->decodeBody($this->imap->fetchBody($this->messageNum, $section->getSection(), $options), $section->getEncoding());
+                        $body = $this->decoder->decodeBody($this->imap->fetchBody($this->messageNum, $section->getSection(), $options), $section->getEncoding());
                         $body = $this->encode($section, $body);
                         $this->message->setHtmlBody($body);
                     }
@@ -210,27 +212,6 @@ class ImapMessageFactory
         if (!$hasHtmlBody && $hasTextBody) {
             $this->message->setHtmlBody(nl2br($this->message->getTextBody()));
         }
-    }
-
-    /**
-     * Decodes the given body with the given encoding.
-     * @param string $body
-     * @param int $encoding
-     * @return string The decoded body
-     */
-    protected function decodeBody($body, $encoding)
-    {
-        return MessageDecoder::decodeBody($body, $encoding);
-    }
-
-    /**
-     * Decodes the given body with the given encoding.
-     * @param string $body
-     * @return string The decoded body
-     */
-    protected function decodeHeader($header)
-    {
-        return MessageDecoder::decodeHeader($header);
     }
 
     /**
@@ -285,9 +266,9 @@ class ImapMessageFactory
         $emailCollection = new EmailCollection();
         if ($emails) {
             foreach ($emails as $key => $email) {
-                $mailbox = $this->decodeHeader($email->mailbox);
-                $host = $this->decodeHeader($email->host);
-                $personal = (isset($email->personal)) ? $this->decodeHeader($email->personal) : null;
+                $mailbox = $this->decoder->decodeHeader($email->mailbox);
+                $host = $this->decoder->decodeHeader($email->host);
+                $personal = (isset($email->personal)) ? $this->decoder->decodeHeader($email->personal) : null;
                 $this->addEmailAddress($emailCollection, $mailbox, $host, $personal, $email);
             }
         }
@@ -302,7 +283,7 @@ class ImapMessageFactory
     protected function getAttr($attribute, $decode = true)
     {
         if ($decode) {
-            return (isset($this->headers[$attribute])) ? MessageDecoder::decodeHeader($this->headers[$attribute]) : null;
+            return (isset($this->headers[$attribute])) ? $this->decoder->decodeHeader($this->headers[$attribute]) : null;
         }
 
         return (isset($this->headers[$attribute])) ? $this->headers[$attribute] : null;

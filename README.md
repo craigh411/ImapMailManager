@@ -33,8 +33,6 @@ return [
 ];
 ```
 
-By default `ImapMailManager` classes looks for your config folder in `imap_config/config.php`, you can change this by passing the config location directly in class constructors or factory methods.
-
 #### Aliases
 
 Aliases provide a convenient way to reference mailbox folders, for example if you use different `config` files to connect to multiple mailboxes you can provide folder aliases in the config itself. This means you can avoid hardcoding folder names, and using if statements to detect which mailbox you are connected to to get the correct folder name. To create an alias, you simply need to add an `aliases` array to your `config` file, these aliases can then be passed to methods that request a folder name, e.g. `moveToFolder('spam')`:
@@ -55,6 +53,17 @@ return [
 ```
 
 It's a good idea to add the `trash` alias, as this is the alias that is automatically used by the `moveToTrash()` and `emptyTrash()` methods. Otherwise you will need to pass the folder name in as a parameter: e.g. `moveToTrash('INBOX.Trash')`
+
+### Generating the config file
+
+
+`ImapMailManager` provides a config generator called `createImapConfig.php` which can be run from composers `vendor/bin` folder, which will create
+'imap_config/config.php' in the folder the script is run from.
+
+Alternatively, you can simply copy and paste the code from config.php to your own config file.
+
+By default `ImapMailManager` looks for your config file in `imap_config/config.php`, you can change this by passing the config location directly in to the relevant class constructors or factory methods. (see docs)
+
 
 ### Listing Emails
 
@@ -188,9 +197,17 @@ $mailboxService = new MailboxService($imap);
 
 **Note:** Creating a Message object directly is quite involved, so the Factories should still be used to create Message objects and collections.
 
+## Running the Examples
+
+The examples require you to provide your own config file in `examples/imap_config/config.php`, you can do this by using the generator found
+in `vendor\bin` or simply creating one manually, you can find the basic config file in `config.php` in the root of this project.
+
+You then need to change the settings in your `config.php` file to match your email account and you should then be able to run the examples.
+
 ## Documentation
 
 There's a lot more that can be done with `ImapMailManager` than just these examples. You can find the full list of methods and descriptions in the `docs` folder, provided as HTML. I hope to have these online soon.
+
 
 ## Notes
 

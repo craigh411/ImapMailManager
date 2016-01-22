@@ -24,7 +24,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function it_loads_the_aliases_file()
     {
-        $mailboxManager = new ImapMailboxService($this->getImap(), __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($this->getImap(), __DIR__ . '/imap_config/config.php');
         $this->assertEquals(['trash' => 'INBOX.Trash', 'drafts' => 'INBOX.Drafts'], $mailboxManager->getAliases());
     }
 
@@ -33,7 +33,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function it_gets_the_folder_by_alias()
     {
-        $mailboxManager = new ImapMailboxService($this->getImap(), __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($this->getImap(), __DIR__ . '/imap_config/config.php');
         $this->assertEquals('INBOX.Trash', $mailboxManager->getFolderByAlias('trash'));
     }
 
@@ -1079,7 +1079,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
 
         /** @noinspection PhpUndefinedMethodInspection */
         $imap->shouldReceive('refresh')->andReturn(true);
-        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $opened = $mailboxManager->openFolder('trash');
         /** @noinspection PhpUndefinedMethodInspection */
         $this->connection->shouldHaveReceived('refresh')->once();
@@ -1171,7 +1171,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         /** @noinspection PhpUndefinedMethodInspection */
         $this->connection->shouldReceive('refresh')->andReturn(true);
 
-        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $deleted = $mailboxManager->emptyTrash();
 
         $this->assertTrue($deleted);
@@ -1213,7 +1213,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         $this->connection->shouldReceive('refresh')->once()->andReturn(false);
 
         $this->setExpectedException('Exception', 'Unable to re-open folder INBOX Connection has been closed');
-        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $mailboxManager->deleteAllMessages('trash');
     }
 
@@ -1241,7 +1241,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         $this->mailbox->shouldReceive('getMailboxName')->with(true)->andReturn('{imap.example.com:993/imap/ssl}');
         /** @noinspection PhpUndefinedMethodInspection */
         $imap->shouldReceive('getFolders')->with('{imap.example.com:993/imap/ssl}INBOX.Trash', '*');
-        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $mailboxManager->getChildFolders('trash');
     }
 
@@ -1280,7 +1280,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         $imap = $this->getImap();
         /** @noinspection PhpUndefinedMethodInspection */
         $imap->shouldReceive('moveMessages')->with('1,2', 'INBOX.Trash')->andReturn(true);
-        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $this->assertTrue($mailboxManager->moveToTrash('1,2'));
     }
 
@@ -1308,7 +1308,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         $this->mailbox->shouldReceive('getMailboxName')->with(true)->andReturn('{imap.example.com:993/imap/ssl}');
         /** @noinspection PhpUndefinedMethodInspection */
         $imap->shouldReceive('createMailbox')->with('{imap.example.com:993/imap/ssl}INBOX.Drafts.FOO');
-        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $mailboxManager->createFolder('FOO', 'drafts');
     }
 
@@ -1364,7 +1364,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         $this->mailbox->shouldReceive('getMailboxName')->with(true)->andReturn('{imap.example.com:993/imap/ssl}');
         /** @noinspection PhpUndefinedMethodInspection */
         $imap->shouldReceive('deleteMailbox')->with('{imap.example.com:993/imap/ssl}INBOX.Drafts.FOO');
-        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/aliases.php');
+        $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $mailboxManager->deleteFolder('FOO', 'drafts');
     }
 

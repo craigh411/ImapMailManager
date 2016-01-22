@@ -2,28 +2,29 @@
 
 
 namespace Humps\MailManager;
+use Humps\MailManager\Contracts\Decoder;
 
 /**
  * Attempts to decode Email messages.
  * Class Decoder
  * @package Humps\MailManager]
  */
-class MessageDecoder
+class MessageDecoder implements Decoder
 {
-
     /**
      * Attempts to Decode the message body. If a valid encoding is not passed then it will attempt to detect the encoding itself.
      * @param $body
-     * @param null $encoding
+     * @param int|null $encoding
+     * @param string $qpCharset The charset to use when converting quoted printable hex values.
      * @return string
      */
-    public static function decodeBody($body, $encoding = null)
+    public function decodeBody($body, $encoding = null, $qpCharset = 'cp1252')
     {
         switch ($encoding) {
             case ENCBASE64:
                 return imap_base64($body);
             case ENCQUOTEDPRINTABLE:
-                return imap_qprint($body);
+                return static::decodeQP($body, $qpCharset);
             case ENCBINARY:
                 return imap_binary($body);
             default:
@@ -38,43 +39,59 @@ class MessageDecoder
                     return $decoded;
                 }
 
-                // Lets decode manually, but it's probably ASCII!
-                return self::decodeQP($body);
+                // Let's pass it through the qp parser and return the result.
+                return $this->decodeQP($body, $qpCharset);
         }
     }
 
     /**
-     * A quoted printable decode without throwing the errors that PHP's native function can throw.
-     * If you've made it here, it probably ASCII, but this will sort out anything
-     * that's got through.
-     *
+     * A quoted printable decoder, that supports extended ASCII chars and doesn't thrown
+     * errors like the native imap_qprint() function.
+     * @param string $message
+     * ~param string $charset The charset to use when converting quoted printable hex values.
      * @return string
      */
-    public static function decodeQP($message)
+    public static function decodeQP($message, $charset = 'cp1252')
     {
         // Pick up all equal signs followed by hex values
         preg_match_all("/\=[a-f0-9]{2}/i", $message, $encodedChars);
-
         // Remove equals from end of line (soft-break)
         $message = preg_replace("/=\r\n/", '', $message);
 
-        /**
-         * Space and tab can also have the following encoding, so we need to check for them.
-         */
-
-        // tab
-        $message = preg_replace("/09=^/", "\t", $message);
-        // space
-        $message = preg_replace("/20=^/", " ", $message);
-
+        // Space and tab can also have the following encoding, so we need to check for them.
+        $message = preg_replace("/09=^/", "\t", $message); // tab
+        $message = preg_replace("/20=^/", " ", $message); // space
 
         foreach ($encodedChars[0] as $char) {
             $hex = str_replace("=^", '', $char);
             $decimal = hexdec($hex);
-            $message = preg_replace("/$char/", chr($decimal), $message);
+            $message = preg_replace("/$char/", static::convertChar($decimal, $charset), $message);
         }
 
         return trim($message);
+    }
+
+
+    /**
+     * Converts the decimal value to a character, by default we are using the extended cp1252 charset to
+     * allow extended ascii characters to be used.
+     * @param $decimal
+     * @param string $charset
+     * @return string
+     */
+    protected static function convertChar($decimal, $charset = 'cp1252')
+    {
+        // These windows chars are not converted, so convert them manually
+        if ($charset == 'cp1252') {
+            switch ($decimal) {
+                case 142:
+                    return '&#142;'; // Ž
+                case 158:
+                    return '&#158;'; // ž
+            }
+        }
+
+        return htmlentities(chr($decimal), null, $charset);
     }
 
     /**
@@ -82,7 +99,7 @@ class MessageDecoder
      * @param $header
      * @return string
      */
-    public static function decodeHeader($header)
+    public function decodeHeader($header)
     {
         $header = imap_mime_header_decode($header);
         $str = '';
@@ -102,10 +119,11 @@ class MessageDecoder
         // so ISO-8859-1 strings need to be run through utf8_encode() for correct display.
         if (count($header)) {
             foreach ($header as $h) {
-                if (strtoupper($h->charset) === "ISO-8859-1" || !in_array($h->charset, $encodings)) {
+                $charset = strtoupper($h->charset);
+                if (strtoupper($charset) === "ISO-8859-1" || !in_array($charset, $encodings)) {
                     $str .= utf8_encode($h->text);
                 } else {
-                    $str .= mb_convert_encoding($h->text, 'utf-8', $h->charset);
+                    $str .= mb_convert_encoding($h->text, 'UTF-8', $h->charset);
                 }
             }
         }
