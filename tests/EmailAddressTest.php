@@ -125,6 +125,6 @@ class EmailAddressTest extends \PHPUnit_Framework_TestCase
      */
     public function it_outputs_the_email_address_with_toString()
     {
-        $this->assertEquals('foo@bar.com',$this->email->__toString());
+        $this->assertEquals('{"personal":"Tom Jones","emailAddress":"foo@bar.com","mailbox":"foo","host":"bar.com"}',$this->email->__toString());
     }
 }

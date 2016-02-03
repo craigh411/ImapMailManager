@@ -1,8 +1,8 @@
 <?php
 
 namespace Humps\MailManager\Contracts;
+
 use Humps\MailManager\ImapConnection;
-use Humps\MailManager\Mailbox;
 
 
 /**
@@ -46,7 +46,8 @@ interface Imap
 
     /**
      * Returns status information on the current mailbox. see: imap_status() (http://php.net/manual/en/function.imap-status.php)
-     * @return object
+     * @param int $options
+	 * @return object
      */
     public function getStatus($options = SA_ALL);
 
@@ -87,9 +88,10 @@ interface Imap
 
     /**
      * Returns the sorted results
-     * @param $criteria
-     * @param $sortBy
-     * @param $reverse
+     * @param string|array $criteria
+     * @param int  $sortBy
+     * @param bool $reverse
+	 * @param int $options
      * @return array
      */
     public function sort($criteria, $sortBy, $reverse, $options = 0);
@@ -104,7 +106,8 @@ interface Imap
 
     /**
      * Renames the current folder
-     * @param $name
+     * @param string $oldName
+	 * @param string $newName
      * @return bool
      */
     public function renameFolder($oldName, $newName);

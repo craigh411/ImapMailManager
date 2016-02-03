@@ -78,7 +78,7 @@
 
     <p>    class
     <strong>AbstractCollection</strong>        implements
-        <a target="_blank" href="http://php.net/IteratorAggregate"><abbr title="IteratorAggregate">IteratorAggregate</abbr></a>, <a target="_blank" href="http://php.net/Countable"><abbr title="Countable">Countable</abbr></a>, <a href="../../../Humps/MailManager/Contracts/Jsonable.html"><abbr title="Humps\MailManager\Contracts\Jsonable">Jsonable</abbr></a>, <a href="../../../Humps/MailManager/Collections/Contracts/Collection.html"><abbr title="Humps\MailManager\Collections\Contracts\Collection">Collection</abbr></a>, <a target="_blank" href="http://php.net/JsonSerializable"><abbr title="JsonSerializable">JsonSerializable</abbr></a>
+        <a target="_blank" href="http://php.net/IteratorAggregate"><abbr title="IteratorAggregate">IteratorAggregate</abbr></a>, <a target="_blank" href="http://php.net/ArrayAccess"><abbr title="ArrayAccess">ArrayAccess</abbr></a>, <a target="_blank" href="http://php.net/Countable"><abbr title="Countable">Countable</abbr></a>, <a href="../../../Humps/MailManager/Contracts/Jsonable.html"><abbr title="Humps\MailManager\Contracts\Jsonable">Jsonable</abbr></a>, <a href="../../../Humps/MailManager/Collections/Contracts/Collection.html"><abbr title="Humps\MailManager\Collections\Contracts\Collection">Collection</abbr></a>, <a target="_blank" href="http://php.net/JsonSerializable"><abbr title="JsonSerializable">JsonSerializable</abbr></a>
 </p>
 
             <div class="description">
@@ -117,7 +117,7 @@ being passed in to functions which type hint child classes.</p>                 
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_remove">remove</a>($key)
-                                            <p>Removes a Collectable from the collection by the given key</p>                </div>
+                                            <p>Removes the Collectable from the collection at the given position</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -126,7 +126,7 @@ being passed in to functions which type hint child classes.</p>                 
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_get">get</a>($key)
-                                            <p>Returns the Collectable by the given key</p>                </div>
+                                            <p>Gets the Collectable for the given key</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -153,7 +153,7 @@ being passed in to functions which type hint child classes.</p>                 
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_toJson">toJson</a>()
-                                            <p>Converts the current object to JSON</p>                </div>
+                                            <p>Returns the json representation of the collection</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -184,6 +184,42 @@ being passed in to functions which type hint child classes.</p>                 
                                     </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    boolean
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetExists">offsetExists</a>(mixed $offset)
+                                            <p>Whether a offset exists</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetGet">offsetGet</a>(mixed $offset)
+                                            <p>Offset to retrieve</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetSet">offsetSet</a>(mixed $offset, mixed $value)
+                                            <p>Offset to set</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_offsetUnset">offsetUnset</a>(mixed $offset)
+                                            <p>Offset to unset</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -192,7 +228,7 @@ being passed in to functions which type hint child classes.</p>                 
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 26</div>
+        <div class="location">at line 27</div>
         <code>                    
     <strong>__construct</strong>()</code>
     </h3>
@@ -207,7 +243,7 @@ being passed in to functions which type hint child classes.</p>                 
             </div>
                     <div class="method-item">
                     <h3 id="method_add">
-        <div class="location">at line 37</div>
+        <div class="location">at line 38</div>
         <code>                    void
     <strong>add</strong>(<abbr title="Humps\MailManager\Collections\Humps\MailManager\Collections\Contracts\Collectable">Collectable</abbr> $item, null $key = null)</code>
     </h3>
@@ -251,13 +287,13 @@ being passed in to functions which type hint child classes.</p>                 
             </div>
                     <div class="method-item">
                     <h3 id="method_remove">
-        <div class="location">at line 52</div>
+        <div class="location">at line 53</div>
         <code>                    void
     <strong>remove</strong>($key)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Removes a Collectable from the collection by the given key</p>                                </div>
+                                    <p>Removes the Collectable from the collection at the given position</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -289,13 +325,13 @@ being passed in to functions which type hint child classes.</p>                 
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">at line 64</div>
+        <div class="location">at line 65</div>
         <code>                    <a href="../../../Humps/MailManager/Collections/Contracts/Collectable.html"><abbr title="Humps\MailManager\Collections\Contracts\Collectable">Collectable</abbr></a>
     <strong>get</strong>($key)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Returns the Collectable by the given key</p>                                </div>
+                                    <p>Gets the Collectable for the given key</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -327,7 +363,7 @@ being passed in to functions which type hint child classes.</p>                 
             </div>
                     <div class="method-item">
                     <h3 id="method_getIterator">
-        <div class="location">at line 75</div>
+        <div class="location">at line 76</div>
         <code>                    <a target="_blank" href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a>
     <strong>getIterator</strong>()</code>
     </h3>
@@ -354,7 +390,7 @@ being passed in to functions which type hint child classes.</p>                 
             </div>
                     <div class="method-item">
                     <h3 id="method_count">
-        <div class="location">at line 86</div>
+        <div class="location">at line 87</div>
         <code>                    int
     <strong>count</strong>()</code>
     </h3>
@@ -381,13 +417,13 @@ The return value is cast to an integer.</td>
             </div>
                     <div class="method-item">
                     <h3 id="method_toJson">
-        <div class="location">at line 95</div>
+        <div class="location">at line 96</div>
         <code>                    mixed
     <strong>toJson</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Converts the current object to JSON</p>                                </div>
+                                    <p>Returns the json representation of the collection</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -408,7 +444,7 @@ The return value is cast to an integer.</td>
             </div>
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at line 104</div>
+        <div class="location">at line 105</div>
         <code>                    string
     <strong>__toString</strong>()</code>
     </h3>
@@ -435,7 +471,7 @@ The return value is cast to an integer.</td>
             </div>
                     <div class="method-item">
                     <h3 id="method___clone">
-        <div class="location">at line 112</div>
+        <div class="location">at line 113</div>
         <code>                    
     <strong>__clone</strong>()</code>
     </h3>
@@ -452,13 +488,167 @@ The return value is cast to an integer.</td>
             </div>
                     <div class="method-item">
                     <h3 id="method_jsonSerialize">
-        <div class="location">at line 121</div>
+        <div class="location">at line 122</div>
         <code>                    
     <strong>jsonSerialize</strong>()</code>
     </h3>
     <div class="details">
                 <div class="tags">
             
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetExists">
+        <div class="location">at line 141</div>
+        <code>                    boolean
+    <strong>offsetExists</strong>(mixed $offset)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Whether a offset exists</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$offset</td>
+                <td>An offset to check for.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>boolean</td>
+            <td>true on success or false on failure.
+</p>
+<p>
+The return value will be casted to boolean if non-boolean was returned.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetGet">
+        <div class="location">at line 155</div>
+        <code>                    mixed
+    <strong>offsetGet</strong>(mixed $offset)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Offset to retrieve</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$offset</td>
+                <td>The offset to retrieve.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>Can return all value types.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetSet">
+        <div class="location">at line 172</div>
+        <code>                    void
+    <strong>offsetSet</strong>(mixed $offset, mixed $value)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Offset to set</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$offset</td>
+                <td>The offset to assign the value to.</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>The value to set.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_offsetUnset">
+        <div class="location">at line 186</div>
+        <code>                    void
+    <strong>offsetUnset</strong>(mixed $offset)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Offset to unset</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$offset</td>
+                <td>The offset to unset.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>

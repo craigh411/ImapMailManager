@@ -13,7 +13,7 @@ interface MailboxConnection
 {
     /**
      * Closes the connection to the mail server
-     * @param bool $deleteFlaggedEmails If set to true all emails flagged for deletion will be removed
+     * @param int $options
      * @return bool
      */
     public function closeConnection($options = 0);

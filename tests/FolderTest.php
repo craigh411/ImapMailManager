@@ -137,4 +137,11 @@ class FolderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/', $arr['delimiter']);
         $this->assertFalse(isset($arr['folder']));
     }
+
+	/**
+	 * @test
+	 */
+	public function it_converts_the_object_to_a_string() {
+		$this->assertEquals('{"mailboxName":"{imap.example.com}INBOX.Trash","name":"INBOX.Trash","attributes":[1,2,3],"delimiter":"\/"}', $this->folder->__toString());
+	}
 }

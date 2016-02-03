@@ -12,10 +12,12 @@ use Humps\MailManager\MessageDecoder;
 class ImapMessageCollectionFactory
 {
     /**
-     * Gets the message collection for the given Id's
+     * Gets the message collection for the given Message Numbers
      * @param array $messageNumbers
+	 * @param Imap $imap
      * @param bool $excludeBody
      * @param bool $peek
+	 * @param Decoder $decoder
      * @param string $outputEncoding
      * @return ImapMessageCollection
      */
@@ -25,7 +27,7 @@ class ImapMessageCollectionFactory
         $messages = new ImapMessageCollection();
         if (count($messageNumbers)) {
             foreach ($messageNumbers as $messageNum) {
-                static::addImapMessage($imap, $excludeBody, $peek, $outputEncoding, $messages, $decoder, $messageNum);
+                static::addImapMessage($imap, $excludeBody, $peek, $outputEncoding, $messages, $decoder, (int)$messageNum);
             }
         }
         return $messages;
@@ -34,13 +36,14 @@ class ImapMessageCollectionFactory
     /**
      * Adds a message to the collection
      * @param Imap $imap
-     * @param $excludeBody
-     * @param $peek
-     * @param $outputEncoding
-     * @param $messages
-     * @param $messageNum
+     * @param bool $excludeBody
+     * @param bool $peek
+     * @param string $outputEncoding
+     * @param ImapMessageCollection $messages
+	 * @param Decoder $decoder
+     * @param int $messageNum
      */
-    protected static function addImapMessage(Imap $imap, $excludeBody, $peek, $outputEncoding, $messages, Decoder $decoder, $messageNum)
+    protected static function addImapMessage(Imap $imap, $excludeBody, $peek, $outputEncoding, ImapMessageCollection $messages, Decoder $decoder, $messageNum)
     {
         $messages->add(ImapMessageFactory::create($messageNum, $imap, $excludeBody, $peek, $decoder, $outputEncoding));
     }

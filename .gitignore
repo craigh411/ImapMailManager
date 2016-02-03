@@ -5,5 +5,5 @@
 /examples/images
 .idea
 .sami-cache
-/legacy/
 /tests/coverage
+/examples/caching

@@ -3,7 +3,6 @@
 
 namespace Humps\MailManager;
 
-use Humps\MailManager\Collections\ImapAttachmentCollection;
 use Humps\MailManager\Components\Contracts\Attachment;
 use Humps\MailManager\Components\ImapBodyPart;
 use Humps\MailManager\Contracts\Decoder;

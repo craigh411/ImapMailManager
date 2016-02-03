@@ -5,6 +5,7 @@ namespace Humps\MailManager\Collections;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use Humps\MailManager\Collections\Contracts\Arrayable;
 use Humps\MailManager\Collections\Contracts\Collectable;
 use Humps\MailManager\Collections\Contracts\Collection;
 use Humps\MailManager\Contracts\Jsonable;
@@ -19,7 +20,7 @@ use Traversable;
  *
  * @package Humps\MailManager\Collections
  */
-abstract class AbstractCollection implements IteratorAggregate, ArrayAccess, Countable, Jsonable, Collection, JsonSerializable
+abstract class AbstractCollection implements IteratorAggregate, ArrayAccess, Countable, Jsonable, Collection, JsonSerializable, Arrayable
 {
 
     protected $collection;
@@ -187,4 +188,12 @@ abstract class AbstractCollection implements IteratorAggregate, ArrayAccess, Cou
     {
         unset($this->collection[$offset]);
     }
+
+	/**
+	 * Returns the collection as an array
+	 * @return array
+	 */
+	public function toArray() {
+		return $this->collection;
+	}
 }

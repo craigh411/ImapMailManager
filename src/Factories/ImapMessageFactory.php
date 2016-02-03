@@ -4,6 +4,7 @@
 namespace Humps\MailManager\Factories;
 
 
+use Humps\MailManager\Components\Contracts\BodyPart;
 use Humps\MailManager\Components\ImapAttachment;
 use Humps\MailManager\Collections\ImapAttachmentCollection;
 use Humps\MailManager\Collections\EmailCollection;
@@ -13,30 +14,47 @@ use Humps\MailManager\Components\EmailAddress;
 use Humps\MailManager\MessageDecoder;
 use Humps\MailManager\Components\ImapBodyPart;
 use Humps\MailManager\Components\ImapMessage;
+use stdClass;
 
 class ImapMessageFactory
 {
 
     protected $headers;
     protected $bodyParts;
+	/**
+	 * @var stdClass
+	 */
     protected $structure;
     protected $imap;
     protected $messageNum;
     protected $outputEncoding;
 
+	/**
+	 * Creates an ImapMessage object for the given message number and Imap
+	 * @param int $messageNum
+	 * @param Imap $imap
+	 * @param bool $excludeBody
+	 * @param bool $peek
+	 * @param Decoder|null $decoder
+	 * @param string $outputEncoding
+	 * @return mixed
+	 */
     public static function create($messageNum, Imap $imap, $excludeBody = false, $peek = false, Decoder $decoder = null, $outputEncoding = "UTF-8")
     {
         $factory = new static($messageNum, $imap, $peek, $excludeBody, $decoder, $outputEncoding);
         return $factory->getMessage();
     }
 
-    /**
-     * Construct this object for creating an ImapMessage
-     * ImapMessageFactory constructor.
-     * @param $messageNum
-     * @param $imap
-     */
-    protected function __construct($messageNum, $imap, $peek, $excludeBody, Decoder $decoder = null, $outputEncoding)
+	/**
+	 * ImapMessageFactory constructor.
+	 * @param $messageNum
+	 * @param $imap
+	 * @param $peek
+	 * @param $excludeBody
+	 * @param Decoder|null $decoder
+	 * @param $outputEncoding
+	 */
+    protected function __construct($messageNum, Imap $imap, $peek, $excludeBody, Decoder $decoder = null, $outputEncoding)
     {
         $this->imap = $imap;
         $this->messageNum = $messageNum;
@@ -76,7 +94,7 @@ class ImapMessageFactory
      * Returns an array of BodyParts. The array is broken down into sections, so all parts from section 1
      * will be at index 0 ($bodyParts[0]), part 2 at index 1 ($bodyParts[1]) etc.
      *
-     * @param array $structure The structure retrieved from getStructure();
+     * @param stdClass|array $structure The structure retrieved from getStructure();
      * @param array $parts The array being returned.
      * @param array $sections The current section number as array [1,1,1] is '1.1.1'
      * @return array An array of <a href="Contracts/BodyPart.html">BodyPart</a> objects
@@ -96,7 +114,7 @@ class ImapMessageFactory
                     $sections[count($sections) - 1] = $i + 1;
                     // Break array in to the main sections
                     $section = implode(".", $sections);
-                    $bodyPart = new ImapBodyPart($part->type, $part->encoding, $part->subtype, $section);
+                    $bodyPart = new ImapBodyPart($part->type, $part->encoding, $part->subtype, $section, $this->getCharset($part));
                     $this->setParams($part, $bodyPart);
                     $this->setDispositionParams($part, $bodyPart);
                     if (isset($part->id)) {
@@ -108,7 +126,7 @@ class ImapMessageFactory
             }
         } elseif (isset($structure) && count($structure)) {
             // We only have 1 part, so add all the sections.
-            $parts[0][] = new ImapBodyPart($structure->type, $structure->encoding, $structure->subtype, 1);
+            $parts[0][] = new ImapBodyPart($structure->type, $structure->encoding, $structure->subtype, 1, $this->getCharset($structure));
         }
 
         return $parts;
@@ -120,7 +138,7 @@ class ImapMessageFactory
      * @param $bodyPart
      * @return mixed
      */
-    private function setParams($part, &$bodyPart)
+    private function setParams($part, BodyPart &$bodyPart)
     {
         // Check for charset and embedded files (these will be in parameters)
         if ($part->ifparameters) {
@@ -141,7 +159,7 @@ class ImapMessageFactory
      * @param $bodyPart
      * @return void
      */
-    private function setDispositionParams($part, &$bodyPart)
+    private function setDispositionParams($part, BodyPart &$bodyPart)
     {
         // Now lets look for disposition parameters for attachments
         if ($part->ifdparameters) {
@@ -157,8 +175,7 @@ class ImapMessageFactory
 
     /**
      * Creates an ImapMessage object from the headers returned from `imap_headerinfo()`.
-     * @param $headers
-     * @return ImapMessage
+     * @return void
      */
     protected function setMessageHeaders()
     {
@@ -191,6 +208,9 @@ class ImapMessageFactory
 
         if (count($this->bodyParts)) {
             foreach ($this->bodyParts as $part) {
+				/**
+				 * @var BodyPart $section
+				 */
                 foreach ($part as $i => $section) {
                     if ($section->getSubType() == 'PLAIN') {
                         $hasTextBody = true;
@@ -216,17 +236,14 @@ class ImapMessageFactory
 
     /**
      * Encodes the body to the set encoding (by default UTF-8)
-     * @param $section
-     * @param $body
+     * @param BodyPart $section
+     * @param string $body
      * @return mixed|string
      */
-    protected function encode($section, $body)
+    protected function encode(BodyPart $section, $body)
     {
-        $charset = ($section->getCharset()) ? $section->getCharset() : mb_detect_encoding($body);
-        if ($charset) {
+        if ($charset = $section->getCharset()) {
             return mb_convert_encoding($body, $this->outputEncoding, $charset);
-        } elseif ($this->outputEncoding == "UTF-8") {
-            return utf8_encode($body);
         }
 
         return mb_convert_encoding($body, $this->outputEncoding);
@@ -234,7 +251,6 @@ class ImapMessageFactory
 
     /**
      * Get the E-mail attachment details for the given message number
-     * @param int $messageNo The message number
      * @return ImapAttachmentCollection
      */
     public function getAttachments()
@@ -252,7 +268,6 @@ class ImapMessageFactory
                 }
             }
         }
-
         return $attachments;
     }
 
@@ -266,9 +281,9 @@ class ImapMessageFactory
         $emailCollection = new EmailCollection();
         if ($emails) {
             foreach ($emails as $key => $email) {
-                $mailbox = $this->decoder->decodeHeader($email->mailbox);
-                $host = $this->decoder->decodeHeader($email->host);
-                $personal = (isset($email->personal)) ? $this->decoder->decodeHeader($email->personal) : null;
+                $mailbox = $this->decoder->decodeHeader($email->mailbox, $this->outputEncoding);
+                $host = $this->decoder->decodeHeader($email->host, $this->outputEncoding);
+                $personal = (isset($email->personal)) ? $this->decoder->decodeHeader($email->personal, $this->outputEncoding) : null;
                 $this->addEmailAddress($emailCollection, $mailbox, $host, $personal, $email);
             }
         }
@@ -277,13 +292,14 @@ class ImapMessageFactory
 
     /**
      * Returns the given attribute from the message array
-     * @param $attribute
+     * @param string $attribute
+	 * @param bool $decode
      * @return null
      */
     protected function getAttr($attribute, $decode = true)
     {
         if ($decode) {
-            return (isset($this->headers[$attribute])) ? $this->decoder->decodeHeader($this->headers[$attribute]) : null;
+            return (isset($this->headers[$attribute])) ? $this->decoder->decodeHeader($this->headers[$attribute], $this->outputEncoding) : null;
         }
 
         return (isset($this->headers[$attribute])) ? $this->headers[$attribute] : null;
@@ -296,8 +312,26 @@ class ImapMessageFactory
      * @param $personal
      * @param $email
      */
-    protected function addEmailAddress($emailCollection, $mailbox, $host, $personal, $email)
+    protected function addEmailAddress(EmailCollection $emailCollection, $mailbox, $host, $personal, $email)
     {
         $emailCollection->add(new EmailAddress($mailbox, $host, $personal, $email));
+    }
+
+    /**
+     * @param $part
+     * @return null
+     */
+    private function getCharset($part)
+    {
+        $charset = null;
+        if ($part->ifparameters) {
+            foreach ($part->parameters as $params) {
+                if ($params->attribute == 'charset') {
+                    $charset = $params->value;
+                }
+            }
+        }
+
+        return $charset;
     }
 }

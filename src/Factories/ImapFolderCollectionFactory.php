@@ -5,7 +5,6 @@ namespace Humps\MailManager\Factories;
 
 
 use Humps\MailManager\Collections\FolderCollection;
-use Humps\MailManager\Contracts\Imap;
 use Humps\MailManager\Components\Folder;
 
 class ImapFolderCollectionFactory
@@ -18,18 +17,20 @@ class ImapFolderCollectionFactory
     public static function create($folders)
     {
         $collection = new FolderCollection();
-        foreach ($folders as $folder) {
-            static::addFolder($collection, $folder);
+        if(count($folders)) {
+            foreach ($folders as $folder) {
+                static::addFolder($collection, $folder);
+            }
         }
-
         return $collection;
     }
 
     /**
+	 * Adds a folder for the folder collection
      * @param $folders
      * @param $folder
      */
-    protected static function addFolder($folders, $folder)
+    protected static function addFolder(FolderCollection $folders, $folder)
     {
         $folders->add(Folder::create($folder));
     }

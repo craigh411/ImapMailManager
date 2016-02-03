@@ -5,7 +5,7 @@ namespace Humps\MailManager\Tests;
 
 use Humps\MailManager\Components\ImapAttachment;
 
-class AttachmentTest extends \PHPUnit_Framework_TestCase
+class ImapAttachmentTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -108,4 +108,11 @@ class AttachmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $arr['encoding']);
         $this->assertFalse(isset($arr['attachment']));
     }
+
+	/**
+	 * @test
+	 */
+	public function it_converts_the_object_to_a_string() {
+		$this->assertEquals('{"filename":"foo","part":"1.1.1","encoding":1}', $this->attachment->__toString());
+	}
 }

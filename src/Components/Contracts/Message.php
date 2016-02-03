@@ -4,7 +4,6 @@ namespace Humps\MailManager\Components\Contracts;
 
 use Carbon\Carbon;
 use Humps\MailManager\Collections\ImapAttachmentCollection;
-use Humps\MailManager\Collections\BodyPartCollection;
 use Humps\MailManager\Collections\EmailCollection;
 
 interface Message
@@ -31,7 +30,7 @@ interface Message
 
     /**
      * Sets the unique message id
-     * @param int $messageNo
+     * @param int $uid
      */
     public function setUid($uid);
 
@@ -67,7 +66,7 @@ interface Message
 
     /**
      * Sets the collection of Email objects for the to field
-     * @param EmailCollection $from
+     * @param EmailCollection $to
      */
     public function setTo(EmailCollection $to);
 
@@ -79,7 +78,7 @@ interface Message
 
     /**
      * Sets the collection of Email objects for the cc field
-     * @param EmailCollection $from
+     * @param EmailCollection $cc
      */
     public function setCc(EmailCollection $cc);
 
@@ -91,7 +90,7 @@ interface Message
 
     /**
      * Sets the collection of Email objects for the bcc field
-     * @param EmailCollection $from
+     * @param EmailCollection $bcc
      */
     public function setBcc(EmailCollection $bcc);
 

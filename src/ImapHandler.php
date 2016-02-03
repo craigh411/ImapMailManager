@@ -17,7 +17,7 @@ class ImapHandler implements Imap
 
     /**
      * Imap constructor.
-     * @param ImapConnection $mailbox
+     * @param ImapConnection $connection
      */
     function __construct(ImapConnection $connection)
     {
@@ -33,7 +33,7 @@ class ImapHandler implements Imap
      */
     public function setFlag($messageList, $flag)
     {
-        return imap_setflag_full($this->connection->getConnection()->getConnection(), $messageList, $flag);
+        return imap_setflag_full($this->connection->getConnection(), $messageList, $flag);
     }
 
     /**
@@ -43,7 +43,7 @@ class ImapHandler implements Imap
      */
     public function fetchStructure($messageNo)
     {
-        return imap_fetchstructure($this->connection->getConnection(), $messageNo);
+        return @imap_fetchstructure($this->connection->getConnection(), $messageNo);
     }
 
     /**
@@ -70,11 +70,12 @@ class ImapHandler implements Imap
 
     /**
      * Returns status information on the current mailbox. see: imap_status() (http://php.net/manual/en/function.imap-status.php)
+	 * @param int $options
      * @return object
      */
     public function getStatus($options = SA_ALL)
     {
-        return imap_status($this->getConnection(), $this->mailbox->getMailboxName(), $options);
+        return imap_status($this->connection->getConnection(), $this->connection->getMailbox()->getMailboxName(), $options);
     }
 
     /**
@@ -98,11 +99,12 @@ class ImapHandler implements Imap
 
     }
 
-    /**
-     * Moves the messages to the given folder
-     * @param string $messageList
-     * @param string $folder
-     */
+	/**
+	 * Moves the messages to the given folder
+	 * @param string $messageList
+	 * @param string $folder
+	 * @return bool
+	 */
     public function moveMessages($messageList, $folder)
     {
         return imap_mail_move($this->connection->getConnection(), $messageList, $folder);
@@ -130,9 +132,10 @@ class ImapHandler implements Imap
 
     /**
      * Returns the sorted results
-     * @param $criteria
-     * @param $sortBy
-     * @param $reverse
+     * @param string|array $criteria
+     * @param int $sortBy
+     * @param bool $reverse
+	 * @param int $options
      * @return array
      */
     public function sort($criteria, $sortBy, $reverse, $options = 0)
@@ -153,7 +156,8 @@ class ImapHandler implements Imap
 
     /**
      * Renames the current folder
-     * @param $name
+     * @param string $oldName
+	 * @param string $newName
      * @return bool
      */
     public function renameFolder($oldName, $newName)
@@ -222,7 +226,7 @@ class ImapHandler implements Imap
      */
     public function addMessage($message, $options = null, $internalDate = null)
     {
-        return imap_append($this->connection->getConnection(), $this->mailbox->getMailboxName(), $message, $options, $internalDate);
+        return imap_append($this->connection->getConnection(), $this->connection->getMailbox()->getMailboxName(), $message, $options, $internalDate);
     }
 
     /**

@@ -5,7 +5,6 @@ namespace Humps\MailManager\Components;
 use Carbon\Carbon;
 
 use Humps\MailManager\Collections\ImapAttachmentCollection;
-use Humps\MailManager\Collections\BodyPartCollection;
 use Humps\MailManager\Collections\Contracts\Collectable;
 use Humps\MailManager\Collections\EmailCollection;
 use Humps\MailManager\Contracts\Jsonable;

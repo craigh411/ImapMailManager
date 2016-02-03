@@ -130,7 +130,7 @@
                     object
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getStatus">getStatus</a>($options = SA_ALL)
+                    <a href="#method_getStatus">getStatus</a>(int $options = SA_ALL)
                                             <p>Returns status information on the current mailbox. see: imap_status() (http://php.net/manual/en/function.imap-status.php)</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -154,7 +154,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    bool
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_moveMessages">moveMessages</a>(string $messageList, string $folder)
@@ -184,7 +184,7 @@
                     array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_sort">sort</a>($criteria, $sortBy, $reverse, $options)
+                    <a href="#method_sort">sort</a>(string|array $criteria, int $sortBy, bool $reverse, int $options)
                                             <p>Returns the sorted results</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -202,7 +202,7 @@
                     bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_renameFolder">renameFolder</a>($oldName, $newName)
+                    <a href="#method_renameFolder">renameFolder</a>(string $oldName, string $newName)
                                             <p>Renames the current folder</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -284,7 +284,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getConnection">getConnection</a>()
-                                            <p>Returns the current ImapConnection object</p>                </div>
+                                            <p>Returns the ImapConnection</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -459,9 +459,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getStatus">
-        <div class="location">at line 75</div>
+        <div class="location">at line 76</div>
         <code>                    object
-    <strong>getStatus</strong>($options = SA_ALL)</code>
+    <strong>getStatus</strong>(int $options = SA_ALL)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -471,7 +471,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$options</td>
                 <td>
 </td>
@@ -497,7 +497,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageCount">
-        <div class="location">at line 84</div>
+        <div class="location">at line 85</div>
         <code>                    int
     <strong>getMessageCount</strong>()</code>
     </h3>
@@ -524,7 +524,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setMessagesForDeletion">
-        <div class="location">at line 95</div>
+        <div class="location">at line 96</div>
         <code>                    bool
     <strong>setMessagesForDeletion</strong>(string $messageList)</code>
     </h3>
@@ -561,8 +561,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_moveMessages">
-        <div class="location">at line 106</div>
-        <code>                    
+        <div class="location">at line 108</div>
+        <code>                    bool
     <strong>moveMessages</strong>(string $messageList, string $folder)</code>
     </h3>
     <div class="details">
@@ -587,6 +587,16 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -595,7 +605,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteMessages">
-        <div class="location">at line 115</div>
+        <div class="location">at line 117</div>
         <code>                    bool
     <strong>deleteMessages</strong>()</code>
     </h3>
@@ -622,7 +632,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageHeaders">
-        <div class="location">at line 126</div>
+        <div class="location">at line 128</div>
         <code>                    object
     <strong>getMessageHeaders</strong>($messageNo)</code>
     </h3>
@@ -660,9 +670,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_sort">
-        <div class="location">at line 138</div>
+        <div class="location">at line 141</div>
         <code>                    array
-    <strong>sort</strong>($criteria, $sortBy, $reverse, $options)</code>
+    <strong>sort</strong>(string|array $criteria, int $sortBy, bool $reverse, int $options)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -672,25 +682,25 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string|array</td>
                 <td>$criteria</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$sortBy</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>bool</td>
                 <td>$reverse</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$options</td>
                 <td>
 </td>
@@ -716,7 +726,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolders">
-        <div class="location">at line 149</div>
+        <div class="location">at line 152</div>
         <code>                    array
     <strong>getFolders</strong>($mailbox, $pattern)</code>
     </h3>
@@ -760,9 +770,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_renameFolder">
-        <div class="location">at line 159</div>
+        <div class="location">at line 163</div>
         <code>                    bool
-    <strong>renameFolder</strong>($oldName, $newName)</code>
+    <strong>renameFolder</strong>(string $oldName, string $newName)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -772,13 +782,13 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$oldName</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$newName</td>
                 <td>
 </td>
@@ -804,7 +814,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageNumber">
-        <div class="location">at line 169</div>
+        <div class="location">at line 173</div>
         <code>                    int
     <strong>getMessageNumber</strong>($uid)</code>
     </h3>
@@ -842,7 +852,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createMailbox">
-        <div class="location">at line 179</div>
+        <div class="location">at line 183</div>
         <code>                    bool
     <strong>createMailbox</strong>($mailbox)</code>
     </h3>
@@ -880,7 +890,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteMailbox">
-        <div class="location">at line 189</div>
+        <div class="location">at line 193</div>
         <code>                    bool
     <strong>deleteMailbox</strong>($mailbox)</code>
     </h3>
@@ -918,7 +928,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_utf7Encode">
-        <div class="location">at line 200</div>
+        <div class="location">at line 204</div>
         <code>                    string
     <strong>utf7Encode</strong>(string $mailbox)</code>
     </h3>
@@ -956,7 +966,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_utf7Decode">
-        <div class="location">at line 210</div>
+        <div class="location">at line 214</div>
         <code>                    string
     <strong>utf7Decode</strong>(string $mailbox)</code>
     </h3>
@@ -994,7 +1004,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addMessage">
-        <div class="location">at line 223</div>
+        <div class="location">at line 227</div>
         <code>                    bool
     <strong>addMessage</strong>(string $message, int $options = null, string $internalDate = null)</code>
     </h3>
@@ -1044,7 +1054,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getErrors">
-        <div class="location">at line 232</div>
+        <div class="location">at line 236</div>
         <code>                    array
     <strong>getErrors</strong>()</code>
     </h3>
@@ -1071,7 +1081,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getAlerts">
-        <div class="location">at line 241</div>
+        <div class="location">at line 245</div>
         <code>                    array
     <strong>getAlerts</strong>()</code>
     </h3>
@@ -1098,13 +1108,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getConnection">
-        <div class="location">at line 250</div>
+        <div class="location">at line 254</div>
         <code>                    <a href="../../Humps/MailManager/ImapConnection.html"><abbr title="Humps\MailManager\ImapConnection">ImapConnection</abbr></a>
     <strong>getConnection</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Returns the current ImapConnection object</p>                                </div>
+                                    <p>Returns the ImapConnection</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>

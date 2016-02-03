@@ -16,11 +16,7 @@ trait ImapConnectionHelper
      */
     public function getConnection()
     {
-        if(isset($this->imap)) {
-            return $this->imap->getConnection();
-        }
-
-        throw new Exception('getConnection() in ImapConnectionHelper Trait expects an Imap class object named $imap to have been instantiated.');
+        return $this->imap->getConnection();
     }
 
     /**

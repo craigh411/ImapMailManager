@@ -14,7 +14,7 @@ use Humps\MailManager\Components\Mailbox;
 use Mockery as m;
 use Humps\MailManager\ImapMailboxService;
 
-class MailboxServiceTest extends \PHPUnit_Framework_TestCase
+class ImapMailboxServiceTest extends \PHPUnit_Framework_TestCase
 {
     protected $mailbox;
     protected $connection;
@@ -1268,9 +1268,22 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         $imap = $this->getImap();
         /** @noinspection PhpUndefinedMethodInspection */
         $imap->shouldReceive('moveMessages')->with('1,2', 'Starred')->andReturn(true);
+		$imap->shouldReceive('deleteMessages')->andReturn(true);
         $mailboxManager = new ImapMailboxService($imap);
         $this->assertTrue($mailboxManager->moveMessages('1,2', 'Starred'));
     }
+
+	/**
+	 * @test
+	 */
+	public function it_should_return_false_if_the_message_cannot_be_moved()
+	{
+		$imap = $this->getImap();
+		/** @noinspection PhpUndefinedMethodInspection */
+		$imap->shouldReceive('moveMessages')->with('1,2', 'Starred')->andReturn(false);
+		$mailboxManager = new ImapMailboxService($imap);
+		$this->assertFalse($mailboxManager->moveMessages('1,2', 'Starred'));
+	}
 
     /**
      * @test
@@ -1280,6 +1293,7 @@ class MailboxServiceTest extends \PHPUnit_Framework_TestCase
         $imap = $this->getImap();
         /** @noinspection PhpUndefinedMethodInspection */
         $imap->shouldReceive('moveMessages')->with('1,2', 'INBOX.Trash')->andReturn(true);
+		$imap->shouldReceive('deleteMessages')->andReturn(true);
         $mailboxManager = new ImapMailboxService($imap, __DIR__ . '/imap_config/config.php');
         $this->assertTrue($mailboxManager->moveToTrash('1,2'));
     }

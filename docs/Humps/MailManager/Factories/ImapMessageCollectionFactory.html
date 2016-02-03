@@ -92,8 +92,8 @@
                     static&nbsp;<a href="../../../Humps/MailManager/Collections/ImapMessageCollection.html"><abbr title="Humps\MailManager\Collections\ImapMessageCollection">ImapMessageCollection</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_create">create</a>(array $messageNumbers, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, $excludeBody = true, $peek = true, $outputEncoding = &#039;UTF-8&#039;)
-                                            <p>Gets the message collection for the given Id's</p>                </div>
+                    <a href="#method_create">create</a>(array $messageNumbers, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, bool $excludeBody = true, bool $peek = true, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Decoder">Decoder</abbr> $decoder = null, string $outputEncoding = &#039;UTF-8&#039;)
+                                            <p>Gets the message collection for the given Message Numbers</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -104,13 +104,13 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_create">
-        <div class="location">at line 20</div>
+        <div class="location">at line 24</div>
         <code>        static            <a href="../../../Humps/MailManager/Collections/ImapMessageCollection.html"><abbr title="Humps\MailManager\Collections\ImapMessageCollection">ImapMessageCollection</abbr></a>
-    <strong>create</strong>(array $messageNumbers, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, $excludeBody = true, $peek = true, $outputEncoding = &#039;UTF-8&#039;)</code>
+    <strong>create</strong>(array $messageNumbers, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, bool $excludeBody = true, bool $peek = true, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Decoder">Decoder</abbr> $decoder = null, string $outputEncoding = &#039;UTF-8&#039;)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Gets the message collection for the given Id's</p>                                </div>
+                                    <p>Gets the message collection for the given Message Numbers</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -128,19 +128,25 @@
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>bool</td>
                 <td>$excludeBody</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>bool</td>
                 <td>$peek</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Decoder">Decoder</abbr></td>
+                <td>$decoder</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>string</td>
                 <td>$outputEncoding</td>
                 <td>
 </td>

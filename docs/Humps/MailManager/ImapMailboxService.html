@@ -103,6 +103,24 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
+                    <a href="../../Humps/MailManager/ImapConnection.html"><abbr title="Humps\MailManager\ImapConnection">ImapConnection</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getConnection">getConnection</a>()
+                                            <p>Returns the current ImapConnection object</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../Humps/MailManager/Traits/ImapConnectionHelper.html#method_getConnection"><abbr title="Humps\MailManager\Traits\ImapConnectionHelper">ImapConnectionHelper</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../Humps/MailManager/Components/Mailbox.html"><abbr title="Humps\MailManager\Components\Mailbox">Mailbox</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMailbox">getMailbox</a>()
+                                            <p>Returns the current Mailbox object</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../Humps/MailManager/Traits/ImapConnectionHelper.html#method_getMailbox"><abbr title="Humps\MailManager\Traits\ImapConnectionHelper">ImapConnectionHelper</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     array
                 </div>
                 <div class="col-md-8 type">
@@ -374,7 +392,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed
+                    bool
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_moveMessages">moveMessages</a>($messageList, $folder)
@@ -425,8 +443,62 @@ Where the key is the criteria and the value is a string or array of search terms
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method_getConnection">
+        <div class="location">in <a href="../../Humps/MailManager/Traits/ImapConnectionHelper.html#method_getConnection"><abbr title="Humps\MailManager\Traits\ImapConnectionHelper">ImapConnectionHelper</abbr></a> at line 17</div>
+        <code>                    <a href="../../Humps/MailManager/ImapConnection.html"><abbr title="Humps\MailManager\ImapConnection">ImapConnection</abbr></a>
+    <strong>getConnection</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the current ImapConnection object</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../Humps/MailManager/ImapConnection.html"><abbr title="Humps\MailManager\ImapConnection">ImapConnection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMailbox">
+        <div class="location">in <a href="../../Humps/MailManager/Traits/ImapConnectionHelper.html#method_getMailbox"><abbr title="Humps\MailManager\Traits\ImapConnectionHelper">ImapConnectionHelper</abbr></a> at line 26</div>
+        <code>                    <a href="../../Humps/MailManager/Components/Mailbox.html"><abbr title="Humps\MailManager\Components\Mailbox">Mailbox</abbr></a>
+    <strong>getMailbox</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Returns the current Mailbox object</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../Humps/MailManager/Components/Mailbox.html"><abbr title="Humps\MailManager\Components\Mailbox">Mailbox</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getAliases">
-        <div class="location">at line 37</div>
+        <div class="location">at line 36</div>
         <code>                    array
     <strong>getAliases</strong>()</code>
     </h3>
@@ -453,7 +525,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolderByAlias">
-        <div class="location">at line 47</div>
+        <div class="location">at line 45</div>
         <code>                    null
     <strong>getFolderByAlias</strong>($alias)</code>
     </h3>
@@ -491,7 +563,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getAllMessages">
-        <div class="location">at line 59</div>
+        <div class="location">at line 56</div>
         <code>                    array
     <strong>getAllMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -537,7 +609,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getUnreadMessages">
-        <div class="location">at line 71</div>
+        <div class="location">at line 67</div>
         <code>                    array
     <strong>getUnreadMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -583,7 +655,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBySender">
-        <div class="location">at line 84</div>
+        <div class="location">at line 79</div>
         <code>                    array
     <strong>getMessagesBySender</strong>(array|string $sender, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -634,7 +706,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBySubject">
-        <div class="location">at line 98</div>
+        <div class="location">at line 93</div>
         <code>                    array
     <strong>getMessagesBySubject</strong>(array|string $search, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -685,7 +757,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesByCc">
-        <div class="location">at line 112</div>
+        <div class="location">at line 107</div>
         <code>                    array
     <strong>getMessagesByCc</strong>(array|string $cc, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -736,7 +808,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesByBcc">
-        <div class="location">at line 126</div>
+        <div class="location">at line 121</div>
         <code>                    array
     <strong>getMessagesByBcc</strong>(array|string $bcc, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -787,7 +859,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesByReceiver">
-        <div class="location">at line 140</div>
+        <div class="location">at line 135</div>
         <code>                    array
     <strong>getMessagesByReceiver</strong>(array|string $to, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -838,7 +910,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesOn">
-        <div class="location">at line 154</div>
+        <div class="location">at line 149</div>
         <code>                    array
     <strong>getMessagesOn</strong>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -889,7 +961,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBefore">
-        <div class="location">at line 169</div>
+        <div class="location">at line 164</div>
         <code>                    array
     <strong>getMessagesBefore</strong>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -940,7 +1012,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesAfter">
-        <div class="location">at line 184</div>
+        <div class="location">at line 179</div>
         <code>                    array
     <strong>getMessagesAfter</strong>(string $date, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -991,7 +1063,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessagesBetween">
-        <div class="location">at line 201</div>
+        <div class="location">at line 196</div>
         <code>                    array
     <strong>getMessagesBetween</strong>(string $from, string $to, int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -1057,7 +1129,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getReadMessages">
-        <div class="location">at line 222</div>
+        <div class="location">at line 213</div>
         <code>                    array
     <strong>getReadMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true)</code>
     </h3>
@@ -1098,7 +1170,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getImportantMessages">
-        <div class="location">at line 235</div>
+        <div class="location">at line 224</div>
         <code>                    array
     <strong>getImportantMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -1144,7 +1216,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getAnsweredMessages">
-        <div class="location">at line 247</div>
+        <div class="location">at line 235</div>
         <code>                    array
     <strong>getAnsweredMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -1190,7 +1262,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_getUnansweredMessages">
-        <div class="location">at line 259</div>
+        <div class="location">at line 246</div>
         <code>                    array
     <strong>getUnansweredMessages</strong>(int $sortBy = SORTDATE, bool $reverse = true, bool $peek = true)</code>
     </h3>
@@ -1236,7 +1308,7 @@ Where the key is the criteria and the value is a string or array of search terms
             </div>
                     <div class="method-item">
                     <h3 id="method_searchMessages">
-        <div class="location">at line 279</div>
+        <div class="location">at line 265</div>
         <code>                    array
     <strong>searchMessages</strong>(string|array $criteria, int $sortBy = SORTDATE, bool $reverse = true, int $options)</code>
     </h3>
@@ -1292,7 +1364,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_flagAsRead">
-        <div class="location">at line 299</div>
+        <div class="location">at line 283</div>
         <code>                    bool
     <strong>flagAsRead</strong>(string $messageList)</code>
     </h3>
@@ -1329,7 +1401,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_flagAsImportant">
-        <div class="location">at line 309</div>
+        <div class="location">at line 292</div>
         <code>                    bool
     <strong>flagAsImportant</strong>(string $messageList)</code>
     </h3>
@@ -1366,7 +1438,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_flagAsAnswered">
-        <div class="location">at line 319</div>
+        <div class="location">at line 301</div>
         <code>                    bool
     <strong>flagAsAnswered</strong>(string $messageList)</code>
     </h3>
@@ -1403,7 +1475,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_getUnreadMessageCount">
-        <div class="location">at line 328</div>
+        <div class="location">at line 309</div>
         <code>                    int
     <strong>getUnreadMessageCount</strong>()</code>
     </h3>
@@ -1430,7 +1502,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteAllMessages">
-        <div class="location">at line 338</div>
+        <div class="location">at line 318</div>
         <code>                    bool
     <strong>deleteAllMessages</strong>(string $folder)</code>
     </h3>
@@ -1467,7 +1539,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteMessages">
-        <div class="location">at line 350</div>
+        <div class="location">at line 329</div>
         <code>                    bool
     <strong>deleteMessages</strong>($folder, $messageList)</code>
     </h3>
@@ -1521,7 +1593,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_openFolder">
-        <div class="location">at line 378</div>
+        <div class="location">at line 355</div>
         <code>                    bool
     <strong>openFolder</strong>(string $folder)</code>
     </h3>
@@ -1557,7 +1629,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_getChildFolders">
-        <div class="location">at line 393</div>
+        <div class="location">at line 368</div>
         <code>                    array
     <strong>getChildFolders</strong>($folder)</code>
     </h3>
@@ -1595,7 +1667,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_getAllFolders">
-        <div class="location">at line 404</div>
+        <div class="location">at line 378</div>
         <code>                    array
     <strong>getAllFolders</strong>()</code>
     </h3>
@@ -1622,7 +1694,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_searchFolders">
-        <div class="location">at line 415</div>
+        <div class="location">at line 388</div>
         <code>                    array
     <strong>searchFolders</strong>(string $mailboxName, string $pattern = &#039;*&#039;)</code>
     </h3>
@@ -1664,7 +1736,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_moveToTrash">
-        <div class="location">at line 426</div>
+        <div class="location">at line 398</div>
         <code>                    bool
     <strong>moveToTrash</strong>(string $messageList, string $folder = &#039;trash&#039;)</code>
     </h3>
@@ -1706,7 +1778,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_emptyTrash">
-        <div class="location">at line 436</div>
+        <div class="location">at line 407</div>
         <code>                    bool
     <strong>emptyTrash</strong>(string $folder = &#039;trash&#039;)</code>
     </h3>
@@ -1744,8 +1816,8 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_moveMessages">
-        <div class="location">at line 447</div>
-        <code>                    mixed
+        <div class="location">at line 416</div>
+        <code>                    bool
     <strong>moveMessages</strong>($messageList, $folder)</code>
     </h3>
     <div class="details">
@@ -1772,7 +1844,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
 
                     <table class="table table-condensed">
         <tr>
-            <td>mixed</td>
+            <td>bool</td>
             <td>
 </td>
         </tr>
@@ -1786,7 +1858,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_createFolder">
-        <div class="location">at line 461</div>
+        <div class="location">at line 433</div>
         <code>                    bool
     <strong>createFolder</strong>(string $folder, bool|null $parent = null, string $delimiter = &#039;.&#039;)</code>
     </h3>
@@ -1832,7 +1904,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteFolder">
-        <div class="location">at line 476</div>
+        <div class="location">at line 446</div>
         <code>                    bool
     <strong>deleteFolder</strong>(string $folder, bool|null $parent = null, string $delimiter = &#039;.&#039;)</code>
     </h3>
@@ -1878,7 +1950,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_folderExists">
-        <div class="location">at line 487</div>
+        <div class="location">at line 457</div>
         <code>                    bool
     <strong>folderExists</strong>(string $folder)</code>
     </h3>
@@ -1914,7 +1986,7 @@ This parameter can also be passed as an array for criteria with arguments e.g ['
             </div>
                     <div class="method-item">
                     <h3 id="method_getMessageList">
-        <div class="location">at line 550</div>
+        <div class="location">at line 517</div>
         <code>        static            string
     <strong>getMessageList</strong>(array $messageNumbers)</code>
     </h3>

@@ -89,12 +89,11 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;
+                    static&nbsp;mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_create">create</a>($messageNum, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, $excludeBody = false, $peek = false, $outputEncoding = &#039;UTF-8&#039;)
-                                            <p class="no-description">No description</p>
-                                    </div>
+                    <a href="#method_create">create</a>(int $messageNum, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, bool $excludeBody = false, bool $peek = false, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Decoder">Decoder</abbr> $decoder = null, string $outputEncoding = &#039;UTF-8&#039;)
+                                            <p>Creates an ImapMessage object for the given message number and Imap</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -114,17 +113,19 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_create">
-        <div class="location">at line 26</div>
-        <code>        static            
-    <strong>create</strong>($messageNum, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, $excludeBody = false, $peek = false, $outputEncoding = &#039;UTF-8&#039;)</code>
+        <div class="location">at line 42</div>
+        <code>        static            mixed
+    <strong>create</strong>(int $messageNum, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Imap">Imap</abbr> $imap, bool $excludeBody = false, bool $peek = false, <abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Decoder">Decoder</abbr> $decoder = null, string $outputEncoding = &#039;UTF-8&#039;)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Creates an ImapMessage object for the given message number and Imap</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$messageNum</td>
                 <td>
 </td>
@@ -136,19 +137,25 @@
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>bool</td>
                 <td>$excludeBody</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>bool</td>
                 <td>$peek</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="Humps\MailManager\Factories\Humps\MailManager\Contracts\Decoder">Decoder</abbr></td>
+                <td>$decoder</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>string</td>
                 <td>$outputEncoding</td>
                 <td>
 </td>
@@ -156,6 +163,16 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -164,7 +181,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getAttachments">
-        <div class="location">at line 259</div>
+        <div class="location">at line 256</div>
         <code>                    <a href="../../../Humps/MailManager/Collections/ImapAttachmentCollection.html"><abbr title="Humps\MailManager\Collections\ImapAttachmentCollection">ImapAttachmentCollection</abbr></a>
     <strong>getAttachments</strong>()</code>
     </h3>

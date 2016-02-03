@@ -13,6 +13,7 @@ class MailboxFactory
 
     /**
      * Creates a Mailbox object from the given config file
+	 * @param string $folder
      * @param string $configFile
      * @return Mailbox
      * @throws Exception

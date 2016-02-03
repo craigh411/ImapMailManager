@@ -22,7 +22,7 @@ use Mockery as m;
 use Humps\MailManager\Tests\Helpers\ImapMailManagerEmbeddedImageHelper;
 use Humps\MailManager\Tests\Helpers\ImapMailManagerTestHelper;
 
-class MessageServiceTest extends \PHPUnit_Framework_TestCase
+class ImapMessageServiceTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
