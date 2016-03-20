@@ -2,8 +2,6 @@
 
 ImapMailManager provides convenient OOP classes for performing common tasks when for managing incoming email via imap in php.
 
-**Note:** This package is still in development and is not currently stable.
-
 ## Features
 
 - Provides convenient methods for searching imap mailboxes
